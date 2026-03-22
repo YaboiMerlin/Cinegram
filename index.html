@@ -6,384 +6,336 @@
 <title>Cinegram 4K</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{--red:#e50914;--dark:#0a0a0a;--card:#141414;--text:#fff;--muted:#888;--border:#222;}
-body{background:var(--dark);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden;}
-/* HEADER */
-.header{background:linear-gradient(180deg,rgba(0,0,0,.95) 0%,transparent 100%);padding:14px 16px;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
-.header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.logo{font-size:20px;font-weight:900;color:var(--red);letter-spacing:2px;flex:1;}
-.logo span{color:#fff;}
-.logo small{font-size:9px;color:var(--muted);display:block;letter-spacing:2px;font-weight:400;}
-.search-wrap{display:flex;gap:8px;}
-.search-wrap input{flex:1;background:#1c1c1c;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:14px;outline:none;transition:border .2s;}
-.search-wrap input:focus{border-color:var(--red);}
-.search-wrap button{background:var(--red);border:none;border-radius:10px;padding:10px 14px;color:#fff;font-size:15px;cursor:pointer;}
-/* STATS */
-.stats{display:flex;background:#0f0f0f;border-bottom:1px solid var(--border);}
-.stat{flex:1;text-align:center;padding:8px 0;border-right:1px solid var(--border);}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{--red:#e50914;--dark:#0a0a0a;--card:#141414;--card2:#1c1c1c;--text:#fff;--muted:#777;--border:#222;}
+body{background:var(--dark);color:var(--text);font-family:-apple-system,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden;}
+.header{background:rgba(0,0,0,.92);padding:12px 14px;position:sticky;top:0;z-index:100;border-bottom:1px solid #111;backdrop-filter:blur(20px);}
+.logo{font-size:19px;font-weight:900;color:var(--red);letter-spacing:2px;margin-bottom:10px;}
+.logo span{color:#fff;}.logo small{font-size:9px;color:var(--muted);letter-spacing:2px;font-weight:400;display:block;}
+.search-row{display:flex;gap:8px;}
+.search-row input{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:#fff;font-size:14px;outline:none;transition:border .2s;}
+.search-row input:focus{border-color:var(--red);}
+.search-row button{background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--muted);font-size:14px;cursor:pointer;}
+.stats{display:flex;background:#0d0d0d;border-bottom:1px solid #111;}
+.stat{flex:1;text-align:center;padding:9px 0;border-right:1px solid #111;}
 .stat:last-child{border-right:none;}
-.stat-num{font-size:15px;font-weight:800;color:var(--red);}
-.stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.stat-num{font-size:14px;font-weight:800;color:var(--red);}
+.stat-label{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.nav{display:flex;gap:6px;overflow-x:auto;padding:10px 14px;scrollbar-width:none;border-bottom:1px solid #111;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-btn{background:var(--card2);border:1.5px solid var(--border);border-radius:20px;padding:7px 14px;color:var(--muted);font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .2s;}
+.nav-btn.active{background:var(--red);border-color:var(--red);color:#fff;}
+.genres-row{display:flex;gap:6px;overflow-x:auto;padding:8px 14px;scrollbar-width:none;background:#0d0d0d;border-bottom:1px solid #111;}
+.genres-row::-webkit-scrollbar{display:none;}
+.genre-tag{background:transparent;border:1px solid #2a2a2a;border-radius:16px;padding:5px 12px;color:#888;font-size:11px;white-space:nowrap;cursor:pointer;transition:all .2s;}
+.genre-tag.active{background:#2a2a2a;border-color:#444;color:#fff;}
 /* CAROUSEL */
-.carousel{position:relative;height:240px;overflow:hidden;}
-.carousel-track{display:flex;height:100%;transition:transform .5s ease;}
-.carousel-slide{min-width:100%;height:100%;position:relative;cursor:pointer;}
-.carousel-img{width:100%;height:100%;object-fit:cover;}
-.carousel-gradient{position:absolute;inset:0;background:linear-gradient(0deg,#0a0a0a 0%,rgba(0,0,0,.3) 60%,transparent 100%);}
-.carousel-info{position:absolute;bottom:16px;left:16px;right:16px;}
-.carousel-title{font-size:20px;font-weight:900;text-shadow:0 2px 8px rgba(0,0,0,.8);}
-.carousel-sub{font-size:12px;color:#ccc;margin-top:4px;}
-.carousel-dots{position:absolute;bottom:8px;right:16px;display:flex;gap:4px;}
-.dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);transition:all .3s;}
-.dot.active{width:18px;background:var(--red);}
-/* CATS */
-.cats{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none;border-bottom:1px solid #111;}
-.cats::-webkit-scrollbar{display:none;}
-.cat{background:#1c1c1c;border:1px solid var(--border);border-radius:20px;padding:7px 14px;color:#aaa;font-size:12px;white-space:nowrap;cursor:pointer;transition:all .2s;}
-.cat.active{background:var(--red);border-color:var(--red);color:#fff;}
-/* GENRE PILLS */
-.genres{display:flex;gap:8px;overflow-x:auto;padding:10px 16px 0;scrollbar-width:none;}
-.genres::-webkit-scrollbar{display:none;}
-.genre-pill{background:#1c1c1c;border:1px solid var(--border);border-radius:20px;padding:6px 12px;color:#aaa;font-size:11px;white-space:nowrap;cursor:pointer;transition:all .2s;}
-.genre-pill.active{background:#333;border-color:#555;color:#fff;}
+.carousel-wrap{position:relative;height:210px;overflow:hidden;background:#111;}
+.carousel-track{display:flex;height:100%;transition:transform .6s cubic-bezier(.25,.46,.45,.94);}
+.c-slide{min-width:100%;height:100%;position:relative;cursor:pointer;}
+.c-slide img{width:100%;height:100%;object-fit:cover;}
+.c-slide-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:60px;}
+.c-gradient{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,10,1) 0%,rgba(0,0,0,.5) 50%,transparent 100%);}
+.c-info{position:absolute;bottom:14px;left:14px;right:50px;}
+.c-title{font-size:18px;font-weight:800;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,.9);}
+.c-sub{font-size:11px;color:#bbb;margin-top:3px;}
+.c-dots{position:absolute;bottom:10px;right:14px;display:flex;gap:4px;flex-direction:column;align-items:flex-end;}
+.c-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .3s;}
+.c-dot.active{width:14px;border-radius:3px;background:var(--red);}
 /* SECTIONS */
-.section{padding:16px 16px 0;}
-.sec-title{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
-.sec-title .accent{color:var(--red);}
+.section{padding:14px 14px 0;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sec-title{font-size:14px;font-weight:700;}
+.sec-title .acc{color:var(--red);}
+.sec-more{font-size:11px;color:var(--muted);cursor:pointer;}
 /* GRID */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
-.card{background:var(--card);border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .15s;position:relative;}
-.card:active{transform:scale(0.95);}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.card{background:var(--card);border-radius:9px;overflow:hidden;cursor:pointer;position:relative;transition:opacity .15s;}
+.card:active{opacity:.7;}
 .card-img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;}
-.card-placeholder{width:100%;aspect-ratio:2/3;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:32px;}
-.card-info{padding:7px 8px;}
-.card-title{font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-ph{width:100%;aspect-ratio:2/3;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.card-info{padding:6px 7px 8px;}
+.card-title{font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;}
 .card-meta{font-size:9px;color:var(--red);margin-top:2px;}
-.card-badge{position:absolute;top:5px;right:5px;background:rgba(229,9,20,.9);color:#fff;font-size:8px;font-weight:700;padding:2px 5px;border-radius:4px;backdrop-filter:blur(4px);}
+.badge{position:absolute;top:4px;right:4px;background:rgba(229,9,20,.85);color:#fff;font-size:7px;font-weight:700;padding:2px 5px;border-radius:4px;backdrop-filter:blur(4px);}
 /* MODAL */
-.modal{display:none;position:fixed;inset:0;background:#000;z-index:200;overflow-y:auto;}
+.modal{display:none;position:fixed;inset:0;background:#000;z-index:200;overflow-y:auto;overscroll-behavior:contain;}
 .modal.open{display:block;}
-.modal-hero{width:100%;height:220px;position:relative;}
-.modal-hero img{width:100%;height:100%;object-fit:cover;}
-.modal-hero-placeholder{width:100%;height:220px;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:70px;}
-.modal-hero-gradient{position:absolute;inset:0;background:linear-gradient(0deg,#000 0%,transparent 60%);}
-.modal-close{position:fixed;top:14px;right:14px;background:rgba(0,0,0,.8);border:1px solid #333;border-radius:50%;width:34px;height:34px;color:#fff;font-size:16px;cursor:pointer;z-index:201;display:flex;align-items:center;justify-content:center;}
-.modal-body{padding:12px 16px 30px;}
-.modal-title{font-size:22px;font-weight:900;line-height:1.2;}
-.modal-tagline{font-size:12px;color:var(--muted);margin-top:4px;font-style:italic;}
-.modal-tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
-.tag{background:#1c1c1c;border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:11px;color:#ccc;}
-.tag.red{background:rgba(229,9,20,.15);border-color:rgba(229,9,20,.4);color:var(--red);}
-.tag.gold{background:rgba(255,193,7,.1);border-color:rgba(255,193,7,.3);color:#ffc107;}
-.modal-overview{font-size:13px;color:#aaa;line-height:1.7;margin:12px 0;}
-.divider{height:1px;background:var(--border);margin:16px 0;}
-.seasons-title{font-size:14px;font-weight:700;margin-bottom:10px;}
-.seasons-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
-.season-btn{background:#1c1c1c;border:1px solid var(--border);border-radius:8px;padding:9px 14px;color:#fff;font-size:12px;cursor:pointer;transition:all .2s;text-align:center;}
-.season-btn:active{background:var(--red);border-color:var(--red);}
-.season-btn .s-num{font-size:10px;color:var(--muted);display:block;margin-top:2px;}
-.btn-primary{width:100%;background:var(--red);border:none;border-radius:12px;padding:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
-.btn-secondary{width:100%;background:#1c1c1c;border:1px solid var(--border);border-radius:12px;padding:12px;color:#fff;font-size:14px;cursor:pointer;margin-top:8px;}
-.btn-row{display:flex;gap:8px;margin-top:12px;}
-.btn-row button{flex:1;}
+.m-hero{position:relative;height:200px;}
+.m-hero img{width:100%;height:100%;object-fit:cover;display:block;}
+.m-hero-ph{height:200px;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:70px;}
+.m-grad{position:absolute;inset:0;background:linear-gradient(0deg,#000 0%,transparent 60%);}
+.m-close{position:fixed;top:12px;right:12px;background:rgba(0,0,0,.75);border:1px solid #333;border-radius:50%;width:33px;height:33px;color:#fff;font-size:15px;cursor:pointer;z-index:201;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.m-body{padding:12px 14px 32px;}
+.m-title{font-size:21px;font-weight:900;line-height:1.2;}
+.m-tagline{font-size:11px;color:var(--muted);margin-top:3px;font-style:italic;}
+.m-tags{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0;}
+.tag{background:var(--card2);border:1px solid var(--border);border-radius:5px;padding:3px 8px;font-size:10px;color:#ccc;}
+.tag.red{background:rgba(229,9,20,.12);border-color:rgba(229,9,20,.35);color:var(--red);}
+.tag.gold{background:rgba(255,193,7,.08);border-color:rgba(255,193,7,.25);color:#ffc107;}
+.m-overview{font-size:12.5px;color:#999;line-height:1.7;margin:10px 0 14px;}
+.m-divider{height:1px;background:var(--border);margin:14px 0;}
+.m-sec-title{font-size:13px;font-weight:700;margin-bottom:10px;}
+.seasons-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
+.s-btn{background:var(--card2);border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;min-width:80px;text-align:center;}
+.s-btn:active{background:var(--red);border-color:var(--red);}
+.s-btn small{display:block;font-size:9px;color:var(--muted);margin-top:2px;font-weight:400;}
+.btn-p{width:100%;background:var(--red);border:none;border-radius:11px;padding:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s;}
+.btn-p:active{opacity:.8;}
+.btn-s{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:11px;padding:12px;color:#fff;font-size:13px;cursor:pointer;margin-top:7px;transition:opacity .15s;}
+.btn-s:active{opacity:.7;}
 /* LOADING */
-.loading{text-align:center;padding:50px 20px;color:var(--muted);}
-.spinner{width:32px;height:32px;border:3px solid #222;border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px;}
+.spin-wrap{text-align:center;padding:50px 20px;color:var(--muted);}
+.spinner{width:28px;height:28px;border:2.5px solid #222;border-top-color:var(--red);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:50px 20px;color:var(--muted);}
-.empty-icon{font-size:50px;margin-bottom:12px;}
+.empty-icon{font-size:44px;margin-bottom:10px;}
 </style>
 </head>
 <body>
 <div class="header">
-  <div class="header-top">
-    <div class="logo">CINE<span>GRAM</span><small>4K · CATALOGO OFICIAL</small></div>
-  </div>
-  <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="Buscar peliculas y series..." oninput="handleSearch(this.value)">
+  <div class="logo">CINE<span>GRAM</span><small>4K · CATALOGO OFICIAL</small></div>
+  <div class="search-row">
+    <input type="text" id="si" placeholder="Buscar peliculas y series..." oninput="doSearch(this.value)">
     <button onclick="clearSearch()">✕</button>
   </div>
 </div>
 <div class="stats">
-  <div class="stat"><div class="stat-num" id="sTot">...</div><div class="stat-label">Titulos</div></div>
-  <div class="stat"><div class="stat-num" id="sMov">...</div><div class="stat-label">Peliculas</div></div>
-  <div class="stat"><div class="stat-num" id="sSer">...</div><div class="stat-label">Series</div></div>
+  <div class="stat"><div class="stat-num" id="sT">-</div><div class="stat-label">Titulos</div></div>
+  <div class="stat"><div class="stat-num" id="sM">-</div><div class="stat-label">Peliculas</div></div>
+  <div class="stat"><div class="stat-num" id="sS">-</div><div class="stat-label">Series</div></div>
 </div>
-<div class="cats" id="cats">
-  <div class="cat active" onclick="filterCat('all',this)">Todo</div>
-  <div class="cat" onclick="filterCat('movie',this)">Peliculas</div>
-  <div class="cat" onclick="filterCat('series',this)">Series</div>
-  <div class="cat" onclick="filterCat('new',this)">Novedades</div>
+<div class="nav" id="nav">
+  <div class="nav-btn active" onclick="setNav('all',this)">Todo</div>
+  <div class="nav-btn" onclick="setNav('movie',this)">Peliculas</div>
+  <div class="nav-btn" onclick="setNav('series',this)">Series</div>
+  <div class="nav-btn" onclick="setNav('new',this)">Novedades</div>
 </div>
-<div class="genres" id="genreBar"></div>
-<div id="carouselSection"></div>
-<div id="mainContent"><div class="loading"><div class="spinner"></div><p>Cargando catalogo...</p></div></div>
-<div id="searchContent" style="display:none"></div>
+<div class="genres-row" id="genreRow"></div>
+<div id="carousel"></div>
+<div id="main"><div class="spin-wrap"><div class="spinner"></div><p>Cargando...</p></div></div>
+<div id="searchDiv" style="display:none"></div>
 <div class="modal" id="modal">
-  <button class="modal-close" onclick="closeModal()">✕</button>
-  <div id="modalContent"></div>
+  <button class="m-close" onclick="closeModal()">✕</button>
+  <div id="mc"></div>
 </div>
 <script>
-const TMDB_KEY='0c471860943d4bcbac372c4f78a62e32';
-const TMDB_IMG='https://image.tmdb.org/t/p/w500';
-const TMDB_BACK='https://image.tmdb.org/t/p/w780';
-const GROUP_INVITE='https://t.me/+ohuk5C0d3Z1kZTZh';
-const GROUP_ID='2503161055';
-const BOT='https://t.me/Peticiones4k_bot';
-const GENRES_MAP={28:'Accion',12:'Aventura',16:'Animacion',35:'Comedia',80:'Crimen',99:'Documental',18:'Drama',10751:'Familia',14:'Fantasia',36:'Historia',27:'Terror',10402:'Musica',9648:'Misterio',10749:'Romance',878:'Ciencia Ficcion',53:'Suspenso',10752:'Belico',37:'Western'};
-
-let catalog={},tmdbCache={},currentCat='all',currentGenre=null,carouselItems=[],carouselIdx=0,carouselTimer=null;
+const KEY='0c471860943d4bcbac372c4f78a62e32';
+const IMG='https://image.tmdb.org/t/p/w500';
+const BACK='https://image.tmdb.org/t/p/w780';
+const GRP='https://t.me/+ohuk5C0d3Z1kZTZh';
+const GID='2503161055';
+const GENRES={28:'Accion',12:'Aventura',16:'Animacion',35:'Comedia',80:'Crimen',18:'Drama',14:'Fantasia',27:'Terror',10749:'Romance',878:'Sci-Fi',53:'Suspenso',10751:'Familia',99:'Documental'};
+let cat={},tc={},ci=0,ct=null,cSlides=[];
 
 if(window.Telegram?.WebApp){window.Telegram.WebApp.ready();window.Telegram.WebApp.expand();}
 
-async function loadCatalog(){
+async function init(){
   try{
     const r=await fetch('catalog.json?v='+Date.now());
-    catalog=await r.json();
-    const vals=Object.values(catalog);
-    document.getElementById('sTot').textContent=vals.length.toLocaleString();
-    document.getElementById('sMov').textContent=vals.filter(v=>v.type!=='temporada').length.toLocaleString();
-    document.getElementById('sSer').textContent=vals.filter(v=>v.type==='temporada').length.toLocaleString();
-    renderGenreBar();
+    cat=await r.json();
+    const v=Object.values(cat);
+    document.getElementById('sT').textContent=v.length.toLocaleString();
+    document.getElementById('sM').textContent=v.filter(x=>x.type!=='temporada').length.toLocaleString();
+    document.getElementById('sS').textContent=v.filter(x=>x.type==='temporada').length.toLocaleString();
+    buildGenres();
     await renderHome();
   }catch(e){
-    document.getElementById('mainContent').innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><p>Error cargando catalogo</p></div>';
+    document.getElementById('main').innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><p>Error cargando</p></div>';
   }
 }
 
-function renderGenreBar(){
-  const genres=Object.entries(GENRES_MAP);
-  document.getElementById('genreBar').innerHTML=genres.map(([id,name])=>
-    `<div class="genre-pill" onclick="filterGenre(${id},'${name}',this)">${name}</div>`
-  ).join('');
+function buildGenres(){
+  document.getElementById('genreRow').innerHTML=Object.entries(GENRES).map(([id,n])=>
+    `<div class="genre-tag" onclick="byGenre(${id},'${n}',this)">${n}</div>`).join('');
 }
 
-async function getTMDB(title,isSeries){
-  const k=title+'_'+(isSeries?'tv':'movie');
-  if(tmdbCache[k]) return tmdbCache[k];
+async function tmdb(title,tv){
+  const k=title+(tv?'_tv':'_mv');
+  if(tc[k]!==undefined) return tc[k];
   try{
-    const type=isSeries?'tv':'movie';
-    const r=await fetch(`https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_KEY}&query=${encodeURIComponent(title)}&language=es-ES`);
+    const r=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${encodeURIComponent(title)}&language=es-ES`);
     const d=await r.json();
-    tmdbCache[k]=d.results?.[0]||null;
-    return tmdbCache[k];
-  }catch{return null;}
+    tc[k]=d.results?.[0]||null;
+  }catch{tc[k]=null;}
+  return tc[k];
 }
 
-async function getTMDBDetails(id,isSeries){
-  const type=isSeries?'tv':'movie';
+async function tmdbDetail(id,tv){
   try{
-    const r=await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${TMDB_KEY}&language=es-ES`);
+    const r=await fetch(`https://api.themoviedb.org/3/${tv?'tv':'movie'}/${id}?api_key=${KEY}&language=es-ES`);
     return await r.json();
   }catch{return null;}
 }
 
-function getMsgLink(msgId){
-  return msgId?`https://t.me/c/${GROUP_ID}/${msgId}`:GROUP_INVITE;
-}
+function msgLink(id){return id?`https://t.me/c/${GID}/${id}`:GRP;}
 
-function createCard(key,item,tmdb){
-  const isSeries=item.type==='temporada';
-  const poster=tmdb?.poster_path?TMDB_IMG+tmdb.poster_path:null;
-  const year=isSeries?tmdb?.first_air_date?.split('-')[0]:tmdb?.release_date?.split('-')[0];
-  const parts=Object.keys(item.parts||{}).length;
-  const badge=parts>0?`<div class="card-badge">${parts}${isSeries?'T':'P'}</div>`:'';
+function card(key,item,td){
+  const tv=item.type==='temporada';
+  const p=td?.poster_path?IMG+td.poster_path:null;
+  const yr=tv?td?.first_air_date?.split('-')[0]:td?.release_date?.split('-')[0];
+  const cnt=Object.keys(item.parts||{}).length;
   return `<div class="card" onclick="openModal('${key}')">
-    ${poster?`<img class="card-img" src="${poster}" alt="${item.title}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:'' }
-    <div class="card-placeholder" style="${poster?'display:none':''}">${isSeries?'📺':'🎬'}</div>
-    ${badge}
+    ${p?`<img class="card-img" src="${p}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:'' }
+    <div class="card-ph" style="${p?'display:none':''}">${tv?'📺':'🎬'}</div>
+    ${cnt>0?`<div class="badge">${cnt}${tv?'T':'P'}</div>`:''}
     <div class="card-info">
       <div class="card-title">${item.title}</div>
-      <div class="card-meta">${isSeries?'Serie':'Pelicula'}${year?'·'+year:''}</div>
+      <div class="card-meta">${tv?'Serie':'Pelicula'}${yr?'·'+yr:''}</div>
     </div>
   </div>`;
 }
 
-async function buildGrid(items,limit=12){
-  const cards=await Promise.all(items.slice(0,limit).map(async([k,v])=>{
-    const tmdb=await getTMDB(v.title,v.type==='temporada');
-    return createCard(k,v,tmdb);
-  }));
-  return cards.join('');
+async function grid(items,max=12){
+  const cards=await Promise.all(items.slice(0,max).map(async([k,v])=>card(k,v,await tmdb(v.title,v.type==='temporada'))));
+  return `<div class="grid">${cards.join('')}</div>`;
 }
 
 async function startCarousel(items){
-  carouselItems=[];
+  cSlides=[];
+  clearInterval(ct);
   for(const[k,v] of items.slice(0,8)){
-    const tmdb=await getTMDB(v.title,v.type==='temporada');
-    const back=tmdb?.backdrop_path?TMDB_BACK+tmdb.backdrop_path:null;
-    const year=v.type==='temporada'?tmdb?.first_air_date?.split('-')[0]:tmdb?.release_date?.split('-')[0];
-    carouselItems.push({key:k,item:v,back,year,tmdb});
+    const td=await tmdb(v.title,v.type==='temporada');
+    cSlides.push({key:k,item:v,back:td?.backdrop_path?BACK+td.backdrop_path:null,yr:v.type==='temporada'?td?.first_air_date?.split('-')[0]:td?.release_date?.split('-')[0]});
   }
-  renderCarousel();
-  clearInterval(carouselTimer);
-  carouselTimer=setInterval(()=>{
-    carouselIdx=(carouselIdx+1)%carouselItems.length;
-    updateCarousel();
-  },4000);
-}
-
-function renderCarousel(){
-  if(!carouselItems.length) return;
-  const slides=carouselItems.map((c,i)=>`
-    <div class="carousel-slide" onclick="openModal('${c.key}')">
-      ${c.back?`<img class="carousel-img" src="${c.back}" alt="${c.item.title}">`:'<div class="carousel-img" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"></div>'}
-      <div class="carousel-gradient"></div>
-      <div class="carousel-info">
-        <div class="carousel-title">${c.item.title}</div>
-        <div class="carousel-sub">${c.item.type==='temporada'?'Serie':'Pelicula'}${c.year?' · '+c.year:''} · En tu catalogo</div>
+  ci=0;
+  const slides=cSlides.map((s,i)=>`
+    <div class="c-slide" onclick="openModal('${s.key}')">
+      ${s.back?`<img src="${s.back}" alt="${s.item.title}">`:`<div class="c-slide-placeholder">${s.item.type==='temporada'?'📺':'🎬'}</div>`}
+      <div class="c-gradient"></div>
+      <div class="c-info">
+        <div class="c-title">${s.item.title}</div>
+        <div class="c-sub">${s.item.type==='temporada'?'Serie':'Pelicula'}${s.yr?' · '+s.yr:''}</div>
       </div>
     </div>`).join('');
-  const dots=carouselItems.map((_,i)=>`<div class="dot${i===0?' active':''}" id="dot${i}"></div>`).join('');
-  document.getElementById('carouselSection').innerHTML=`
-    <div class="carousel">
-      <div class="carousel-track" id="carTrack">${slides}</div>
-      <div class="carousel-dots">${dots}</div>
-    </div>`;
+  const dots=cSlides.map((_,i)=>`<div class="c-dot${i===0?' active':''}" id="cd${i}"></div>`).join('');
+  document.getElementById('carousel').innerHTML=`<div class="carousel-wrap"><div class="carousel-track" id="ctrack">${slides}</div><div class="c-dots">${dots}</div></div>`;
+  ct=setInterval(()=>{ci=(ci+1)%cSlides.length;moveCar();},4500);
 }
 
-function updateCarousel(){
-  const track=document.getElementById('carTrack');
-  if(track) track.style.transform=`translateX(-${carouselIdx*100}%)`;
-  carouselItems.forEach((_,i)=>{
-    const d=document.getElementById('dot'+i);
-    if(d) d.className='dot'+(i===carouselIdx?' active':'');
-  });
+function moveCar(){
+  const t=document.getElementById('ctrack');
+  if(t) t.style.transform=`translateX(-${ci*100}%)`;
+  cSlides.forEach((_,i)=>{const d=document.getElementById('cd'+i);if(d)d.className='c-dot'+(i===ci?' active':'');});
 }
 
 async function renderHome(){
-  const vals=Object.entries(catalog);
-  const recent=[...vals].slice(-20).reverse();
-  const movies=vals.filter(([k,v])=>v.type!=='temporada');
-  const series=vals.filter(([k,v])=>v.type==='temporada');
-  startCarousel(recent);
-  document.getElementById('mainContent').innerHTML=`
-    <div class="section"><div class="sec-title">Novedades <span class="accent">Recientes</span></div><div class="grid" id="gNew"></div></div>
-    <div class="section"><div class="sec-title">Peliculas <span class="accent">Populares</span></div><div class="grid" id="gMovies"></div></div>
-    <div class="section"><div class="sec-title">Series <span class="accent">Populares</span></div><div class="grid" id="gSeries"></div></div>`;
-  document.getElementById('gNew').innerHTML=await buildGrid(recent);
-  document.getElementById('gMovies').innerHTML=await buildGrid(movies);
-  document.getElementById('gSeries').innerHTML=await buildGrid(series);
+  const v=Object.entries(cat);
+  const rec=[...v].slice(-20).reverse();
+  const mov=v.filter(([k,x])=>x.type!=='temporada');
+  const ser=v.filter(([k,x])=>x.type==='temporada');
+  startCarousel(rec);
+  document.getElementById('main').innerHTML=`
+    <div class="section"><div class="sec-head"><div class="sec-title">Novedades <span class="acc">Recientes</span></div></div><div id="gR"></div></div>
+    <div class="section"><div class="sec-head"><div class="sec-title">Peliculas <span class="acc">Populares</span></div></div><div id="gM"></div></div>
+    <div class="section"><div class="sec-head"><div class="sec-title">Series <span class="acc">Populares</span></div></div><div id="gS"></div></div>`;
+  document.getElementById('gR').innerHTML=await grid(rec);
+  document.getElementById('gM').innerHTML=await grid(mov);
+  document.getElementById('gS').innerHTML=await grid(ser);
 }
 
-let searchTimeout;
-function handleSearch(q){
-  clearTimeout(searchTimeout);
+let st;
+function doSearch(q){
+  clearTimeout(st);
   if(!q.trim()){clearSearch();return;}
-  searchTimeout=setTimeout(async()=>{
-    clearInterval(carouselTimer);
-    document.getElementById('carouselSection').style.display='none';
-    document.getElementById('mainContent').style.display='none';
-    document.getElementById('searchContent').style.display='block';
-    const results=Object.entries(catalog).filter(([k,v])=>v.title.toLowerCase().includes(q.toLowerCase()));
-    if(!results.length){
-      document.getElementById('searchContent').innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>Sin resultados para "'+q+'"</p></div>';
-      return;
-    }
-    document.getElementById('searchContent').innerHTML=`<div class="section"><div class="sec-title">${results.length} <span class="accent">Resultados</span></div><div class="grid" id="gSearch"></div></div>`;
-    document.getElementById('gSearch').innerHTML=await buildGrid(results,30);
-  },400);
+  st=setTimeout(async()=>{
+    clearInterval(ct);
+    document.getElementById('carousel').style.display='none';
+    document.getElementById('main').style.display='none';
+    document.getElementById('searchDiv').style.display='block';
+    const res=Object.entries(cat).filter(([k,v])=>v.title.toLowerCase().includes(q.toLowerCase()));
+    if(!res.length){document.getElementById('searchDiv').innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>Sin resultados</p></div>';return;}
+    document.getElementById('searchDiv').innerHTML=`<div class="section"><div class="sec-head"><div class="sec-title">${res.length} <span class="acc">Resultados</span></div></div><div id="gSr"></div></div>`;
+    document.getElementById('gSr').innerHTML=await grid(res,30);
+  },350);
 }
 
 function clearSearch(){
-  document.getElementById('searchInput').value='';
-  document.getElementById('searchContent').style.display='none';
-  document.getElementById('mainContent').style.display='block';
-  document.getElementById('carouselSection').style.display='block';
+  document.getElementById('si').value='';
+  document.getElementById('searchDiv').style.display='none';
+  document.getElementById('main').style.display='block';
+  document.getElementById('carousel').style.display='block';
+  if(!ct) startCarousel([...Object.entries(cat)].slice(-20).reverse());
 }
 
-function filterCat(cat,el){
-  document.querySelectorAll('.cat').forEach(c=>c.classList.remove('active'));
+function setNav(type,el){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   el.classList.add('active');
-  currentCat=cat;
+  document.querySelectorAll('.genre-tag').forEach(g=>g.classList.remove('active'));
   clearSearch();
-  document.querySelectorAll('.genre-pill').forEach(p=>p.classList.remove('active'));
-  currentGenre=null;
-  if(cat==='all'){renderHome();return;}
-  const vals=Object.entries(catalog);
-  let filtered;
-  if(cat==='new') filtered=[...vals].slice(-40).reverse();
-  else if(cat==='movie') filtered=vals.filter(([k,v])=>v.type!=='temporada');
-  else filtered=vals.filter(([k,v])=>v.type==='temporada');
-  clearInterval(carouselTimer);
-  document.getElementById('carouselSection').innerHTML='';
-  document.getElementById('mainContent').innerHTML=`<div class="loading"><div class="spinner"></div></div>`;
-  buildGrid(filtered,30).then(html=>{
-    document.getElementById('mainContent').innerHTML=`<div class="section"><div class="sec-title">${cat==='movie'?'Peliculas':cat==='series'?'Series':'Novedades'} <span class="accent">Disponibles</span></div><div class="grid">${html}</div></div>`;
-  });
+  if(type==='all'){renderHome();return;}
+  clearInterval(ct);
+  document.getElementById('carousel').innerHTML='';
+  const v=Object.entries(cat);
+  let f=type==='new'?[...v].slice(-40).reverse():type==='movie'?v.filter(([k,x])=>x.type!=='temporada'):v.filter(([k,x])=>x.type==='temporada');
+  document.getElementById('main').innerHTML='<div class="spin-wrap"><div class="spinner"></div></div>';
+  grid(f,30).then(h=>{document.getElementById('main').innerHTML=`<div class="section"><div class="sec-head"><div class="sec-title">${type==='movie'?'Peliculas':type==='series'?'Series':'Novedades'} <span class="acc">Disponibles</span></div></div>${h}</div>`;});
 }
 
-async function filterGenre(genreId,genreName,el){
-  document.querySelectorAll('.genre-pill').forEach(p=>p.classList.remove('active'));
+async function byGenre(gid,gname,el){
+  document.querySelectorAll('.genre-tag').forEach(g=>g.classList.remove('active'));
   el.classList.add('active');
-  currentGenre=genreId;
   clearSearch();
-  clearInterval(carouselTimer);
-  document.getElementById('carouselSection').innerHTML='';
-  document.getElementById('mainContent').innerHTML=`<div class="loading"><div class="spinner"></div><p>Buscando ${genreName}...</p></div>`;
-  const vals=Object.entries(catalog);
-  const matching=[];
-  for(const[k,v] of vals.slice(0,200)){
-    const tmdb=await getTMDB(v.title,v.type==='temporada');
-    if(tmdb?.genre_ids?.includes(genreId)) matching.push([k,v]);
-    if(matching.length>=30) break;
+  clearInterval(ct);
+  document.getElementById('carousel').innerHTML='';
+  document.getElementById('main').innerHTML=`<div class="spin-wrap"><div class="spinner"></div><p>Cargando ${gname}...</p></div>`;
+  const v=Object.entries(cat);
+  const found=[];
+  for(const[k,x] of v){
+    if(found.length>=30) break;
+    const td=await tmdb(x.title,x.type==='temporada');
+    if(td?.genre_ids?.includes(gid)) found.push([k,x]);
   }
-  if(!matching.length){
-    document.getElementById('mainContent').innerHTML=`<div class="empty"><div class="empty-icon">🎭</div><p>Sin resultados para ${genreName}</p></div>`;
-    return;
-  }
-  const html=await buildGrid(matching,30);
-  document.getElementById('mainContent').innerHTML=`<div class="section"><div class="sec-title">${genreName} <span class="accent">en tu catalogo</span></div><div class="grid">${html}</div></div>`;
+  if(!found.length){document.getElementById('main').innerHTML=`<div class="empty"><div class="empty-icon">🎭</div><p>Sin resultados para ${gname}</p></div>`;return;}
+  document.getElementById('main').innerHTML=`<div class="section"><div class="sec-head"><div class="sec-title">${gname} <span class="acc">Disponible</span></div></div>${await grid(found,30)}</div>`;
 }
 
 async function openModal(key){
-  const item=catalog[key];
+  const item=cat[key];
   if(!item) return;
-  const isSeries=item.type==='temporada';
-  const tmdb=await getTMDB(item.title,isSeries);
-  let details=null;
-  if(tmdb?.id) details=await getTMDBDetails(tmdb.id,isSeries);
-  const poster=tmdb?.poster_path?TMDB_IMG+tmdb.poster_path:null;
-  const backdrop=tmdb?.backdrop_path?TMDB_BACK+tmdb.backdrop_path:null;
-  const year=isSeries?tmdb?.first_air_date?.split('-')[0]:tmdb?.release_date?.split('-')[0];
-  const overview=details?.overview||tmdb?.overview||'Sin descripcion disponible.';
-  const rating=tmdb?.vote_average?tmdb.vote_average.toFixed(1):'';
-  const tagline=details?.tagline||'';
+  const tv=item.type==='temporada';
+  const td=await tmdb(item.title,tv);
+  const det=td?.id?await tmdbDetail(td.id,tv):null;
+  const back=td?.backdrop_path?BACK+td.backdrop_path:null;
+  const yr=tv?td?.first_air_date?.split('-')[0]:td?.release_date?.split('-')[0];
+  const ov=det?.overview||td?.overview||'Sin descripcion disponible.';
+  const rat=td?.vote_average?td.vote_average.toFixed(1):'';
+  const tgl=det?.tagline||'';
   const parts=Object.entries(item.parts||{}).sort((a,b)=>a[1].number-b[1].number);
-  const genres=details?.genres?.slice(0,3).map(g=>`<div class="tag">${g.name}</div>`).join('')||'';
-  const heroHtml=backdrop
-    ?`<div class="modal-hero"><img src="${backdrop}" alt="${item.title}"><div class="modal-hero-gradient"></div></div>`
-    :`<div class="modal-hero-placeholder">${isSeries?'📺':'🎬'}</div>`;
-  let partsHtml='';
+  const gnrs=det?.genres?.slice(0,3).map(g=>`<div class="tag">${g.name}</div>`).join('')||'';
+
+  let actHtml='';
   if(parts.length>0){
-    partsHtml=`<div class="divider"></div>
-    <div class="seasons-title">${isSeries?'Temporadas':'Partes'} Disponibles</div>
-    <div class="seasons-grid">
-      ${parts.map(([pk,pv])=>`<div class="season-btn" onclick="goToMsg(${pv.msg_id})">${pv.label}<span class="s-num">Ver en grupo</span></div>`).join('')}
-    </div>
-    <button class="btn-primary" onclick="goToMsg(${parts[0][1].msg_id})">▶ Ver ${isSeries?'Temporada 1':'Parte 1'}</button>
-    <button class="btn-secondary" onclick="goToGroup()">Ir al grupo completo</button>`;
+    const sBtns=parts.map(([pk,pv])=>`<div class="s-btn" onclick="go(${pv.msg_id})">${pv.label}<small>Ver en grupo →</small></div>`).join('');
+    actHtml=`<div class="m-divider"></div>
+      <div class="m-sec-title">${tv?'Temporadas':'Partes'} Disponibles</div>
+      <div class="seasons-wrap">${sBtns}</div>
+      <button class="btn-p" onclick="go(${parts[0][1].msg_id})">▶ Ver ${tv?'Temporada 1':'Parte 1'}</button>
+      <button class="btn-s" onclick="go(0)">Ver todo en el grupo</button>`;
   } else {
-    const msgId=item.msg_ids?.[0];
-    partsHtml=`<div class="divider"></div>
-    <button class="btn-primary" onclick="goToMsg(${msgId||0})">▶ Ver en el grupo</button>
-    <button class="btn-secondary" onclick="goToGroup()">Ir al grupo</button>`;
+    const mid=item.msg_ids?.[0]||0;
+    actHtml=`<div class="m-divider"></div>
+      <button class="btn-p" onclick="go(${mid})">▶ Ver en el grupo</button>
+      <button class="btn-s" onclick="go(0)">Ir al grupo</button>`;
   }
-  document.getElementById('modalContent').innerHTML=`
-    ${heroHtml}
-    <div class="modal-body">
-      <div class="modal-title">${item.title}</div>
-      ${tagline?`<div class="modal-tagline">"${tagline}"</div>`:''}
-      <div class="modal-tags">
-        <div class="tag red">${isSeries?'Serie':'Pelicula'}</div>
-        ${year?`<div class="tag">${year}</div>`:''}
-        ${rating?`<div class="tag gold">⭐ ${rating}</div>`:''}
-        ${genres}
-        ${parts.length>0?`<div class="tag">${parts.length} ${isSeries?'temporada(s)':'parte(s)'}</div>`:''}
+
+  document.getElementById('mc').innerHTML=`
+    <div class="m-hero">
+      ${back?`<img src="${back}" alt="${item.title}">`:`<div class="m-hero-ph">${tv?'📺':'🎬'}</div>`}
+      <div class="m-grad"></div>
+    </div>
+    <div class="m-body">
+      <div class="m-title">${item.title}</div>
+      ${tgl?`<div class="m-tagline">"${tgl}"</div>`:''}
+      <div class="m-tags">
+        <div class="tag red">${tv?'Serie':'Pelicula'}</div>
+        ${yr?`<div class="tag">${yr}</div>`:''}
+        ${rat?`<div class="tag gold">⭐ ${rat}</div>`:''}
+        ${gnrs}
+        ${parts.length>0?`<div class="tag">${parts.length} ${tv?'temp.':'partes'}</div>`:''}
       </div>
-      <div class="modal-overview">${overview}</div>
-      ${partsHtml}
+      <div class="m-overview">${ov}</div>
+      ${actHtml}
     </div>`;
   document.getElementById('modal').classList.add('open');
   document.getElementById('modal').scrollTop=0;
@@ -391,18 +343,13 @@ async function openModal(key){
 
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 
-function goToMsg(msgId){
-  const url=msgId?`https://t.me/c/${GROUP_ID}/${msgId}`:GROUP_INVITE;
+function go(mid){
+  const url=mid?`https://t.me/c/${GID}/${mid}`:GRP;
   if(window.Telegram?.WebApp) window.Telegram.WebApp.openLink(url);
   else window.open(url,'_blank');
 }
 
-function goToGroup(){
-  if(window.Telegram?.WebApp) window.Telegram.WebApp.openLink(GROUP_INVITE);
-  else window.open(GROUP_INVITE,'_blank');
-}
-
-loadCatalog();
+init();
 </script>
 </body>
 </html>
