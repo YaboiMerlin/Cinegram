@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cinegram 4K</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0a; color: #fff; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+.header { background: linear-gradient(180deg, #000 0%, transparent 100%); padding: 20px; position: sticky; top: 0; z-index: 100; }
+.logo { font-size: 24px; font-weight: 900; color: #e50914; letter-spacing: 2px; }
+.logo span { color: #fff; }
+.search-bar { margin: 10px 0 0 0; display: flex; gap: 10px; }
+.search-bar input { flex: 1; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 12px 16px; color: #fff; font-size: 15px; outline: none; }
+.search-bar input::placeholder { color: #666; }
+.search-bar button { background: #e50914; border: none; border-radius: 8px; padding: 12px 16px; color: #fff; font-size: 18px; cursor: pointer; }
+.section { padding: 20px; }
+.section-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; color: #fff; }
+.section-title span { color: #e50914; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.card { background: #1a1a1a; border-radius: 10px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+.card:active { transform: scale(0.95); }
+.card-thumb { width: 100%; aspect-ratio: 2/3; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+.card-info { padding: 8px; }
+.card-title { font-size: 11px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-type { font-size: 10px; color: #e50914; margin-top: 2px; }
+.categories { display: flex; gap: 10px; overflow-x: auto; padding: 0 20px 10px; scrollbar-width: none; }
+.categories::-webkit-scrollbar { display: none; }
+.cat-btn { background: #1a1a1a; border: 1px solid #333; border-radius: 20px; padding: 8px 16px; color: #ccc; font-size: 13px; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
+.cat-btn.active { background: #e50914; border-color: #e50914; color: #fff; }
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 200; padding: 20px; overflow-y: auto; }
+.modal.open { display: flex; flex-direction: column; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-title { font-size: 20px; font-weight: 700; }
+.close-btn { background: #333; border: none; border-radius: 50%; width: 36px; height: 36px; color: #fff; font-size: 18px; cursor: pointer; }
+.modal-thumb { width: 100%; max-height: 200px; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 60px; margin-bottom: 20px; }
+.modal-info { margin-bottom: 20px; }
+.modal-info p { color: #aaa; font-size: 14px; margin-bottom: 8px; }
+.modal-info span { color: #fff; font-weight: 600; }
+.action-btn { width: 100%; background: #e50914; border: none; border-radius: 10px; padding: 16px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 10px; }
+.action-btn.secondary { background: #333; }
+.empty { text-align: center; padding: 40px 20px; color: #666; }
+.empty-icon { font-size: 50px; margin-bottom: 10px; }
+.stats-bar { background: #111; padding: 10px 20px; display: flex; gap: 20px; border-bottom: 1px solid #222; }
+.stat { text-align: center; }
+.stat-num { font-size: 18px; font-weight: 700; color: #e50914; }
+.stat-label { font-size: 10px; color: #666; }
+.loading { text-align: center; padding: 40px; color: #666; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">CINE<span>GRAM</span> 4K</div>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Buscar peliculas y series..." oninput="handleSearch()">
+    <button onclick="clearSearch()">✕</button>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num" id="totalTitles">...</div><div class="stat-label">Titulos</div></div>
+  <div class="stat"><div class="stat-num" id="totalMovies">...</div><div class="stat-label">Peliculas</div></div>
+  <div class="stat"><div class="stat-num" id="totalSeries">...</div><div class="stat-label">Series</div></div>
+</div>
+
+<div class="categories" id="categories">
+  <button class="cat-btn active" onclick="filterCat('all', this)">Todo</button>
+  <button class="cat-btn" onclick="filterCat('movie', this)">Peliculas</button>
+  <button class="cat-btn" onclick="filterCat('series', this)">Series</button>
+  <button class="cat-btn" onclick="filterCat('new', this)">Novedades</button>
+</div>
+
+<div id="mainContent">
+  <div class="section">
+    <div class="section-title">Novedades <span>Recientes</span></div>
+    <div class="grid" id="newGrid"></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Peliculas <span>Populares</span></div>
+    <div class="grid" id="moviesGrid"></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Series <span>Populares</span></div>
+    <div class="grid" id="seriesGrid"></div>
+  </div>
+</div>
+
+<div id="searchResults" style="display:none" class="section">
+  <div class="section-title">Resultados <span>de busqueda</span></div>
+  <div class="grid" id="resultsGrid"></div>
+  <div id="noResults" class="empty" style="display:none">
+    <div class="empty-icon">🔍</div>
+    <p>No encontramos resultados</p>
+    <p style="margin-top:8px;font-size:12px">Intenta con otro titulo</p>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-header">
+    <div class="modal-title" id="modalTitle"></div>
+    <button class="close-btn" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-thumb" id="modalThumb"></div>
+  <div class="modal-info" id="modalInfo"></div>
+  <button class="action-btn" id="modalBtn" onclick="openInTelegram()">Ver en el grupo</button>
+  <button class="action-btn secondary" onclick="closeModal()">Cerrar</button>
+</div>
+
+<script>
+let catalog = {};
+let currentItem = null;
+const GROUP_LINK = "https://t.me/+ohuk5C0d3Z1kZTZh";
+const BOT_LINK = "https://t.me/Peticiones4k_bot";
+
+if (window.Telegram && window.Telegram.WebApp) {
+  window.Telegram.WebApp.ready();
+  window.Telegram.WebApp.expand();
+}
+
+async function loadCatalog() {
+  try {
+    const r = await fetch('catalog.json?v=' + Date.now());
+    catalog = await r.json();
+    renderStats();
+    renderGrids();
+  } catch(e) {
+    document.getElementById('mainContent').innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><p>Error cargando catalogo</p></div>';
+  }
+}
+
+function renderStats() {
+  const titles = Object.values(catalog);
+  document.getElementById('totalTitles').textContent = titles.length.toLocaleString();
+  document.getElementById('totalMovies').textContent = titles.filter(t => t.type !== 'temporada').length.toLocaleString();
+  document.getElementById('totalSeries').textContent = titles.filter(t => t.type === 'temporada').length.toLocaleString();
+}
+
+function getEmoji(item) {
+  return item.type === 'temporada' ? '📺' : '🎬';
+}
+
+function createCard(key, item) {
+  const emoji = getEmoji(item);
+  const type = item.type === 'temporada' ? 'Serie' : 'Pelicula';
+  const parts = Object.keys(item.parts || {}).length;
+  const partsText = parts > 0 ? ` · ${parts} ${item.type === 'temporada' ? 'temp.' : 'partes'}` : '';
+  return `
+    <div class="card" onclick="openModal('${key}')">
+      <div class="card-thumb">${emoji}</div>
+      <div class="card-info">
+        <div class="card-title">${item.title}</div>
+        <div class="card-type">${type}${partsText}</div>
+      </div>
+    </div>`;
+}
+
+function renderGrids() {
+  const items = Object.entries(catalog);
+  const recent = items.slice(-12).reverse();
+  const movies = items.filter(([k,v]) => v.type !== 'temporada').slice(0, 12);
+  const series = items.filter(([k,v]) => v.type === 'temporada').slice(0, 12);
+  document.getElementById('newGrid').innerHTML = recent.map(([k,v]) => createCard(k,v)).join('');
+  document.getElementById('moviesGrid').innerHTML = movies.map(([k,v]) => createCard(k,v)).join('');
+  document.getElementById('seriesGrid').innerHTML = series.map(([k,v]) => createCard(k,v)).join('');
+}
+
+function handleSearch() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (!q) { clearSearch(); return; }
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('searchResults').style.display = 'block';
+  const results = Object.entries(catalog).filter(([k,v]) => v.title.toLowerCase().includes(q));
+  document.getElementById('resultsGrid').innerHTML = results.slice(0,30).map(([k,v]) => createCard(k,v)).join('');
+  document.getElementById('noResults').style.display = results.length === 0 ? 'block' : 'none';
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('mainContent').style.display = 'block';
+  document.getElementById('searchResults').style.display = 'none';
+}
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  clearSearch();
+  if (cat === 'all') { renderGrids(); return; }
+  const items = Object.entries(catalog);
+  let filtered;
+  if (cat === 'new') filtered = items.slice(-12).reverse();
+  else if (cat === 'movie') filtered = items.filter(([k,v]) => v.type !== 'temporada');
+  else if (cat === 'series') filtered = items.filter(([k,v]) => v.type === 'temporada');
+  document.getElementById('newGrid').innerHTML = '';
+  document.getElementById('seriesGrid').innerHTML = '';
+  document.getElementById('moviesGrid').innerHTML = filtered.slice(0,30).map(([k,v]) => createCard(k,v)).join('');
+  document.querySelector('#mainContent .section:nth-child(2) .section-title').innerHTML = cat === 'series' ? 'Series <span>Disponibles</span>' : cat === 'movie' ? 'Peliculas <span>Disponibles</span>' : 'Novedades <span>Recientes</span>';
+}
+
+function openModal(key) {
+  const item = catalog[key];
+  if (!item) return;
+  currentItem = { key, item };
+  const emoji = getEmoji(item);
+  const type = item.type === 'temporada' ? 'Serie' : 'Pelicula';
+  const parts = Object.entries(item.parts || {});
+  document.getElementById('modalTitle').textContent = item.title;
+  document.getElementById('modalThumb').textContent = emoji;
+  let info = `<p>Tipo: <span>${type}</span></p>`;
+  if (parts.length > 0) {
+    info += `<p>Disponible: <span>${parts.length} ${item.type === 'temporada' ? 'temporada(s)' : 'parte(s)'}</span></p>`;
+    info += '<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">';
+    parts.sort((a,b) => a[1].number - b[1].number).forEach(([pk, pv]) => {
+      info += `<span style="background:#222;border-radius:6px;padding:4px 10px;font-size:12px;color:#e50914">${pv.label}</span>`;
+    });
+    info += '</div>';
+  }
+  document.getElementById('modalInfo').innerHTML = info;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  currentItem = null;
+}
+
+function openInTelegram() {
+  if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.close();
+  }
+  window.open(GROUP_LINK, '_blank');
+}
+
+loadCatalog();
+</script>
+</body>
+</html>
