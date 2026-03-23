@@ -8,18 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-:root{
-  --red:#e50914;--orange:#ff6b00;--purple:#7b2fff;
-  --dark:#060608;--dark2:#0e0e12;--card:#13131a;--card2:#1a1a24;
-  --text:#fff;--muted:#6b6b7e;--border:#1e1e2a;--glow:rgba(123,47,255,.25);
-}
+:root{--red:#e50914;--orange:#ff6b00;--purple:#7b2fff;--dark:#060608;--dark2:#0e0e12;--card:#13131a;--card2:#1a1a24;--text:#fff;--muted:#6b6b7e;--border:#1e1e2a;--glow:rgba(123,47,255,.25);}
 body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
 .header{background:linear-gradient(180deg,rgba(6,6,8,.98) 0%,rgba(6,6,8,.85) 100%);padding:10px 14px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(123,47,255,.15);backdrop-filter:blur(20px);}
 .header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .logo-wrap{display:flex;align-items:center;gap:8px;flex:1;}
 .logo-img{width:34px;height:34px;border-radius:8px;object-fit:cover;border:1px solid rgba(123,47,255,.3);}
 .logo-text{font-size:20px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,#fff 0%,#c084fc 50%,var(--orange) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.logo-4k{background:linear-gradient(135deg,var(--orange),var(--red));border-radius:4px;padding:1px 6px;font-size:9px;font-weight:900;letter-spacing:1px;color:#fff;-webkit-text-fill-color:#fff;margin-left:2px;}
+.logo-4k{background:linear-gradient(135deg,var(--orange),var(--red));border-radius:4px;padding:1px 6px;font-size:9px;font-weight:900;color:#fff;-webkit-text-fill-color:#fff;margin-left:2px;}
 .search-row{display:flex;gap:8px;}
 .search-row input{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:#fff;font-size:13px;outline:none;transition:border .2s,box-shadow .2s;}
 .search-row input:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--glow);}
@@ -38,6 +34,8 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .genres-row::-webkit-scrollbar{display:none;}
 .genre-tag{background:transparent;border:1px solid var(--border);border-radius:16px;padding:5px 12px;color:var(--muted);font-size:11px;font-weight:500;white-space:nowrap;cursor:pointer;transition:all .2s;}
 .genre-tag.active{background:rgba(123,47,255,.15);border-color:var(--purple);color:#c084fc;}
+.genre-tag.loading{opacity:.5;pointer-events:none;}
+.genre-ready{border-color:rgba(123,47,255,.3);color:#888;}
 .carousel-wrap{position:relative;height:220px;overflow:hidden;background:#000;}
 .carousel-track{display:flex;height:100%;transition:transform .7s cubic-bezier(.25,.46,.45,.94);}
 .c-slide{min-width:100%;height:100%;position:relative;cursor:pointer;}
@@ -53,10 +51,10 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .c-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .3s;}
 .c-dot.active{width:16px;border-radius:3px;background:linear-gradient(90deg,var(--purple),var(--orange));}
 .section{padding:16px 14px 0;}
-.sec-head{display:flex;align-items:center;margin-bottom:12px;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .sec-title{font-size:16px;font-weight:800;color:#fff;}
 .sec-title .acc{background:linear-gradient(135deg,#c084fc,var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px;}
 .card{background:var(--card);border-radius:10px;overflow:hidden;cursor:pointer;position:relative;transition:transform .15s;border:1px solid transparent;}
 .card:active{transform:scale(.96);border-color:rgba(123,47,255,.4);}
 .card-img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;}
@@ -65,7 +63,8 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .card-title{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3;}
 .card-meta{font-size:9px;color:var(--muted);margin-top:2px;}
 .badge{position:absolute;top:5px;right:5px;background:linear-gradient(135deg,var(--purple),var(--red));color:#fff;font-size:7px;font-weight:700;padding:2px 5px;border-radius:4px;}
-/* MODAL */
+.ver-mas{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:11px;color:#c084fc;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:16px;transition:all .2s;}
+.ver-mas:active{background:rgba(123,47,255,.15);}
 .modal{display:none;position:fixed;inset:0;background:var(--dark);z-index:200;overflow-y:auto;overscroll-behavior:contain;}
 .modal.open{display:block;}
 .m-hero{position:relative;height:220px;}
@@ -84,33 +83,29 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .m-overview{font-size:13px;color:#999;line-height:1.7;margin:12px 0 14px;}
 .m-divider{height:1px;background:var(--border);margin:14px 0;}
 .m-sec-title{font-size:13px;font-weight:700;margin-bottom:10px;color:#fff;}
-/* CAST */
 .cast-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:14px;}
 .cast-row::-webkit-scrollbar{display:none;}
 .cast-item{flex:0 0 60px;text-align:center;}
 .cast-img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--border);display:block;margin:0 auto 4px;}
 .cast-ph{width:52px;height:52px;border-radius:50%;background:var(--card2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 4px;}
 .cast-name{font-size:9px;color:#aaa;line-height:1.2;word-break:break-word;}
-/* TRAILER */
 .trailer-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;margin-bottom:14px;cursor:pointer;}
 .trailer-thumb{width:100%;height:100%;object-fit:cover;opacity:.7;}
 .trailer-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
 .play-btn{width:54px;height:54px;background:rgba(229,9,20,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 20px rgba(229,9,20,.5);}
-.trailer-label{position:absolute;bottom:8px;left:10px;font-size:11px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);}
-/* SEASONS */
 .seasons-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
 .s-btn{background:var(--card2);border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;min-width:80px;text-align:center;transition:all .15s;}
 .s-btn:active{background:linear-gradient(135deg,var(--purple),var(--red));border-color:transparent;}
-.s-btn small{display:block;font-size:9px;color:var(--muted);margin-top:2px;font-weight:400;}
-.btn-p{width:100%;background:linear-gradient(135deg,var(--red),var(--orange));border:none;border-radius:12px;padding:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 20px rgba(229,9,20,.4);transition:opacity .15s;}
+.s-btn small{display:block;font-size:9px;color:var(--muted);margin-top:2px;}
+.btn-p{width:100%;background:linear-gradient(135deg,var(--red),var(--orange));border:none;border-radius:12px;padding:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 20px rgba(229,9,20,.4);}
 .btn-p:active{opacity:.85;}
-.btn-s{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:12px;color:#fff;font-size:13px;cursor:pointer;margin-top:8px;transition:opacity .15s;}
-.btn-s:active{opacity:.7;}
+.btn-s{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:12px;color:#fff;font-size:13px;cursor:pointer;margin-top:8px;}
 .spin-wrap{text-align:center;padding:50px 20px;color:var(--muted);}
 .spinner{width:28px;height:28px;border:2.5px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:50px 20px;color:var(--muted);}
 .empty-icon{font-size:44px;margin-bottom:10px;}
+.inline-spin{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;}
 </style>
 </head>
 <body>
@@ -153,42 +148,41 @@ const KEY='0c471860943d4bcbac372c4f78a62e32';
 const IMG='https://image.tmdb.org/t/p/w500';
 const BACK='https://image.tmdb.org/t/p/w780';
 const PROF='https://image.tmdb.org/t/p/w185';
-const YT_THUMB='https://img.youtube.com/vi/';
 const GRP='https://t.me/+ohuk5C0d3Z1kZTZh';
 const GID='2503161055';
 const GENRES={28:'Accion',12:'Aventura',16:'Animacion',35:'Comedia',80:'Crimen',18:'Drama',14:'Fantasia',27:'Terror',10749:'Romance',878:'Sci-Fi',53:'Suspenso',10751:'Familia',99:'Documental'};
 const CY=new Date().getFullYear();
 let cat={},tc={},ci=0,ct=null,cS=[];
+let genreIndex={};
+let genreIndexBuilt=false;
 
 if(window.Telegram?.WebApp){window.Telegram.WebApp.ready();window.Telegram.WebApp.expand();}
 
-async function init(){
-  try{
-    const r=await fetch('catalog.json?v='+Date.now());
-    cat=await r.json();
-    const v=Object.values(cat);
-    document.getElementById('sT').textContent=v.length.toLocaleString();
-    document.getElementById('sM').textContent=v.filter(x=>x.type!=='temporada').length.toLocaleString();
-    document.getElementById('sS').textContent=v.filter(x=>x.type==='temporada').length.toLocaleString();
-    buildGenres();
-    await renderHome();
-  }catch(e){
-    document.getElementById('main').innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><p>Error cargando</p></div>';
-  }
-}
-
-function buildGenres(){
-  document.getElementById('genreRow').innerHTML=Object.entries(GENRES).map(([id,n])=>
-    `<div class="genre-tag" onclick="byGenre(${id},'${n}',this)">${n}</div>`).join('');
+// Clean title for better TMDB matching
+function cleanTitle(title){
+  return title
+    .replace(/\|.*$/,'').replace(/\[.*?\]/g,'').replace(/\(.*?\)/g,'')
+    .replace(/[\u2600-\u27BF]/g,'').replace(/\s+/g,' ')
+    .replace(/^\s+|\s+$/g,'').replace(/[^\w\s\-\u00C0-\u024F]/g,'')
+    .trim();
 }
 
 async function tmdb(title,tv){
   const k=title+(tv?'_tv':'_mv');
   if(tc[k]!==undefined) return tc[k];
   try{
-    const r=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${encodeURIComponent(title)}&language=es-ES`);
+    // Try original first
+    const q=encodeURIComponent(cleanTitle(title));
+    const r=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${q}&language=es-ES`);
     const d=await r.json();
-    tc[k]=d.results?.[0]||null;
+    let res=d.results?.[0]||null;
+    // If no poster, try English
+    if(!res?.poster_path){
+      const r2=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${q}&language=en-US`);
+      const d2=await r2.json();
+      res=d2.results?.find(x=>x.poster_path)||res||d2.results?.[0]||null;
+    }
+    tc[k]=res;
   }catch{tc[k]=null;}
   return tc[k];
 }
@@ -200,13 +194,47 @@ async function tmdbDetail(id,tv){
   }catch{return null;}
 }
 
+// Build genre index in background
+async function buildGenreIndex(){
+  const entries=Object.entries(cat);
+  const batch=100;
+  for(let i=0;i<Math.min(entries.length,500);i+=batch){
+    const slice=entries.slice(i,i+batch);
+    await Promise.all(slice.map(async([k,v])=>{
+      const td=await tmdb(v.title,v.type==='temporada');
+      if(td?.genre_ids){
+        td.genre_ids.forEach(gid=>{
+          if(!genreIndex[gid]) genreIndex[gid]=[];
+          genreIndex[gid].push(k);
+        });
+      }
+    }));
+    // Update genre tags to show they have content
+    Object.keys(genreIndex).forEach(gid=>{
+      const el=document.querySelector(`.genre-tag[data-gid="${gid}"]`);
+      if(el){el.classList.remove('loading');el.classList.add('genre-ready');}
+    });
+  }
+  genreIndexBuilt=true;
+  document.querySelectorAll('.genre-tag.loading').forEach(el=>{
+    el.classList.remove('loading');
+  });
+}
+
+function buildGenres(){
+  document.getElementById('genreRow').innerHTML=Object.entries(GENRES).map(([id,n])=>
+    `<div class="genre-tag loading" data-gid="${id}" onclick="byGenre(${id},'${n}',this)">${n}</div>`).join('');
+  // Build index in background without blocking UI
+  setTimeout(()=>buildGenreIndex(),2000);
+}
+
 async function getPopular(tv,max=12){
   const scored=[];
   const entries=Object.entries(cat).filter(([k,v])=>tv?(v.type==='temporada'):(v.type!=='temporada'));
   const sample=entries.slice(0,Math.min(200,entries.length));
   await Promise.all(sample.map(async([k,v])=>{
     const td=await tmdb(v.title,tv);
-    if(td){
+    if(td?.poster_path){
       const yr=parseInt(tv?td.first_air_date?.split('-')[0]:td.release_date?.split('-')[0])||0;
       const score=(td.vote_average||0)*Math.log((td.vote_count||1))+(yr>=CY-2?3:yr>=CY-5?1:0);
       scored.push({key:k,item:v,td,score,yr});
@@ -222,40 +250,76 @@ function card(key,item,td){
   const p=td?.poster_path?IMG+td.poster_path:null;
   const yr=tv?td?.first_air_date?.split('-')[0]:td?.release_date?.split('-')[0];
   const cnt=Object.keys(item.parts||{}).length;
+  const displayTitle=cleanTitle(item.title)||item.title;
   return `<div class="card" onclick="openModal('${key}')">
     ${p?`<img class="card-img" src="${p}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:'' }
     <div class="card-ph" style="${p?'display:none':''}">${tv?'📺':'🎬'}</div>
     ${cnt>0?`<div class="badge">${cnt}${tv?'T':'P'}</div>`:''}
     <div class="card-info">
-      <div class="card-title">${item.title}</div>
+      <div class="card-title">${displayTitle}</div>
       <div class="card-meta">${tv?'Serie':'Pelicula'}${yr?' · '+yr:''}</div>
     </div>
   </div>`;
 }
 
-async function gridFrom(items,max=12){
-  const cards=await Promise.all(items.slice(0,max).map(async([k,v])=>card(k,v,await tmdb(v.title,v.type==='temporada'))));
-  return `<div class="grid">${cards.join('')}</div>`;
+// Paginated section
+function createSection(title,containerId,items,tv,pageSize=12){
+  let page=0;
+  const total=items.length;
+  window['_items_'+containerId]=items;
+  window['_page_'+containerId]=0;
+  window['_tv_'+containerId]=tv;
+  window['_ps_'+containerId]=pageSize;
+  return `<div class="section">
+    <div class="sec-head"><div class="sec-title">${title}</div></div>
+    <div class="grid" id="${containerId}"></div>
+    <button class="ver-mas" id="btn_${containerId}" onclick="loadMore('${containerId}')" style="display:none">Ver mas</button>
+  </div>`;
 }
 
-function gridFromScored(scored){
-  return `<div class="grid">${scored.map(s=>card(s.key,s.item,s.td)).join('')}</div>`;
+async function loadMore(cid){
+  const items=window['_items_'+cid]||[];
+  const page=window['_page_'+cid]||0;
+  const ps=window['_ps_'+cid]||12;
+  const start=page*ps;
+  const slice=items.slice(start,start+ps);
+  if(!slice.length) return;
+  const btn=document.getElementById('btn_'+cid);
+  if(btn) btn.innerHTML='<span class="inline-spin"></span>Cargando...';
+  const grid=document.getElementById(cid);
+  const cards=await Promise.all(slice.map(async([k,v])=>card(k,v,await tmdb(v.title,v.type==='temporada'))));
+  if(grid) grid.innerHTML+= cards.join('');
+  window['_page_'+cid]=page+1;
+  const nextStart=(page+1)*ps;
+  if(btn){
+    if(nextStart<items.length){btn.style.display='block';btn.innerHTML='Ver mas (+'+(Math.min(ps,items.length-nextStart))+')';}
+    else btn.style.display='none';
+  }
+}
+
+async function initSection(cid){
+  await loadMore(cid);
+  const items=window['_items_'+cid]||[];
+  const btn=document.getElementById('btn_'+cid);
+  if(btn&&items.length>12) btn.style.display='block';
 }
 
 async function startCarousel(scored){
   cS=[];clearInterval(ct);
-  for(const s of scored.slice(0,8)){
-    const back=s.td?.backdrop_path?BACK+s.td.backdrop_path:null;
-    cS.push({key:s.key,item:s.item,back,yr:s.yr,rat:s.td?.vote_average?.toFixed(1)||''});
+  // Only use items with backdrop
+  const withBack=scored.filter(s=>s.td?.backdrop_path);
+  for(const s of withBack.slice(0,8)){
+    cS.push({key:s.key,item:s.item,back:BACK+s.td.backdrop_path,yr:s.yr,rat:s.td?.vote_average?.toFixed(1)||''});
   }
+  if(!cS.length) return;
   ci=0;
   const slides=cS.map(s=>`
     <div class="c-slide" onclick="openModal('${s.key}')">
-      ${s.back?`<img src="${s.back}" alt="${s.item.title}">`:`<div class="c-slide-ph">${s.item.type==='temporada'?'📺':'🎬'}</div>`}
+      <img src="${s.back}" alt="${s.item.title}">
       <div class="c-grad"></div>
       <div class="c-info">
         <div class="c-label">${s.item.type==='temporada'?'Serie':'Pelicula'}</div>
-        <div class="c-title">${s.item.title}</div>
+        <div class="c-title">${cleanTitle(s.item.title)||s.item.title}</div>
         <div class="c-sub">${s.yr||''}${s.rat?`<span class="c-rat">⭐ ${s.rat}</span>`:''}</div>
       </div>
     </div>`).join('');
@@ -272,17 +336,31 @@ function moveCar(){
 
 async function renderHome(){
   document.getElementById('main').innerHTML='<div class="spin-wrap"><div class="spinner"></div><p>Cargando populares...</p></div>';
-  const[pm,ps]=await Promise.all([getPopular(false,12),getPopular(true,12)]);
+  const[pm,ps]=await Promise.all([getPopular(false,24),getPopular(true,24)]);
   const mix=[...pm.slice(0,4),...ps.slice(0,4)].sort((a,b)=>b.score-a.score);
   startCarousel(mix);
-  const rec=[...Object.entries(cat)].slice(-12).reverse();
-  document.getElementById('main').innerHTML=`
-    <div class="section"><div class="sec-head"><div class="sec-title">Agregado <span class="acc">Recientemente</span></div></div><div id="gR"></div></div>
-    <div class="section"><div class="sec-head"><div class="sec-title">Peliculas <span class="acc">Populares</span></div></div><div id="gM"></div></div>
-    <div class="section"><div class="sec-head"><div class="sec-title">Series <span class="acc">Populares</span></div></div><div id="gS"></div></div>`;
-  document.getElementById('gR').innerHTML=await gridFrom(rec);
-  document.getElementById('gM').innerHTML=gridFromScored(pm);
-  document.getElementById('gS').innerHTML=gridFromScored(ps);
+  const rec=[...Object.entries(cat)].slice(-60).reverse();
+  const recEntries=rec;
+  document.getElementById('main').innerHTML=
+    createSection('Agregado <span class="acc">Recientemente</span>','gR',recEntries,false)+
+    createSection('Peliculas <span class="acc">Populares</span>','gM',pm.map(s=>[s.key,s.item]),false)+
+    createSection('Series <span class="acc">Populares</span>','gS',ps.map(s=>[s.key,s.item]),true);
+  await Promise.all([initSection('gR'),initSection('gM'),initSection('gS')]);
+}
+
+async function init(){
+  try{
+    const r=await fetch('catalog.json?v='+Date.now());
+    cat=await r.json();
+    const v=Object.values(cat);
+    document.getElementById('sT').textContent=v.length.toLocaleString();
+    document.getElementById('sM').textContent=v.filter(x=>x.type!=='temporada').length.toLocaleString();
+    document.getElementById('sS').textContent=v.filter(x=>x.type==='temporada').length.toLocaleString();
+    buildGenres();
+    await renderHome();
+  }catch(e){
+    document.getElementById('main').innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><p>Error cargando</p></div>';
+  }
 }
 
 let st;
@@ -294,10 +372,13 @@ function doSearch(q){
     document.getElementById('carousel').style.display='none';
     document.getElementById('main').style.display='none';
     document.getElementById('searchDiv').style.display='block';
-    const res=Object.entries(cat).filter(([k,v])=>v.title.toLowerCase().includes(q.toLowerCase()));
+    const res=Object.entries(cat).filter(([k,v])=>
+      v.title.toLowerCase().includes(q.toLowerCase())||
+      cleanTitle(v.title).toLowerCase().includes(q.toLowerCase())
+    );
     if(!res.length){document.getElementById('searchDiv').innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>Sin resultados para "'+q+'"</p></div>';return;}
-    document.getElementById('searchDiv').innerHTML=`<div class="section"><div class="sec-head"><div class="sec-title">${res.length} <span class="acc">Resultados</span></div></div><div id="gSr"></div></div>`;
-    document.getElementById('gSr').innerHTML=await gridFrom(res,30);
+    document.getElementById('searchDiv').innerHTML=createSection(res.length+' <span class="acc">Resultados</span>','gSr',res,false,30);
+    await initSection('gSr');
   },350);
 }
 
@@ -316,27 +397,42 @@ function setNav(type,el){
   if(type==='all'){renderHome();return;}
   clearInterval(ct);document.getElementById('carousel').innerHTML='';
   const v=Object.entries(cat);
-  let f=type==='new'?[...v].slice(-40).reverse():type==='movie'?v.filter(([k,x])=>x.type!=='temporada'):v.filter(([k,x])=>x.type==='temporada');
-  document.getElementById('main').innerHTML='<div class="spin-wrap"><div class="spinner"></div></div>';
-  gridFrom(f,30).then(h=>{
-    document.getElementById('main').innerHTML=`<div class="section"><div class="sec-head"><div class="sec-title">${type==='movie'?'Peliculas':type==='series'?'Series':'Recientes'} <span class="acc">Disponibles</span></div></div>${h}</div>`;
-  });
+  let f=type==='new'?[...v].slice(-100).reverse():type==='movie'?v.filter(([k,x])=>x.type!=='temporada'):v.filter(([k,x])=>x.type==='temporada');
+  const label=type==='movie'?'Peliculas':type==='series'?'Series':'Recientes';
+  document.getElementById('main').innerHTML=createSection(label+' <span class="acc">Disponibles</span>','gNav',f,type==='series');
+  initSection('gNav');
 }
 
 async function byGenre(gid,gname,el){
   document.querySelectorAll('.genre-tag').forEach(g=>g.classList.remove('active'));
   el.classList.add('active');
   clearSearch();clearInterval(ct);document.getElementById('carousel').innerHTML='';
-  document.getElementById('main').innerHTML=`<div class="spin-wrap"><div class="spinner"></div><p>Cargando ${gname}...</p></div>`;
+
+  // Use pre-built index if available
+  if(genreIndex[gid]&&genreIndex[gid].length>0){
+    const found=genreIndex[gid].map(k=>[k,cat[k]]).filter(([k,v])=>v);
+    document.getElementById('main').innerHTML=createSection(gname+' <span class="acc">Disponible</span>','gGenre',found,false);
+    initSection('gGenre');
+    return;
+  }
+
+  // Otherwise search on demand
+  document.getElementById('main').innerHTML=`<div class="spin-wrap"><div class="spinner"></div><p>Buscando ${gname}...</p></div>`;
   const v=Object.entries(cat);
   const found=[];
   for(const[k,x] of v){
-    if(found.length>=30) break;
+    if(found.length>=60) break;
     const td=await tmdb(x.title,x.type==='temporada');
-    if(td?.genre_ids?.includes(gid)) found.push([k,x]);
+    if(td?.genre_ids?.includes(parseInt(gid))){
+      found.push([k,x]);
+      // Update index
+      if(!genreIndex[gid]) genreIndex[gid]=[];
+      genreIndex[gid].push(k);
+    }
   }
   if(!found.length){document.getElementById('main').innerHTML=`<div class="empty"><div class="empty-icon">🎭</div><p>Sin resultados para ${gname}</p></div>`;return;}
-  document.getElementById('main').innerHTML=`<div class="section"><div class="sec-head"><div class="sec-title">${gname} <span class="acc">Disponible</span></div></div>${await gridFrom(found,30)}</div>`;
+  document.getElementById('main').innerHTML=createSection(gname+' <span class="acc">Disponible</span>','gGenre',found,false);
+  initSection('gGenre');
 }
 
 async function openModal(key){
@@ -351,8 +447,7 @@ async function openModal(key){
   const tgl=det?.tagline||'';
   const gnrs=det?.genres?.slice(0,3).map(g=>`<div class="tag purple">${g.name}</div>`).join('')||'';
   const parts=Object.entries(item.parts||{}).sort((a,b)=>a[1].number-b[1].number);
-
-  // Cast
+  const displayTitle=cleanTitle(item.title)||item.title;
   const cast=det?.credits?.cast?.slice(0,8)||[];
   const castHtml=cast.length?`
     <div class="m-divider"></div>
@@ -363,20 +458,15 @@ async function openModal(key){
         <div class="cast-name">${c.name.split(' ')[0]}</div>
       </div>`).join('')}
     </div>`:'';
-
-  // Trailer
   const videos=det?.videos?.results||[];
   const trailer=videos.find(v=>v.type==='Trailer'&&v.site==='YouTube')||videos[0];
   const trailerHtml=trailer?`
     <div class="m-divider"></div>
     <div class="m-sec-title">Trailer</div>
     <div class="trailer-wrap" onclick="openTrailer('${trailer.key}')">
-      <img class="trailer-thumb" src="${YT_THUMB}${trailer.key}/hqdefault.jpg">
+      <img class="trailer-thumb" src="https://img.youtube.com/vi/${trailer.key}/hqdefault.jpg">
       <div class="trailer-play"><div class="play-btn">▶</div></div>
-      <div class="trailer-label">${trailer.name||'Ver Trailer'}</div>
     </div>`:'';
-
-  // Actions
   let actHtml='';
   if(parts.length>0){
     actHtml=`<div class="m-divider"></div>
@@ -384,20 +474,19 @@ async function openModal(key){
       <div class="seasons-wrap">${parts.map(([pk,pv])=>`<div class="s-btn" onclick="go(${pv.msg_id})">${pv.label}<small>Ver →</small></div>`).join('')}</div>
       <button class="btn-p" onclick="go(${parts[0][1].msg_id})">▶ Ver ${tv?'Temporada 1':'Parte 1'}</button>
       <button class="btn-s" onclick="go(0)">Ver todo en el grupo</button>`;
-  } else {
+  }else{
     const mid=item.msg_ids?.[0]||0;
     actHtml=`<div class="m-divider"></div>
       <button class="btn-p" onclick="go(${mid})">▶ Ver en el grupo</button>
       <button class="btn-s" onclick="go(0)">Ir al grupo</button>`;
   }
-
   document.getElementById('mc').innerHTML=`
     <div class="m-hero">
       ${back?`<img src="${back}">`:`<div class="m-hero-ph">${tv?'📺':'🎬'}</div>`}
       <div class="m-grad"></div>
     </div>
     <div class="m-body">
-      <div class="m-title">${item.title}</div>
+      <div class="m-title">${displayTitle}</div>
       ${tgl?`<div class="m-tagline">"${tgl}"</div>`:''}
       <div class="m-tags">
         <div class="tag red">${tv?'Serie':'Pelicula'}</div>
@@ -416,19 +505,16 @@ async function openModal(key){
 }
 
 function closeModal(){document.getElementById('modal').classList.remove('open');}
-
-function openTrailer(key){
-  const url=`https://www.youtube.com/watch?v=${key}`;
+function openTrailer(k){
+  const url=`https://www.youtube.com/watch?v=${k}`;
   if(window.Telegram?.WebApp) window.Telegram.WebApp.openLink(url);
   else window.open(url,'_blank');
 }
-
 function go(mid){
   const url=mid?`https://t.me/c/${GID}/${mid}`:GRP;
   if(window.Telegram?.WebApp) window.Telegram.WebApp.openLink(url);
   else window.open(url,'_blank');
 }
-
 init();
 </script>
 </body>
