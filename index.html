@@ -9,7 +9,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{--red:#e50914;--orange:#ff6b00;--purple:#7b2fff;--dark:#060608;--dark2:#0e0e12;--card:#13131a;--card2:#1a1a24;--text:#fff;--muted:#6b6b7e;--border:#1e1e2a;--glow:rgba(123,47,255,.25);}
-body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;padding-bottom:70px;}
+/* HEADER */
 .header{background:linear-gradient(180deg,rgba(6,6,8,.98) 0%,rgba(6,6,8,.85) 100%);padding:10px 14px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(123,47,255,.15);backdrop-filter:blur(20px);}
 .header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .logo-wrap{display:flex;align-items:center;gap:8px;flex:1;}
@@ -21,11 +22,21 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .search-row input:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--glow);}
 .search-row input::placeholder{color:var(--muted);}
 .search-row button{background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--muted);font-size:13px;cursor:pointer;}
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(6,6,8,.97);border-top:1px solid var(--border);display:flex;backdrop-filter:blur(20px);padding-bottom:env(safe-area-inset-bottom);}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0;cursor:pointer;transition:all .2s;gap:3px;}
+.nav-item .nav-icon{font-size:20px;transition:transform .2s;}
+.nav-item .nav-label{font-size:10px;font-weight:600;color:var(--muted);transition:color .2s;letter-spacing:.5px;}
+.nav-item.active .nav-icon{transform:scale(1.1);}
+.nav-item.active .nav-label{color:#c084fc;}
+.nav-item.active-request .nav-label{color:var(--red);}
+/* STATS */
 .stats{display:flex;background:var(--dark2);border-bottom:1px solid var(--border);}
 .stat{flex:1;text-align:center;padding:8px 0;border-right:1px solid var(--border);}
 .stat:last-child{border-right:none;}
 .stat-num{font-size:15px;font-weight:900;background:linear-gradient(135deg,#c084fc,var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .stat-label{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:1px;}
+/* NAV FILTERS */
 .nav{display:flex;gap:6px;overflow-x:auto;padding:10px 14px;scrollbar-width:none;border-bottom:1px solid var(--border);}
 .nav::-webkit-scrollbar{display:none;}
 .nav-btn{background:var(--card2);border:1.5px solid var(--border);border-radius:20px;padding:7px 15px;color:var(--muted);font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .2s;}
@@ -35,7 +46,7 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .genre-tag{background:transparent;border:1px solid var(--border);border-radius:16px;padding:5px 12px;color:var(--muted);font-size:11px;font-weight:500;white-space:nowrap;cursor:pointer;transition:all .2s;}
 .genre-tag.active{background:rgba(123,47,255,.15);border-color:var(--purple);color:#c084fc;}
 .genre-tag.loading{opacity:.5;pointer-events:none;}
-.genre-ready{border-color:rgba(123,47,255,.3);color:#888;}
+/* CAROUSEL */
 .carousel-wrap{position:relative;height:220px;overflow:hidden;background:#000;}
 .carousel-track{display:flex;height:100%;transition:transform .7s cubic-bezier(.25,.46,.45,.94);}
 .c-slide{min-width:100%;height:100%;position:relative;cursor:pointer;}
@@ -50,6 +61,7 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .c-dots{position:absolute;bottom:14px;right:14px;display:flex;gap:5px;}
 .c-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .3s;}
 .c-dot.active{width:16px;border-radius:3px;background:linear-gradient(90deg,var(--purple),var(--orange));}
+/* SECTIONS */
 .section{padding:16px 14px 0;}
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .sec-title{font-size:16px;font-weight:800;color:#fff;}
@@ -64,7 +76,7 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .card-meta{font-size:9px;color:var(--muted);margin-top:2px;}
 .badge{position:absolute;top:5px;right:5px;background:linear-gradient(135deg,var(--purple),var(--red));color:#fff;font-size:7px;font-weight:700;padding:2px 5px;border-radius:4px;}
 .ver-mas{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:11px;color:#c084fc;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:16px;transition:all .2s;}
-.ver-mas:active{background:rgba(123,47,255,.15);}
+/* MODAL */
 .modal{display:none;position:fixed;inset:0;background:var(--dark);z-index:200;overflow-y:auto;overscroll-behavior:contain;}
 .modal.open{display:block;}
 .m-hero{position:relative;height:220px;}
@@ -100,6 +112,58 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 .btn-p{width:100%;background:linear-gradient(135deg,var(--red),var(--orange));border:none;border-radius:12px;padding:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 20px rgba(229,9,20,.4);}
 .btn-p:active{opacity:.85;}
 .btn-s{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:12px;color:#fff;font-size:13px;cursor:pointer;margin-top:8px;}
+/* REQUEST PAGE */
+.page{display:none;padding:16px 14px;}
+.page.active{display:block;}
+.req-header{text-align:center;padding:20px 0 24px;}
+.req-header-icon{font-size:44px;margin-bottom:10px;}
+.req-header-title{font-size:22px;font-weight:900;background:linear-gradient(135deg,#fff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.req-header-sub{font-size:13px;color:var(--muted);margin-top:6px;}
+/* STEPS */
+.steps{display:flex;justify-content:center;gap:6px;margin-bottom:24px;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;}
+.step-dot.active{width:24px;border-radius:4px;background:linear-gradient(90deg,var(--purple),var(--red));}
+.step-dot.done{background:var(--purple);}
+/* STEP CONTENT */
+.step-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;}
+.step-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+.step-title{font-size:17px;font-weight:800;margin-bottom:16px;}
+/* TYPE SELECTOR */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.type-btn{background:var(--card2);border:2px solid var(--border);border-radius:14px;padding:20px 12px;text-align:center;cursor:pointer;transition:all .2s;}
+.type-btn.selected{background:rgba(123,47,255,.15);border-color:var(--purple);}
+.type-btn:active{transform:scale(.97);}
+.type-btn-icon{font-size:32px;margin-bottom:8px;}
+.type-btn-label{font-size:14px;font-weight:700;}
+.type-btn-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+/* OPTIONS GRID */
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.option-btn{background:var(--card2);border:2px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;font-size:13px;font-weight:600;}
+.option-btn.selected{background:rgba(123,47,255,.15);border-color:var(--purple);color:#c084fc;}
+.option-btn:active{transform:scale(.97);}
+.option-btn-icon{font-size:22px;display:block;margin-bottom:4px;}
+/* INPUT */
+.req-input{width:100%;background:var(--card2);border:2px solid var(--border);border-radius:12px;padding:14px;color:#fff;font-size:15px;font-family:'Inter',sans-serif;outline:none;transition:border .2s,box-shadow .2s;resize:none;}
+.req-input:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--glow);}
+.req-input::placeholder{color:var(--muted);}
+/* SUMMARY */
+.summary-item{display:flex;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;}
+.summary-icon{font-size:22px;flex-shrink:0;}
+.summary-info{flex:1;}
+.summary-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.summary-value{font-size:14px;font-weight:700;margin-top:2px;}
+/* NAV BUTTONS */
+.req-nav{display:flex;gap:10px;margin-top:8px;}
+.btn-back{flex:1;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:13px;color:#fff;font-size:14px;cursor:pointer;}
+.btn-next{flex:2;background:linear-gradient(135deg,var(--purple),var(--red));border:none;border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(123,47,255,.4);}
+.btn-submit{width:100%;background:linear-gradient(135deg,var(--red),var(--orange));border:none;border-radius:12px;padding:15px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(229,9,20,.4);margin-top:8px;}
+/* SUCCESS */
+.success-wrap{text-align:center;padding:40px 20px;}
+.success-icon{font-size:64px;margin-bottom:16px;animation:pop .4s ease;}
+@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.2)}100%{transform:scale(1)}}
+.success-title{font-size:22px;font-weight:900;margin-bottom:8px;}
+.success-sub{font-size:14px;color:var(--muted);line-height:1.6;}
+/* SPINNER */
 .spin-wrap{text-align:center;padding:50px 20px;color:var(--muted);}
 .spinner{width:28px;height:28px;border:2.5px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px;}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -109,7 +173,8 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
 </style>
 </head>
 <body>
-<div class="header">
+
+<div class="header" id="mainHeader">
   <div class="header-top">
     <div class="logo-wrap">
       <img class="logo-img" src="logo.PNG" alt="Cinegram" onerror="this.style.display='none'">
@@ -119,30 +184,62 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
       </div>
     </div>
   </div>
-  <div class="search-row">
+  <div class="search-row" id="searchBarWrap">
     <input type="text" id="si" placeholder="Buscar peliculas y series..." oninput="doSearch(this.value)">
     <button onclick="clearSearch()">✕</button>
   </div>
 </div>
-<div class="stats">
-  <div class="stat"><div class="stat-num" id="sT">-</div><div class="stat-label">Titulos</div></div>
-  <div class="stat"><div class="stat-num" id="sM">-</div><div class="stat-label">Peliculas</div></div>
-  <div class="stat"><div class="stat-num" id="sS">-</div><div class="stat-label">Series</div></div>
+
+<!-- CATALOG PAGE -->
+<div id="catalogPage">
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="sT">-</div><div class="stat-label">Titulos</div></div>
+    <div class="stat"><div class="stat-num" id="sM">-</div><div class="stat-label">Peliculas</div></div>
+    <div class="stat"><div class="stat-num" id="sS">-</div><div class="stat-label">Series</div></div>
+  </div>
+  <div class="nav">
+    <div class="nav-btn active" onclick="setNav('all',this)">Todo</div>
+    <div class="nav-btn" onclick="setNav('movie',this)">Peliculas</div>
+    <div class="nav-btn" onclick="setNav('series',this)">Series</div>
+    <div class="nav-btn" onclick="setNav('new',this)">Recientes</div>
+  </div>
+  <div class="genres-row" id="genreRow"></div>
+  <div id="carousel"></div>
+  <div id="main"><div class="spin-wrap"><div class="spinner"></div><p>Cargando...</p></div></div>
+  <div id="searchDiv" style="display:none"></div>
 </div>
-<div class="nav">
-  <div class="nav-btn active" onclick="setNav('all',this)">Todo</div>
-  <div class="nav-btn" onclick="setNav('movie',this)">Peliculas</div>
-  <div class="nav-btn" onclick="setNav('series',this)">Series</div>
-  <div class="nav-btn" onclick="setNav('new',this)">Recientes</div>
+
+<!-- REQUEST PAGE -->
+<div id="requestPage" style="display:none">
+  <div class="page active" id="reqContent">
+    <div class="req-header">
+      <div class="req-header-icon">🎬</div>
+      <div class="req-header-title">Nueva Peticion</div>
+      <div class="req-header-sub">Solicita una pelicula o serie</div>
+    </div>
+    <div class="steps" id="stepDots"></div>
+    <div id="stepContent"></div>
+  </div>
 </div>
-<div class="genres-row" id="genreRow"></div>
-<div id="carousel"></div>
-<div id="main"><div class="spin-wrap"><div class="spinner"></div><p>Cargando...</p></div></div>
-<div id="searchDiv" style="display:none"></div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="nav-item active" id="navCatalog" onclick="showPage('catalog')">
+    <div class="nav-icon">🎬</div>
+    <div class="nav-label">CATALOGO</div>
+  </div>
+  <div class="nav-item" id="navRequest" onclick="showPage('request')">
+    <div class="nav-icon">📋</div>
+    <div class="nav-label">PEDIR</div>
+  </div>
+</div>
+
+<!-- MODAL -->
 <div class="modal" id="modal">
   <button class="m-close" onclick="closeModal()">✕</button>
   <div id="mc"></div>
 </div>
+
 <script>
 const KEY='0c471860943d4bcbac372c4f78a62e32';
 const IMG='https://image.tmdb.org/t/p/w500';
@@ -150,33 +247,250 @@ const BACK='https://image.tmdb.org/t/p/w780';
 const PROF='https://image.tmdb.org/t/p/w185';
 const GRP='https://t.me/+ohuk5C0d3Z1kZTZh';
 const GID='2503161055';
+const BOT='https://t.me/Peticiones4k_bot';
 const GENRES={28:'Accion',12:'Aventura',16:'Animacion',35:'Comedia',80:'Crimen',18:'Drama',14:'Fantasia',27:'Terror',10749:'Romance',878:'Sci-Fi',53:'Suspenso',10751:'Familia',99:'Documental'};
 const CY=new Date().getFullYear();
-let cat={},tc={},ci=0,ct=null,cS=[];
-let genreIndex={};
-let genreIndexBuilt=false;
+let cat={},tc={},ci=0,ct=null,cS=[],genreIndex={};
 
-if(window.Telegram?.WebApp){window.Telegram.WebApp.ready();window.Telegram.WebApp.expand();}
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
 
-// Clean title for better TMDB matching
-function cleanTitle(title){
-  return title
-    .replace(/\|.*$/,'').replace(/\[.*?\]/g,'').replace(/\(.*?\)/g,'')
+// ── PAGE SWITCHER ──
+let currentPage='catalog';
+function showPage(page){
+  currentPage=page;
+  document.getElementById('catalogPage').style.display=page==='catalog'?'block':'none';
+  document.getElementById('requestPage').style.display=page==='request'?'block':'none';
+  document.getElementById('searchBarWrap').style.display=page==='catalog'?'flex':'none';
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active','active-request'));
+  if(page==='catalog'){
+    document.getElementById('navCatalog').classList.add('active');
+  } else {
+    document.getElementById('navRequest').classList.add('active','active-request');
+    initRequest();
+  }
+}
+
+// ── REQUEST WIZARD ──
+const REQ_STEPS=['type','title','year','lang','quality','confirm'];
+let reqData={type:'',title:'',year:'',lang:'',quality:''};
+let reqStep=0;
+
+const LANGS=[
+  {v:'Latino',i:'🇲🇽',l:'Latino'},
+  {v:'Castellano',i:'🇪🇸',l:'Castellano'},
+  {v:'Subtitulado',i:'📝',l:'Subtitulado'},
+  {v:'Dual',i:'🔊',l:'Dual'},
+  {v:'Original',i:'🌐',l:'Original'},
+];
+const QUALS=[
+  {v:'4K',i:'✨',l:'4K HDR'},
+  {v:'1080p',i:'🎥',l:'1080p Full HD'},
+  {v:'720p',i:'📺',l:'720p HD'},
+  {v:'480p',i:'📱',l:'480p SD'},
+  {v:'Cualquiera',i:'🎯',l:'Cualquiera'},
+];
+
+function initRequest(){
+  reqData={type:'',title:'',year:'',lang:'',quality:''};
+  reqStep=0;
+  renderStep();
+}
+
+function renderDots(){
+  const total=REQ_STEPS.length-1;
+  document.getElementById('stepDots').innerHTML=Array.from({length:total},(_,i)=>
+    `<div class="step-dot ${i<reqStep?'done':i===reqStep?'active':''}"></div>`).join('');
+}
+
+function renderStep(){
+  renderDots();
+  const c=document.getElementById('stepContent');
+  switch(REQ_STEPS[reqStep]){
+    case 'type':
+      c.innerHTML=`
+        <div class="step-card">
+          <div class="step-label">Paso 1 de 5</div>
+          <div class="step-title">¿Que quieres pedir?</div>
+          <div class="type-grid">
+            <div class="type-btn ${reqData.type==='Pelicula'?'selected':''}" onclick="selectType('Pelicula')">
+              <div class="type-btn-icon">🎬</div>
+              <div class="type-btn-label">Pelicula</div>
+              <div class="type-btn-sub">Largometraje</div>
+            </div>
+            <div class="type-btn ${reqData.type==='Serie'?'selected':''}" onclick="selectType('Serie')">
+              <div class="type-btn-icon">📺</div>
+              <div class="type-btn-label">Serie</div>
+              <div class="type-btn-sub">Episodios</div>
+            </div>
+          </div>
+        </div>
+        <div class="req-nav">
+          <button class="btn-next" onclick="nextStep()" ${!reqData.type?'disabled style="opacity:.4"':''}>Continuar →</button>
+        </div>`;
+      break;
+    case 'title':
+      c.innerHTML=`
+        <div class="step-card">
+          <div class="step-label">Paso 2 de 5</div>
+          <div class="step-title">¿Cual es el titulo?</div>
+          <textarea class="req-input" id="titleInput" rows="2" placeholder="Escribe el titulo aqui..." oninput="reqData.title=this.value.trim()">${reqData.title}</textarea>
+        </div>
+        <div class="req-nav">
+          <button class="btn-back" onclick="prevStep()">← Atras</button>
+          <button class="btn-next" onclick="nextStep()">Continuar →</button>
+        </div>`;
+      setTimeout(()=>document.getElementById('titleInput')?.focus(),100);
+      break;
+    case 'year':
+      c.innerHTML=`
+        <div class="step-card">
+          <div class="step-label">Paso 3 de 5</div>
+          <div class="step-title">¿Año de estreno?</div>
+          <input class="req-input" type="number" id="yearInput" placeholder="Ej: 2023 (opcional)" min="1900" max="${CY+2}" value="${reqData.year}" oninput="reqData.year=this.value">
+        </div>
+        <div class="req-nav">
+          <button class="btn-back" onclick="prevStep()">← Atras</button>
+          <button class="btn-next" onclick="nextStep()">Continuar →</button>
+        </div>`;
+      break;
+    case 'lang':
+      c.innerHTML=`
+        <div class="step-card">
+          <div class="step-label">Paso 4 de 5</div>
+          <div class="step-title">Idioma preferido</div>
+          <div class="options-grid">
+            ${LANGS.map(l=>`<div class="option-btn ${reqData.lang===l.v?'selected':''}" onclick="selectOpt('lang','${l.v}',this)">
+              <span class="option-btn-icon">${l.i}</span>${l.l}
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="req-nav">
+          <button class="btn-back" onclick="prevStep()">← Atras</button>
+          <button class="btn-next" onclick="nextStep()" ${!reqData.lang?'disabled style="opacity:.4"':''}>Continuar →</button>
+        </div>`;
+      break;
+    case 'quality':
+      c.innerHTML=`
+        <div class="step-card">
+          <div class="step-label">Paso 5 de 5</div>
+          <div class="step-title">Calidad preferida</div>
+          <div class="options-grid">
+            ${QUALS.map(q=>`<div class="option-btn ${reqData.quality===q.v?'selected':''}" onclick="selectOpt('quality','${q.v}',this)">
+              <span class="option-btn-icon">${q.i}</span>${q.l}
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="req-nav">
+          <button class="btn-back" onclick="prevStep()">← Atras</button>
+          <button class="btn-next" onclick="nextStep()" ${!reqData.quality?'disabled style="opacity:.4"':''}>Confirmar →</button>
+        </div>`;
+      break;
+    case 'confirm':
+      const typeIcon=reqData.type==='Pelicula'?'🎬':'📺';
+      const langObj=LANGS.find(l=>l.v===reqData.lang)||{i:'🔊'};
+      const qualObj=QUALS.find(q=>q.v===reqData.quality)||{i:'✨'};
+      c.innerHTML=`
+        <div class="step-card">
+          <div class="step-label">Confirmar Pedido</div>
+          <div class="step-title">Todo listo!</div>
+          <div class="summary-item">
+            <div class="summary-icon">${typeIcon}</div>
+            <div class="summary-info"><div class="summary-label">Tipo</div><div class="summary-value">${reqData.type}</div></div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon">🎭</div>
+            <div class="summary-info"><div class="summary-label">Titulo</div><div class="summary-value">${reqData.title||'No especificado'}</div></div>
+          </div>
+          ${reqData.year?`<div class="summary-item">
+            <div class="summary-icon">📅</div>
+            <div class="summary-info"><div class="summary-label">Año</div><div class="summary-value">${reqData.year}</div></div>
+          </div>`:''}
+          <div class="summary-item">
+            <div class="summary-icon">${langObj.i}</div>
+            <div class="summary-info"><div class="summary-label">Idioma</div><div class="summary-value">${reqData.lang}</div></div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon">${qualObj.i}</div>
+            <div class="summary-info"><div class="summary-label">Calidad</div><div class="summary-value">${reqData.quality}</div></div>
+          </div>
+        </div>
+        <div class="req-nav">
+          <button class="btn-back" onclick="prevStep()">← Editar</button>
+        </div>
+        <button class="btn-submit" onclick="submitRequest()">✅ Enviar Peticion</button>`;
+      break;
+  }
+}
+
+function selectType(type){
+  reqData.type=type;
+  renderStep();
+}
+
+function selectOpt(field,val,el){
+  reqData[field]=val;
+  el.closest('.options-grid').querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  // Auto-enable next button
+  const nextBtn=document.querySelector('.btn-next');
+  if(nextBtn){nextBtn.disabled=false;nextBtn.style.opacity='1';}
+}
+
+function nextStep(){
+  if(REQ_STEPS[reqStep]==='title'){
+    const inp=document.getElementById('titleInput');
+    if(inp) reqData.title=inp.value.trim();
+    if(!reqData.title){inp?.focus();return;}
+  }
+  if(reqStep<REQ_STEPS.length-1){reqStep++;renderStep();}
+}
+
+function prevStep(){
+  if(reqStep>0){reqStep--;renderStep();}
+}
+
+function submitRequest(){
+  if(!reqData.title){alert('Necesitas escribir un titulo!');return;}
+  const msg=`📋 Nueva peticion desde el catalogo:\n\nTipo: ${reqData.type}\nTitulo: ${reqData.title}${reqData.year?'\nAño: '+reqData.year:''}\nIdioma: ${reqData.lang}\nCalidad: ${reqData.quality}`;
+  // Open bot with the request
+  const url=`${BOT}?start=request_${encodeURIComponent(reqData.title)}`;
+  document.getElementById('stepContent').innerHTML=`
+    <div class="success-wrap">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">Peticion Enviada!</div>
+      <div class="success-sub">Tu peticion de <strong>${reqData.title}</strong> ha sido registrada.<br><br>El bot te notificara cuando este disponible.</div>
+      <button class="btn-p" style="margin-top:24px" onclick="openBot()">Abrir Bot</button>
+      <button class="btn-s" onclick="initRequest()">Nueva Peticion</button>
+    </div>`;
+  document.getElementById('stepDots').innerHTML='';
+  // Send via Telegram if available
+  if(tg?.sendData){
+    try{tg.sendData(JSON.stringify(reqData));}catch(e){}
+  }
+}
+
+function openBot(){
+  const url=BOT;
+  if(tg) tg.openLink(url);
+  else window.open(url,'_blank');
+}
+
+// ── CATALOG LOGIC ──
+function cleanTitle(t){
+  return t.replace(/\|.*$/,'').replace(/\[.*?\]/g,'').replace(/\(.*?\)/g,'')
     .replace(/[\u2600-\u27BF]/g,'').replace(/\s+/g,' ')
-    .replace(/^\s+|\s+$/g,'').replace(/[^\w\s\-\u00C0-\u024F]/g,'')
-    .trim();
+    .replace(/[^\w\s\-\u00C0-\u024F]/g,'').trim();
 }
 
 async function tmdb(title,tv){
   const k=title+(tv?'_tv':'_mv');
   if(tc[k]!==undefined) return tc[k];
   try{
-    // Try original first
     const q=encodeURIComponent(cleanTitle(title));
     const r=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${q}&language=es-ES`);
     const d=await r.json();
     let res=d.results?.[0]||null;
-    // If no poster, try English
     if(!res?.poster_path){
       const r2=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${q}&language=en-US`);
       const d2=await r2.json();
@@ -194,135 +508,103 @@ async function tmdbDetail(id,tv){
   }catch{return null;}
 }
 
-// Build genre index in background
 async function buildGenreIndex(){
   const entries=Object.entries(cat);
-  const batch=100;
-  for(let i=0;i<Math.min(entries.length,500);i+=batch){
-    const slice=entries.slice(i,i+batch);
-    await Promise.all(slice.map(async([k,v])=>{
+  for(let i=0;i<Math.min(entries.length,500);i+=100){
+    await Promise.all(entries.slice(i,i+100).map(async([k,v])=>{
       const td=await tmdb(v.title,v.type==='temporada');
-      if(td?.genre_ids){
-        td.genre_ids.forEach(gid=>{
-          if(!genreIndex[gid]) genreIndex[gid]=[];
-          genreIndex[gid].push(k);
-        });
-      }
+      if(td?.genre_ids) td.genre_ids.forEach(gid=>{
+        if(!genreIndex[gid]) genreIndex[gid]=[];
+        genreIndex[gid].push(k);
+      });
     }));
-    // Update genre tags to show they have content
     Object.keys(genreIndex).forEach(gid=>{
       const el=document.querySelector(`.genre-tag[data-gid="${gid}"]`);
-      if(el){el.classList.remove('loading');el.classList.add('genre-ready');}
+      if(el) el.classList.remove('loading');
     });
   }
-  genreIndexBuilt=true;
-  document.querySelectorAll('.genre-tag.loading').forEach(el=>{
-    el.classList.remove('loading');
-  });
+  document.querySelectorAll('.genre-tag.loading').forEach(el=>el.classList.remove('loading'));
 }
 
 function buildGenres(){
   document.getElementById('genreRow').innerHTML=Object.entries(GENRES).map(([id,n])=>
     `<div class="genre-tag loading" data-gid="${id}" onclick="byGenre(${id},'${n}',this)">${n}</div>`).join('');
-  // Build index in background without blocking UI
   setTimeout(()=>buildGenreIndex(),2000);
 }
 
 async function getPopular(tv,max=12){
   const scored=[];
   const entries=Object.entries(cat).filter(([k,v])=>tv?(v.type==='temporada'):(v.type!=='temporada'));
-  const sample=entries.slice(0,Math.min(200,entries.length));
-  await Promise.all(sample.map(async([k,v])=>{
+  await Promise.all(entries.slice(0,200).map(async([k,v])=>{
     const td=await tmdb(v.title,tv);
     if(td?.poster_path){
       const yr=parseInt(tv?td.first_air_date?.split('-')[0]:td.release_date?.split('-')[0])||0;
-      const score=(td.vote_average||0)*Math.log((td.vote_count||1))+(yr>=CY-2?3:yr>=CY-5?1:0);
+      const score=(td.vote_average||0)*Math.log(td.vote_count||1)+(yr>=CY-2?3:yr>=CY-5?1:0);
       scored.push({key:k,item:v,td,score,yr});
     }
   }));
   return scored.sort((a,b)=>b.score-a.score).slice(0,max);
 }
 
-function msgLink(id){return id?`https://t.me/c/${GID}/${id}`:GRP;}
-
 function card(key,item,td){
   const tv=item.type==='temporada';
   const p=td?.poster_path?IMG+td.poster_path:null;
   const yr=tv?td?.first_air_date?.split('-')[0]:td?.release_date?.split('-')[0];
   const cnt=Object.keys(item.parts||{}).length;
-  const displayTitle=cleanTitle(item.title)||item.title;
+  const dt=cleanTitle(item.title)||item.title;
   return `<div class="card" onclick="openModal('${key}')">
     ${p?`<img class="card-img" src="${p}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:'' }
     <div class="card-ph" style="${p?'display:none':''}">${tv?'📺':'🎬'}</div>
     ${cnt>0?`<div class="badge">${cnt}${tv?'T':'P'}</div>`:''}
     <div class="card-info">
-      <div class="card-title">${displayTitle}</div>
+      <div class="card-title">${dt}</div>
       <div class="card-meta">${tv?'Serie':'Pelicula'}${yr?' · '+yr:''}</div>
     </div>
   </div>`;
 }
 
-// Paginated section
-function createSection(title,containerId,items,tv,pageSize=12){
-  let page=0;
-  const total=items.length;
-  window['_items_'+containerId]=items;
-  window['_page_'+containerId]=0;
-  window['_tv_'+containerId]=tv;
-  window['_ps_'+containerId]=pageSize;
-  return `<div class="section">
-    <div class="sec-head"><div class="sec-title">${title}</div></div>
-    <div class="grid" id="${containerId}"></div>
-    <button class="ver-mas" id="btn_${containerId}" onclick="loadMore('${containerId}')" style="display:none">Ver mas</button>
-  </div>`;
+function createSection(title,cid,items){
+  window['_i_'+cid]=items;window['_p_'+cid]=0;
+  return `<div class="section"><div class="sec-head"><div class="sec-title">${title}</div></div><div class="grid" id="${cid}"></div><button class="ver-mas" id="btn_${cid}" onclick="loadMore('${cid}')" style="display:none">Ver mas</button></div>`;
 }
 
 async function loadMore(cid){
-  const items=window['_items_'+cid]||[];
-  const page=window['_page_'+cid]||0;
-  const ps=window['_ps_'+cid]||12;
-  const start=page*ps;
-  const slice=items.slice(start,start+ps);
+  const items=window['_i_'+cid]||[];
+  const page=window['_p_'+cid]||0;
+  const ps=12;
+  const slice=items.slice(page*ps,(page+1)*ps);
   if(!slice.length) return;
   const btn=document.getElementById('btn_'+cid);
   if(btn) btn.innerHTML='<span class="inline-spin"></span>Cargando...';
   const grid=document.getElementById(cid);
   const cards=await Promise.all(slice.map(async([k,v])=>card(k,v,await tmdb(v.title,v.type==='temporada'))));
-  if(grid) grid.innerHTML+= cards.join('');
-  window['_page_'+cid]=page+1;
-  const nextStart=(page+1)*ps;
-  if(btn){
-    if(nextStart<items.length){btn.style.display='block';btn.innerHTML='Ver mas (+'+(Math.min(ps,items.length-nextStart))+')';}
-    else btn.style.display='none';
-  }
+  if(grid) grid.innerHTML+=cards.join('');
+  window['_p_'+cid]=page+1;
+  const next=(page+1)*ps;
+  if(btn){btn.style.display=next<items.length?'block':'none';if(next<items.length)btn.innerHTML='Ver mas (+'+(Math.min(ps,items.length-next))+')';}
 }
 
 async function initSection(cid){
   await loadMore(cid);
-  const items=window['_items_'+cid]||[];
+  const items=window['_i_'+cid]||[];
   const btn=document.getElementById('btn_'+cid);
   if(btn&&items.length>12) btn.style.display='block';
 }
 
 async function startCarousel(scored){
   cS=[];clearInterval(ct);
-  // Only use items with backdrop
-  const withBack=scored.filter(s=>s.td?.backdrop_path);
-  for(const s of withBack.slice(0,8)){
-    cS.push({key:s.key,item:s.item,back:BACK+s.td.backdrop_path,yr:s.yr,rat:s.td?.vote_average?.toFixed(1)||''});
-  }
+  const wb=scored.filter(s=>s.td?.backdrop_path);
+  for(const s of wb.slice(0,8)) cS.push({key:s.key,item:s.item,back:BACK+s.td.backdrop_path,yr:s.yr,rat:s.td?.vote_average?.toFixed(1)||''});
   if(!cS.length) return;
   ci=0;
-  const slides=cS.map(s=>`
-    <div class="c-slide" onclick="openModal('${s.key}')">
-      <img src="${s.back}" alt="${s.item.title}">
-      <div class="c-grad"></div>
-      <div class="c-info">
-        <div class="c-label">${s.item.type==='temporada'?'Serie':'Pelicula'}</div>
-        <div class="c-title">${cleanTitle(s.item.title)||s.item.title}</div>
-        <div class="c-sub">${s.yr||''}${s.rat?`<span class="c-rat">⭐ ${s.rat}</span>`:''}</div>
-      </div>
-    </div>`).join('');
+  const slides=cS.map(s=>`<div class="c-slide" onclick="openModal('${s.key}')">
+    <img src="${s.back}"><div class="c-grad"></div>
+    <div class="c-info">
+      <div class="c-label">${s.item.type==='temporada'?'Serie':'Pelicula'}</div>
+      <div class="c-title">${cleanTitle(s.item.title)||s.item.title}</div>
+      <div class="c-sub">${s.yr||''}${s.rat?`<span class="c-rat">⭐ ${s.rat}</span>`:''}</div>
+    </div>
+  </div>`).join('');
   const dots=cS.map((_,i)=>`<div class="c-dot${i===0?' active':''}" id="cd${i}"></div>`).join('');
   document.getElementById('carousel').innerHTML=`<div class="carousel-wrap"><div class="carousel-track" id="ctrack">${slides}</div><div class="c-dots">${dots}</div></div>`;
   ct=setInterval(()=>{ci=(ci+1)%cS.length;moveCar();},4500);
@@ -337,14 +619,12 @@ function moveCar(){
 async function renderHome(){
   document.getElementById('main').innerHTML='<div class="spin-wrap"><div class="spinner"></div><p>Cargando populares...</p></div>';
   const[pm,ps]=await Promise.all([getPopular(false,24),getPopular(true,24)]);
-  const mix=[...pm.slice(0,4),...ps.slice(0,4)].sort((a,b)=>b.score-a.score);
-  startCarousel(mix);
+  startCarousel([...pm.slice(0,4),...ps.slice(0,4)].sort((a,b)=>b.score-a.score));
   const rec=[...Object.entries(cat)].slice(-60).reverse();
-  const recEntries=rec;
   document.getElementById('main').innerHTML=
-    createSection('Agregado <span class="acc">Recientemente</span>','gR',recEntries,false)+
-    createSection('Peliculas <span class="acc">Populares</span>','gM',pm.map(s=>[s.key,s.item]),false)+
-    createSection('Series <span class="acc">Populares</span>','gS',ps.map(s=>[s.key,s.item]),true);
+    createSection('Agregado <span class="acc">Recientemente</span>','gR',rec)+
+    createSection('Peliculas <span class="acc">Populares</span>','gM',pm.map(s=>[s.key,s.item]))+
+    createSection('Series <span class="acc">Populares</span>','gS',ps.map(s=>[s.key,s.item]));
   await Promise.all([initSection('gR'),initSection('gM'),initSection('gS')]);
 }
 
@@ -372,12 +652,9 @@ function doSearch(q){
     document.getElementById('carousel').style.display='none';
     document.getElementById('main').style.display='none';
     document.getElementById('searchDiv').style.display='block';
-    const res=Object.entries(cat).filter(([k,v])=>
-      v.title.toLowerCase().includes(q.toLowerCase())||
-      cleanTitle(v.title).toLowerCase().includes(q.toLowerCase())
-    );
-    if(!res.length){document.getElementById('searchDiv').innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>Sin resultados para "'+q+'"</p></div>';return;}
-    document.getElementById('searchDiv').innerHTML=createSection(res.length+' <span class="acc">Resultados</span>','gSr',res,false,30);
+    const res=Object.entries(cat).filter(([k,v])=>v.title.toLowerCase().includes(q.toLowerCase())||cleanTitle(v.title).toLowerCase().includes(q.toLowerCase()));
+    if(!res.length){document.getElementById('searchDiv').innerHTML='<div class="empty"><div class="empty-icon">🔍</div><p>Sin resultados</p></div>';return;}
+    document.getElementById('searchDiv').innerHTML=createSection(res.length+' <span class="acc">Resultados</span>','gSr',res);
     await initSection('gSr');
   },350);
 }
@@ -398,8 +675,7 @@ function setNav(type,el){
   clearInterval(ct);document.getElementById('carousel').innerHTML='';
   const v=Object.entries(cat);
   let f=type==='new'?[...v].slice(-100).reverse():type==='movie'?v.filter(([k,x])=>x.type!=='temporada'):v.filter(([k,x])=>x.type==='temporada');
-  const label=type==='movie'?'Peliculas':type==='series'?'Series':'Recientes';
-  document.getElementById('main').innerHTML=createSection(label+' <span class="acc">Disponibles</span>','gNav',f,type==='series');
+  document.getElementById('main').innerHTML=createSection(`${type==='movie'?'Peliculas':type==='series'?'Series':'Recientes'} <span class="acc">Disponibles</span>`,'gNav',f);
   initSection('gNav');
 }
 
@@ -407,31 +683,20 @@ async function byGenre(gid,gname,el){
   document.querySelectorAll('.genre-tag').forEach(g=>g.classList.remove('active'));
   el.classList.add('active');
   clearSearch();clearInterval(ct);document.getElementById('carousel').innerHTML='';
-
-  // Use pre-built index if available
-  if(genreIndex[gid]&&genreIndex[gid].length>0){
+  if(genreIndex[gid]?.length){
     const found=genreIndex[gid].map(k=>[k,cat[k]]).filter(([k,v])=>v);
-    document.getElementById('main').innerHTML=createSection(gname+' <span class="acc">Disponible</span>','gGenre',found,false);
-    initSection('gGenre');
-    return;
+    document.getElementById('main').innerHTML=createSection(gname+' <span class="acc">Disponible</span>','gGenre',found);
+    initSection('gGenre');return;
   }
-
-  // Otherwise search on demand
   document.getElementById('main').innerHTML=`<div class="spin-wrap"><div class="spinner"></div><p>Buscando ${gname}...</p></div>`;
-  const v=Object.entries(cat);
   const found=[];
-  for(const[k,x] of v){
+  for(const[k,x] of Object.entries(cat)){
     if(found.length>=60) break;
     const td=await tmdb(x.title,x.type==='temporada');
-    if(td?.genre_ids?.includes(parseInt(gid))){
-      found.push([k,x]);
-      // Update index
-      if(!genreIndex[gid]) genreIndex[gid]=[];
-      genreIndex[gid].push(k);
-    }
+    if(td?.genre_ids?.includes(parseInt(gid))) found.push([k,x]);
   }
   if(!found.length){document.getElementById('main').innerHTML=`<div class="empty"><div class="empty-icon">🎭</div><p>Sin resultados para ${gname}</p></div>`;return;}
-  document.getElementById('main').innerHTML=createSection(gname+' <span class="acc">Disponible</span>','gGenre',found,false);
+  document.getElementById('main').innerHTML=createSection(gname+' <span class="acc">Disponible</span>','gGenre',found);
   initSection('gGenre');
 }
 
@@ -447,74 +712,36 @@ async function openModal(key){
   const tgl=det?.tagline||'';
   const gnrs=det?.genres?.slice(0,3).map(g=>`<div class="tag purple">${g.name}</div>`).join('')||'';
   const parts=Object.entries(item.parts||{}).sort((a,b)=>a[1].number-b[1].number);
-  const displayTitle=cleanTitle(item.title)||item.title;
+  const dt=cleanTitle(item.title)||item.title;
   const cast=det?.credits?.cast?.slice(0,8)||[];
-  const castHtml=cast.length?`
-    <div class="m-divider"></div>
-    <div class="m-sec-title">Reparto Principal</div>
-    <div class="cast-row">
-      ${cast.map(c=>`<div class="cast-item">
-        ${c.profile_path?`<img class="cast-img" src="${PROF+c.profile_path}" loading="lazy">`:`<div class="cast-ph">👤</div>`}
-        <div class="cast-name">${c.name.split(' ')[0]}</div>
-      </div>`).join('')}
-    </div>`:'';
+  const castHtml=cast.length?`<div class="m-divider"></div><div class="m-sec-title">Reparto Principal</div><div class="cast-row">${cast.map(c=>`<div class="cast-item">${c.profile_path?`<img class="cast-img" src="${PROF+c.profile_path}" loading="lazy">`:`<div class="cast-ph">👤</div>`}<div class="cast-name">${c.name.split(' ')[0]}</div></div>`).join('')}</div>`:'';
   const videos=det?.videos?.results||[];
   const trailer=videos.find(v=>v.type==='Trailer'&&v.site==='YouTube')||videos[0];
-  const trailerHtml=trailer?`
-    <div class="m-divider"></div>
-    <div class="m-sec-title">Trailer</div>
-    <div class="trailer-wrap" onclick="openTrailer('${trailer.key}')">
-      <img class="trailer-thumb" src="https://img.youtube.com/vi/${trailer.key}/hqdefault.jpg">
-      <div class="trailer-play"><div class="play-btn">▶</div></div>
-    </div>`:'';
+  const trailerHtml=trailer?`<div class="m-divider"></div><div class="m-sec-title">Trailer</div><div class="trailer-wrap" onclick="openTrailer('${trailer.key}')"><img class="trailer-thumb" src="https://img.youtube.com/vi/${trailer.key}/hqdefault.jpg"><div class="trailer-play"><div class="play-btn">▶</div></div></div>`:'';
   let actHtml='';
   if(parts.length>0){
-    actHtml=`<div class="m-divider"></div>
-      <div class="m-sec-title">${tv?'Temporadas':'Partes'} Disponibles</div>
-      <div class="seasons-wrap">${parts.map(([pk,pv])=>`<div class="s-btn" onclick="go(${pv.msg_id})">${pv.label}<small>Ver →</small></div>`).join('')}</div>
-      <button class="btn-p" onclick="go(${parts[0][1].msg_id})">▶ Ver ${tv?'Temporada 1':'Parte 1'}</button>
-      <button class="btn-s" onclick="go(0)">Ver todo en el grupo</button>`;
+    actHtml=`<div class="m-divider"></div><div class="m-sec-title">${tv?'Temporadas':'Partes'} Disponibles</div><div class="seasons-wrap">${parts.map(([pk,pv])=>`<div class="s-btn" onclick="go(${pv.msg_id})">${pv.label}<small>Ver →</small></div>`).join('')}</div><button class="btn-p" onclick="go(${parts[0][1].msg_id})">▶ Ver ${tv?'Temporada 1':'Parte 1'}</button><button class="btn-s" onclick="go(0)">Ver todo en el grupo</button>`;
   }else{
     const mid=item.msg_ids?.[0]||0;
-    actHtml=`<div class="m-divider"></div>
-      <button class="btn-p" onclick="go(${mid})">▶ Ver en el grupo</button>
-      <button class="btn-s" onclick="go(0)">Ir al grupo</button>`;
+    actHtml=`<div class="m-divider"></div><button class="btn-p" onclick="go(${mid})">▶ Ver en el grupo</button><button class="btn-s" onclick="go(0)">Ir al grupo</button>`;
   }
   document.getElementById('mc').innerHTML=`
-    <div class="m-hero">
-      ${back?`<img src="${back}">`:`<div class="m-hero-ph">${tv?'📺':'🎬'}</div>`}
-      <div class="m-grad"></div>
-    </div>
+    <div class="m-hero">${back?`<img src="${back}">`:`<div class="m-hero-ph">${tv?'📺':'🎬'}</div>`}<div class="m-grad"></div></div>
     <div class="m-body">
-      <div class="m-title">${displayTitle}</div>
+      <div class="m-title">${dt}</div>
       ${tgl?`<div class="m-tagline">"${tgl}"</div>`:''}
-      <div class="m-tags">
-        <div class="tag red">${tv?'Serie':'Pelicula'}</div>
-        ${yr?`<div class="tag">${yr}</div>`:''}
-        ${rat?`<div class="tag gold">⭐ ${rat}</div>`:''}
-        ${gnrs}
-        ${parts.length>0?`<div class="tag">${parts.length} ${tv?'temp.':'partes'}</div>`:''}
-      </div>
+      <div class="m-tags"><div class="tag red">${tv?'Serie':'Pelicula'}</div>${yr?`<div class="tag">${yr}</div>`:''}${rat?`<div class="tag gold">⭐ ${rat}</div>`:''}${gnrs}${parts.length>0?`<div class="tag">${parts.length} ${tv?'temp.':'partes'}</div>`:''}</div>
       <div class="m-overview">${ov}</div>
-      ${trailerHtml}
-      ${castHtml}
-      ${actHtml}
+      ${trailerHtml}${castHtml}${actHtml}
     </div>`;
   document.getElementById('modal').classList.add('open');
   document.getElementById('modal').scrollTop=0;
 }
 
 function closeModal(){document.getElementById('modal').classList.remove('open');}
-function openTrailer(k){
-  const url=`https://www.youtube.com/watch?v=${k}`;
-  if(window.Telegram?.WebApp) window.Telegram.WebApp.openLink(url);
-  else window.open(url,'_blank');
-}
-function go(mid){
-  const url=mid?`https://t.me/c/${GID}/${mid}`:GRP;
-  if(window.Telegram?.WebApp) window.Telegram.WebApp.openLink(url);
-  else window.open(url,'_blank');
-}
+function openTrailer(k){const url=`https://www.youtube.com/watch?v=${k}`;if(tg)tg.openLink(url);else window.open(url,'_blank');}
+function go(mid){const url=mid?`https://t.me/c/${GID}/${mid}`:GRP;if(tg)tg.openLink(url);else window.open(url,'_blank');}
+
 init();
 </script>
 </body>
