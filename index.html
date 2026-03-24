@@ -509,20 +509,15 @@ async function tmdbDetail(id,tv){
 }
 
 async function buildGenreIndex(){
-  const entries=Object.entries(cat);
-  for(let i=0;i<Math.min(entries.length,500);i+=100){
-    await Promise.all(entries.slice(i,i+100).map(async([k,v])=>{
-      const td=await tmdb(v.title,v.type==='temporada');
-      if(td?.genre_ids) td.genre_ids.forEach(gid=>{
-        if(!genreIndex[gid]) genreIndex[gid]=[];
-        genreIndex[gid].push(k);
-      });
-    }));
-    Object.keys(genreIndex).forEach(gid=>{
+  try{
+    const r=await fetch('genre_index.json?v='+Date.now());
+    const data=await r.json();
+    Object.entries(data).forEach(([gid,keys])=>{
+      genreIndex[parseInt(gid)]=keys;
       const el=document.querySelector(`.genre-tag[data-gid="${gid}"]`);
       if(el) el.classList.remove('loading');
     });
-  }
+  }catch(e){console.log('Genre index error:',e);}
   document.querySelectorAll('.genre-tag.loading').forEach(el=>el.classList.remove('loading'));
 }
 
