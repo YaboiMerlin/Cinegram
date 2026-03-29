@@ -209,17 +209,63 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
   <div id="searchDiv" style="display:none"></div>
 </div>
 
-<!-- REQUEST PAGE -->
-<div id="requestPage" style="display:none">
-  <div class="page active" id="reqContent">
-    <div class="req-header">
-      <div class="req-header-icon">🎬</div>
-      <div class="req-header-title">Nueva Peticion</div>
-      <div class="req-header-sub">Solicita una pelicula o serie</div>
-    </div>
-    <div class="steps" id="stepDots"></div>
-    <div id="stepContent"></div>
+<!-- INFO PAGE -->
+<div id="infoPage" style="display:none;padding:16px 14px 80px;">
+  <div style="text-align:center;padding:24px 0 20px;">
+    <img src="logo.PNG" style="width:80px;height:80px;border-radius:20px;object-fit:cover;border:2px solid rgba(123,47,255,.4);" onerror="this.style.display='none'">
+    <div style="font-size:22px;font-weight:900;margin-top:12px;background:linear-gradient(135deg,#fff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">CINEGRAM 4K</div>
+    <div style="font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:2px;">CATALOGO OFICIAL</div>
   </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:800;color:#c084fc;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">📋 Como Hacer Peticiones</div>
+    <div style="font-size:13px;color:#aaa;line-height:1.7;">
+      1. Abre el bot @Peticiones4k_bot<br>
+      2. Toca <strong style="color:#fff">Pelicula</strong> o <strong style="color:#fff">Serie</strong><br>
+      3. Escribe el titulo completo<br>
+      4. Indica el ano si lo sabes<br>
+      5. Selecciona idioma y calidad<br>
+      6. Confirma tu pedido<br><br>
+      <span style="color:#ffc107">⚠️ Maximo 2 peticiones por semana para usuarios normales.</span>
+    </div>
+    <button onclick="openBot()" style="width:100%;background:linear-gradient(135deg,var(--purple),var(--red));border:none;border-radius:10px;padding:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px;">Abrir Bot de Peticiones</button>
+  </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:800;color:#c084fc;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">📜 Reglas del Grupo</div>
+    <div style="font-size:13px;color:#aaa;line-height:1.8;">
+      🚫 No spam ni publicidad<br>
+      🚫 No pedir en el grupo, solo en el bot<br>
+      🚫 No compartir links externos<br>
+      ✅ Respeta a los demas miembros<br>
+      ✅ Busca antes de pedir<br>
+      ✅ Usa los topics correctos<br>
+      ✅ El admin tiene la ultima palabra
+    </div>
+  </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:800;color:#c084fc;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">👑 Beneficios VIP</div>
+    <div style="font-size:13px;color:#aaa;line-height:1.8;">
+      ✅ Peticiones ilimitadas<br>
+      ✅ Sin tiempo de espera<br>
+      ✅ Acceso fines de semana<br>
+      ✅ Busqueda directa en el catalogo<br>
+      ✅ Soporte prioritario<br><br>
+      <span style="color:#ffc107">Solo 250 Stars/mes (~$5 USD)</span>
+    </div>
+    <button onclick="openBot()" style="width:100%;background:linear-gradient(135deg,#f59e0b,#ef4444);border:none;border-radius:10px;padding:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px;">Obtener VIP</button>
+  </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;">
+    <div style="font-size:13px;font-weight:800;color:#c084fc;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">⚠️ Version Beta</div>
+    <div style="font-size:13px;color:#aaa;line-height:1.7;">
+      Esta mini app esta en desarrollo activo. Algunas funciones pueden no estar completas o pueden cambiar. Si encuentras algun problema reportalo al admin.<br><br>
+      <span style="color:var(--muted)">Version 6.3 · Cinegram 4K © 2026</span>
+    </div>
+  </div>
+
+  <button onclick="goToGroup()" style="width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px;">Ir al Grupo Principal</button>
 </div>
 
 <!-- BOTTOM NAV -->
@@ -228,9 +274,9 @@ body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min
     <div class="nav-icon">🎬</div>
     <div class="nav-label">CATALOGO</div>
   </div>
-  <div class="nav-item" id="navRequest" onclick="showPage('request')">
-    <div class="nav-icon">📋</div>
-    <div class="nav-label">PEDIR</div>
+  <div class="nav-item" id="navInfo" onclick="showPage('info')">
+    <div class="nav-icon">ℹ️</div>
+    <div class="nav-label">INFO</div>
   </div>
 </div>
 
@@ -285,15 +331,11 @@ let currentPage='catalog';
 function showPage(page){
   currentPage=page;
   document.getElementById('catalogPage').style.display=page==='catalog'?'block':'none';
-  document.getElementById('requestPage').style.display=page==='request'?'block':'none';
+  document.getElementById('infoPage').style.display=page==='info'?'block':'none';
   document.getElementById('searchBarWrap').style.display=page==='catalog'?'flex':'none';
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active','active-request'));
-  if(page==='catalog'){
-    document.getElementById('navCatalog').classList.add('active');
-  } else {
-    document.getElementById('navRequest').classList.add('active','active-request');
-    initRequest();
-  }
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(page==='catalog') document.getElementById('navCatalog').classList.add('active');
+  else document.getElementById('navInfo').classList.add('active');
 }
 
 // ── REQUEST WIZARD ──
@@ -512,14 +554,24 @@ async function tmdb(title,tv){
   const k=title+(tv?'_tv':'_mv');
   if(tc[k]!==undefined) return tc[k];
   try{
-    const q=encodeURIComponent(cleanTitle(title));
+    const clean=cleanTitle(title);
+    const q=encodeURIComponent(clean);
+    // Try 1: Spanish search
     const r=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${q}&language=es-ES`);
     const d=await r.json();
-    let res=d.results?.[0]||null;
+    let res=d.results?.find(x=>x.poster_path)||d.results?.[0]||null;
+    // Try 2: English search
     if(!res?.poster_path){
       const r2=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${q}&language=en-US`);
       const d2=await r2.json();
       res=d2.results?.find(x=>x.poster_path)||res||d2.results?.[0]||null;
+    }
+    // Try 3: Shorter title (remove year, subtitles)
+    if(!res?.poster_path && clean.length>10){
+      const short=encodeURIComponent(clean.split(':')[0].split('-')[0].trim().split(' ').slice(0,3).join(' '));
+      const r3=await fetch(`https://api.themoviedb.org/3/search/${tv?'tv':'movie'}?api_key=${KEY}&query=${short}&language=en-US`);
+      const d3=await r3.json();
+      res=d3.results?.find(x=>x.poster_path)||res||null;
     }
     tc[k]=res;
   }catch{tc[k]=null;}
@@ -638,15 +690,34 @@ function moveCar(){
   cS.forEach((_,i)=>{const d=document.getElementById('cd'+i);if(d)d.className='c-dot'+(i===ci?' active':'');});
 }
 
+function shuffle(arr){return arr.sort(()=>Math.random()-.5);}
+
 async function renderHome(){
-  document.getElementById('main').innerHTML='<div class="spin-wrap"><div class="spinner"></div><p>Cargando populares...</p></div>';
-  const[pm,ps]=await Promise.all([getPopular(false,24),getPopular(true,24)]);
-  startCarousel([...pm.slice(0,4),...ps.slice(0,4)].sort((a,b)=>b.score-a.score));
-  const rec=[...Object.entries(cat)].slice(-60).reverse();
+  document.getElementById('main').innerHTML='<div class="spin-wrap"><div class="spinner"></div><p>Cargando...</p></div>';
+  const allEntries=Object.entries(cat);
+  const[pm,ps]=await Promise.all([getPopular(false,48),getPopular(true,48)]);
+
+  // Randomize: mix top popular with random picks
+  const randMovies=shuffle([...pm]).slice(0,24);
+  const randSeries=shuffle([...ps]).slice(0,24);
+
+  // Carousel: random 8 from popular with backdrop
+  const carouselPool=shuffle([...pm.slice(0,20),...ps.slice(0,20)]).filter(s=>s.td?.backdrop_path);
+  startCarousel(carouselPool.slice(0,8));
+
+  // Recent: random 24 from last 200
+  const recentPool=shuffle([...allEntries].slice(-200));
+
+  // Section titles with variety
+  const movieTitles=['Peliculas <span class="acc">Populares</span>','Peliculas <span class="acc">Destacadas</span>','Lo Mejor en <span class="acc">Peliculas</span>'];
+  const seriesTitles=['Series <span class="acc">Populares</span>','Series <span class="acc">Destacadas</span>','Lo Mejor en <span class="acc">Series</span>'];
+  const mTitle=movieTitles[Math.floor(Math.random()*movieTitles.length)];
+  const sTitle=seriesTitles[Math.floor(Math.random()*seriesTitles.length)];
+
   document.getElementById('main').innerHTML=
-    createSection('Agregado <span class="acc">Recientemente</span>','gR',rec)+
-    createSection('Peliculas <span class="acc">Populares</span>','gM',pm.map(s=>[s.key,s.item]))+
-    createSection('Series <span class="acc">Populares</span>','gS',ps.map(s=>[s.key,s.item]));
+    createSection('Agregado <span class="acc">Recientemente</span>','gR',recentPool)+
+    createSection(mTitle,'gM',randMovies.map(s=>[s.key,s.item]))+
+    createSection(sTitle,'gS',randSeries.map(s=>[s.key,s.item]));
   await Promise.all([initSection('gR'),initSection('gM'),initSection('gS')]);
 }
 
