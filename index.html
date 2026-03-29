@@ -533,16 +533,18 @@ async function tmdbDetail(id,tv){
   }catch{return null;}
 }
 
+let topicIndex={};
 async function buildGenreIndex(){
   try{
-    const r=await fetch('genre_index.json?v='+Date.now());
-    const data=await r.json();
+    const r=await fetch('topic_index.json?v='+Date.now());
+    topicIndex=await r.json();
+    // Also load genre index for fallback
+    const r2=await fetch('genre_index.json?v='+Date.now());
+    const data=await r2.json();
     Object.entries(data).forEach(([gid,keys])=>{
       genreIndex[parseInt(gid)]=keys;
-      const el=document.querySelector(`.genre-tag[data-gid="${gid}"]`);
-      if(el) el.classList.remove('loading');
     });
-  }catch(e){console.log('Genre index error:',e);}
+  }catch(e){console.log('Index error:',e);}
   document.querySelectorAll('.genre-tag.loading').forEach(el=>el.classList.remove('loading'));
 }
 
@@ -707,24 +709,21 @@ async function byTopic(tid,el){
   clearSearch();clearInterval(ct);document.getElementById('carousel').innerHTML='';
   document.getElementById('main').innerHTML=`<div class="spin-wrap"><div class="spinner"></div><p>Cargando ${topic.name}...</p></div>`;
 
-  // Try genre index first
+  // Use real topic index from group scan
   let found=[];
-  for(const gid of topic.genres){
-    if(genreIndex[gid]){
-      for(const k of genreIndex[gid]){
-        if(!found.find(([fk])=>fk===k) && cat[k]) found.push([k,cat[k]]);
-      }
-    }
+  const topicKeys=topicIndex[String(tid)]||[];
+  for(const k of topicKeys){
+    if(cat[k]) found.push([k,cat[k]]);
   }
 
-  // If not enough, search TMDB
-  if(found.length<12){
-    const v=Object.entries(cat);
-    for(const[k,x] of v){
-      if(found.length>=60) break;
-      if(found.find(([fk])=>fk===k)) continue;
-      const td=await tmdb(x.title,x.type==='temporada');
-      if(td?.genre_ids?.some(g=>topic.genres.includes(g))) found.push([k,x]);
+  // Fallback to genre index if not enough
+  if(found.length<6){
+    for(const gid of topic.genres){
+      if(genreIndex[gid]){
+        for(const k of genreIndex[gid]){
+          if(!found.find(([fk])=>fk===k) && cat[k]) found.push([k,cat[k]]);
+        }
+      }
     }
   }
 
