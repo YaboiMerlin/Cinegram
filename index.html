@@ -249,6 +249,31 @@ const GRP='https://t.me/+ohuk5C0d3Z1kZTZh';
 const GID='2503161055';
 const BOT='https://t.me/Peticiones4k_bot';
 const GENRES={28:'Accion',12:'Aventura',16:'Animacion',35:'Comedia',80:'Crimen',18:'Drama',14:'Fantasia',27:'Terror',10749:'Romance',878:'Sci-Fi',53:'Suspenso',10751:'Familia',99:'Documental'};
+const TOPICS={
+  4935:{name:'Accion',icon:'💥',genres:[28,12]},
+  4934:{name:'Terror',icon:'👻',genres:[27,53]},
+  4936:{name:'Comedia',icon:'😂',genres:[35]},
+  4937:{name:'Animado',icon:'🎨',genres:[16]},
+  4407:{name:'Anime',icon:'🎌',genres:[16]},
+  41773:{name:'Drama',icon:'😢',genres:[18,10749]},
+  10991:{name:'Aventura',icon:'🗺️',genres:[12,14,878]},
+  6839:{name:'Documentales',icon:'📚',genres:[99]},
+  10296:{name:'Netflix',icon:'🎬',genres:[18,28,35]},
+  11701:{name:'Disney',icon:'🏰',genres:[16,10751,14]},
+  4795:{name:'Marvel',icon:'🦸',genres:[28,878,12]},
+  4897:{name:'DC',icon:'🦇',genres:[28,878]},
+  34682:{name:'Star Wars',icon:'⭐',genres:[878,28,12]},
+  75435:{name:'Estrenos',icon:'🟢',genres:[28,18,35,27]},
+  85530:{name:'Clasicos',icon:'🎞️',genres:[18,28,35]},
+  5748:{name:'Koreano',icon:'🇰🇷',genres:[18,10749]},
+  6087:{name:'Series Latinas',icon:'🌎',genres:[18,35]},
+  8440:{name:'Novelas',icon:'💕',genres:[18,10749]},
+  39585:{name:'Infantil',icon:'👶',genres:[16,10751]},
+  45484:{name:'Nickelodeon',icon:'🟠',genres:[16,10751]},
+  78180:{name:'Series Cortas',icon:'📺',genres:[18,35,28]},
+  32510:{name:'Franquicias',icon:'🎬',genres:[28,12,878]},
+};
+const GID_NUM='2503161055';
 const CY=new Date().getFullYear();
 let cat={},tc={},ci=0,ct=null,cS=[],genreIndex={};
 
@@ -522,8 +547,8 @@ async function buildGenreIndex(){
 }
 
 function buildGenres(){
-  document.getElementById('genreRow').innerHTML=Object.entries(GENRES).map(([id,n])=>
-    `<div class="genre-tag loading" data-gid="${id}" onclick="byGenre(${id},'${n}',this)">${n}</div>`).join('');
+  document.getElementById('genreRow').innerHTML=Object.entries(TOPICS).map(([id,t])=>
+    `<div class="genre-tag" data-tid="${id}" onclick="byTopic(${id},this)">${t.icon} ${t.name}</div>`).join('');
   setTimeout(()=>buildGenreIndex(),2000);
 }
 
@@ -672,6 +697,53 @@ function setNav(type,el){
   let f=type==='new'?[...v].slice(-100).reverse():type==='movie'?v.filter(([k,x])=>x.type!=='temporada'):v.filter(([k,x])=>x.type==='temporada');
   document.getElementById('main').innerHTML=createSection(`${type==='movie'?'Peliculas':type==='series'?'Series':'Recientes'} <span class="acc">Disponibles</span>`,'gNav',f);
   initSection('gNav');
+}
+
+async function byTopic(tid,el){
+  const topic=TOPICS[tid];
+  if(!topic) return;
+  document.querySelectorAll('.genre-tag').forEach(g=>g.classList.remove('active'));
+  el.classList.add('active');
+  clearSearch();clearInterval(ct);document.getElementById('carousel').innerHTML='';
+  document.getElementById('main').innerHTML=`<div class="spin-wrap"><div class="spinner"></div><p>Cargando ${topic.name}...</p></div>`;
+
+  // Try genre index first
+  let found=[];
+  for(const gid of topic.genres){
+    if(genreIndex[gid]){
+      for(const k of genreIndex[gid]){
+        if(!found.find(([fk])=>fk===k) && cat[k]) found.push([k,cat[k]]);
+      }
+    }
+  }
+
+  // If not enough, search TMDB
+  if(found.length<12){
+    const v=Object.entries(cat);
+    for(const[k,x] of v){
+      if(found.length>=60) break;
+      if(found.find(([fk])=>fk===k)) continue;
+      const td=await tmdb(x.title,x.type==='temporada');
+      if(td?.genre_ids?.some(g=>topic.genres.includes(g))) found.push([k,x]);
+    }
+  }
+
+  const topicLink=`https://t.me/c/${GID_NUM}/${tid}`;
+  const topicBanner=`
+    <div style="background:linear-gradient(135deg,var(--purple),var(--red));margin:14px;border-radius:14px;padding:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="go(0,'${topicLink}')">
+      <div>
+        <div style="font-size:22px;font-weight:900">${topic.icon} ${topic.name}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:4px">Ver todo el contenido en el grupo →</div>
+      </div>
+      <div style="font-size:30px">▶</div>
+    </div>`;
+
+  if(!found.length){
+    document.getElementById('main').innerHTML=topicBanner+`<div class="empty"><div class="empty-icon">🎭</div><p>Explorando catalogo...</p></div>`;
+    return;
+  }
+  document.getElementById('main').innerHTML=topicBanner+createSection(topic.name+' <span class="acc">en el Catalogo</span>','gTopic',found);
+  initSection('gTopic');
 }
 
 async function byGenre(gid,gname,el){
