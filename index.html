@@ -399,12 +399,35 @@ function card(key,item,td,wide=false){
   </div>`;
 }
 
-async function buildRow(title,items,max=15,wide=false){
+async function buildRow(title,items,max=20,wide=false){
   const cards=await Promise.all(items.slice(0,max).map(async([k,v])=>card(k,v,await tmdb(v.title,v.type==='temporada'),wide)));
-  return `<div class="row-section">
+  const hasMore=items.length>max;
+  const rowId='row_'+Math.random().toString(36).slice(2);
+  window['_rowItems_'+rowId]=items;
+  window['_rowMax_'+rowId]=max;
+  window['_rowWide_'+rowId]=wide;
+  return `<div class="row-section" id="${rowId}">
     <div class="row-header"><div class="row-title">${title}</div></div>
-    <div class="row-scroll">${cards.join('')}</div>
+    <div class="row-scroll" id="scroll_${rowId}">${cards.join('')}</div>
+    ${hasMore?`<button class="ver-mas" onclick="loadMoreRow('${rowId}')">Ver mas (${items.length-max} titulos disponibles)</button>`:''}
   </div>`;
+}
+
+async function loadMoreRow(rowId){
+  const items=window['_rowItems_'+rowId]||[];
+  const max=window['_rowMax_'+rowId]||20;
+  const wide=window['_rowWide_'+rowId]||false;
+  const newMax=max+20;
+  window['_rowMax_'+rowId]=newMax;
+  const btn=document.querySelector(`#${rowId} .ver-mas`);
+  if(btn) btn.textContent='Cargando...';
+  const newCards=await Promise.all(items.slice(max,newMax).map(async([k,v])=>card(k,v,await tmdb(v.title,v.type==='temporada'),wide)));
+  const scroll=document.getElementById('scroll_'+rowId);
+  if(scroll) scroll.innerHTML+=newCards.join('');
+  if(btn){
+    if(newMax<items.length) btn.textContent=`Ver mas (${items.length-newMax} titulos disponibles)`;
+    else btn.style.display='none';
+  }
 }
 
 async function getPopular(tv,max=20){
@@ -469,10 +492,19 @@ async function renderHome(){
   const recentDeduped=dedupeByBase(recentFiltered);
   const recent=shuffle([...recentDeduped].slice(-300)).slice(0,20);
 
+  // Extra sections
+  const allEntries2=Object.entries(cat);
+  const allMovies=dedupeByBase(allEntries2.filter(([k,v])=>v.type!=='temporada'&&!isGarbage(v.title)));
+  const allSeries=dedupeByBase(allEntries2.filter(([k,v])=>v.type==='temporada'&&!isGarbage(v.title)));
+  const randomMovies=shuffle([...allMovies]).slice(0,40);
+  const randomSeries=shuffle([...allSeries]).slice(0,40);
+
   const sections=await Promise.all([
-    buildRow('Agregado <span class="acc">Recientemente</span>',recent,15,true),
-    buildRow('Peliculas <span class="acc">Populares</span>',pm.map(s=>[s.key,s.item]),15),
-    buildRow('Series <span class="acc">Populares</span>',ps.map(s=>[s.key,s.item]),15),
+    buildRow('Agregado <span class="acc">Recientemente</span>',recent,20,true),
+    buildRow('Peliculas <span class="acc">Populares</span>',pm.map(s=>[s.key,s.item]),20),
+    buildRow('Series <span class="acc">Populares</span>',ps.map(s=>[s.key,s.item]),20),
+    buildRow('Peliculas <span class="acc">Para Ti</span>',randomMovies,20),
+    buildRow('Series <span class="acc">Para Ti</span>',randomSeries,20),
   ]);
   document.getElementById('main').innerHTML=sections.join('');
 }
@@ -524,11 +556,11 @@ function setNav(type,el){
   if(type==='all'){renderHome();return;}
   clearInterval(ct);document.getElementById('heroSection').innerHTML='';
   const v=Object.entries(cat);
-  let f=type==='new'?dedupeByBase([...v].filter(([k,x])=>!isGarbage(x.title)).slice(-200).reverse()):
-    type==='movie'?dedupeByBase(v.filter(([k,x])=>x.type!=='temporada'&&!isGarbage(x.title))):
-    dedupeByBase(v.filter(([k,x])=>x.type==='temporada'&&!isGarbage(x.title)));
+  let f=type==='new'?dedupeByBase([...v].filter(([k,x])=>!isGarbage(x.title)).slice(-300).reverse()):
+    type==='movie'?shuffle(dedupeByBase(v.filter(([k,x])=>x.type!=='temporada'&&!isGarbage(x.title)))):
+    shuffle(dedupeByBase(v.filter(([k,x])=>x.type==='temporada'&&!isGarbage(x.title))));
   document.getElementById('main').innerHTML='<div class="spin-wrap"><div class="spinner"></div></div>';
-  buildRow(`${type==='movie'?'Peliculas':type==='series'?'Series':'Recientes'} <span class="acc">Disponibles</span>`,f,40).then(h=>{
+  buildRow(`${type==='movie'?'Peliculas':type==='series'?'Series':'Recientes'} <span class="acc">Disponibles</span>`,f,20).then(h=>{
     document.getElementById('main').innerHTML=h;
   });
 }
@@ -562,7 +594,8 @@ async function byTopic(tid,el){
     document.getElementById('main').innerHTML=banner+`<div class="empty"><div class="empty-icon">🎭</div><p>Explorando...</p></div>`;
     return;
   }
-  const html=await buildRow(`${topic.name} <span class="acc">en el Catalogo</span>`,found,40);
+  const dedupedFound=dedupeByBase(found);
+  const html=await buildRow(`${topic.name} <span class="acc">en el Catalogo</span>`,dedupedFound,20);
   document.getElementById('main').innerHTML=banner+html;
 }
 
