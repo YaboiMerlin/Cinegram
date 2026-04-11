@@ -550,6 +550,35 @@ function cleanTitle(t){
     .replace(/[^\w\s\-\u00C0-\u024F]/g,'').trim();
 }
 
+function isGarbage(title){
+  const t = title.toLowerCase().trim();
+  // Filter episode titles and garbage
+  if(/^cap[íi]tulo\s*\d/.test(t)) return true;
+  if(/^episodio\s*\d/.test(t)) return true;
+  if(/^ep\s*\d/.test(t)) return true;
+  if(/cap\s*\d+\s*\|/.test(t)) return true;
+  if(/^\d+$/.test(t)) return true; // just a number
+  if(t.length < 2) return true;
+  // Filter individual episode entries of series (has series name + cap)
+  if(/cap\s*\d+/.test(t) && t.split(' ').length < 5) return true;
+  return false;
+}
+
+function dedupeByBaseName(items){
+  const seen = new Map();
+  const result = [];
+  for(const [k,v] of items){
+    const clean = cleanTitle(v.title).toLowerCase().trim();
+    // Remove episode numbers to get base name
+    const base = clean.replace(/\s*(cap|capitulo|ep|episodio|temporada|season|s\d+e\d+)\s*\d+.*/i,'').trim();
+    if(!seen.has(base)){
+      seen.set(base, true);
+      result.push([k,v]);
+    }
+  }
+  return result;
+}
+
 async function tmdb(title,tv){
   const k=title+(tv?'_tv':'_mv');
   if(tc[k]!==undefined) return tc[k];
@@ -609,7 +638,10 @@ function buildGenres(){
 async function getPopular(tv,max=12){
   const scored=[];
   const entries=Object.entries(cat).filter(([k,v])=>tv?(v.type==='temporada'):(v.type!=='temporada'));
-  await Promise.all(entries.slice(0,200).map(async([k,v])=>{
+  // Filter garbage titles first
+  const clean=entries.filter(([k,v])=>!isGarbage(v.title));
+  const deduped=dedupeByBaseName(clean);
+  await Promise.all(deduped.slice(0,300).map(async([k,v])=>{
     const td=await tmdb(v.title,tv);
     if(td?.poster_path){
       const yr=parseInt(tv?td.first_air_date?.split('-')[0]:td.release_date?.split('-')[0])||0;
@@ -706,7 +738,9 @@ async function renderHome(){
   startCarousel(carouselPool.slice(0,8));
 
   // Recent: random 24 from last 200
-  const recentPool=shuffle([...allEntries].slice(-200));
+  const recentFiltered=allEntries.filter(([k,v])=>!isGarbage(v.title));
+  const recentDeduped=dedupeByBaseName(recentFiltered);
+  const recentPool=shuffle([...recentDeduped].slice(-200));
 
   // Section titles with variety
   const movieTitles=['Peliculas <span class="acc">Populares</span>','Peliculas <span class="acc">Destacadas</span>','Lo Mejor en <span class="acc">Peliculas</span>'];
