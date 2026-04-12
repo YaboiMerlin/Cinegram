@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Test</title></head>
+<body style="background:#0a0a0a;color:#fff;font-family:sans-serif;padding:20px;">
+<h1 id="title">Test</h1>
+<button onclick="testClick()" style="background:purple;color:#fff;padding:20px;border-radius:10px;border:none;font-size:18px;width:100%;">CLICK ME</button>
+<div id="result" style="margin-top:20px;font-size:18px;"></div>
+<script>
+function testClick(){
+  document.getElementById('result').textContent = 'FUNCIONA! ' + new Date().toLocaleTimeString();
+  document.getElementById('title').style.color = 'lime';
+}
+console.log('Script loaded OK');
+</script>
+</body>
+</html>
