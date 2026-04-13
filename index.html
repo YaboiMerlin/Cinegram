@@ -208,6 +208,15 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 </div>
 
 <script>
+// ============ ERROR HANDLER ============
+window.onerror = function(msg, src, line, col, err) {
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;top:0;left:0;right:0;background:red;color:#fff;padding:10px;font-size:12px;z-index:9999;';
+  d.textContent = 'ERROR: ' + msg + ' (line ' + line + ')';
+  document.body.appendChild(d);
+  return false;
+};
+
 // ============ INIT ============
 var tg = null;
 try { tg = window.Telegram && window.Telegram.WebApp; if(tg) tg.ready(); } catch(e) {}
