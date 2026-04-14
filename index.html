@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>Cinegram Games</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#0a0a0a;--card:#161616;--card2:#1e1e1e;--border:#2a2a2a;--purple:#7c3aed;--pink:#ec4899;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--muted:#6b7280;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{--bg:#0a0a0a;--card:#161616;--card2:#1e1e1e;--border:#2a2a2a;--purple:#7c3aed;--pink:#ec4899;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--muted:#6b7280;}
 body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;padding-bottom:75px;}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(10,10,10,.95);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--border);}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(10,10,10,.97);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--border);}
 .logo{font-size:18px;font-weight:900;color:#a78bfa;}
 .cbadge{background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:14px;font-weight:700;color:var(--gold);cursor:pointer;}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,10,.97);border-top:1px solid var(--border);display:flex;}
@@ -30,6 +30,7 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .hot{background:var(--purple);color:#fff;}
 .new{background:var(--gold);color:#000;}
 .sp{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;}
+.cas{background:var(--red);color:#fff;}
 .ghdr{display:flex;align-items:center;gap:10px;padding-bottom:14px;}
 .bk{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:8px 14px;color:#fff;font-size:13px;cursor:pointer;}
 .gt{font-size:17px;font-weight:800;flex:1;}
@@ -45,6 +46,7 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .beto{background:var(--card2);border:1.5px solid var(--border);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;}
 .beto.on{border-color:var(--gold);color:var(--gold);}
 .pbtn{width:100%;background:linear-gradient(135deg,var(--purple),var(--pink));border:none;border-radius:12px;padding:13px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;}
+.pbtn.gold{background:linear-gradient(135deg,var(--gold),#d97706);}
 .sbar{text-align:center;background:var(--card);border-radius:10px;padding:11px;margin-bottom:12px;}
 .sturn{font-size:14px;font-weight:700;}
 .ssc{display:flex;justify-content:center;gap:24px;margin-top:7px;}
@@ -66,8 +68,6 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .pptopts{display:flex;gap:10px;justify-content:center;margin:16px 0;}
 .pptb{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:16px;font-size:40px;cursor:pointer;flex:1;text-align:center;}
 .pptb:active{opacity:.7;}
-.pptrv{display:flex;justify-content:center;align-items:center;gap:14px;font-size:42px;margin:14px 0;}
-.pptres{text-align:center;font-size:17px;font-weight:800;padding:10px;}
 .numinp{width:100%;background:var(--card);border:2px solid var(--border);border-radius:10px;padding:13px;color:#fff;font-size:20px;font-weight:700;text-align:center;outline:none;margin:12px 0;}
 .numinp:focus{border-color:var(--purple);}
 .hints{display:flex;flex-direction:column;gap:5px;max-height:160px;overflow-y:auto;margin-top:10px;}
@@ -82,6 +82,31 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .topt{background:var(--card);border:2px solid var(--border);border-radius:11px;padding:12px;font-size:13px;font-weight:600;cursor:pointer;text-align:left;}
 .topt.ok{border-color:var(--green);background:rgba(16,185,129,.15);color:var(--green);}
 .topt.no{border-color:var(--red);background:rgba(239,68,68,.15);color:var(--red);}
+.playing-card{background:#fff;color:#000;border-radius:8px;width:52px;height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;font-weight:900;box-shadow:0 2px 8px rgba(0,0,0,.5);}
+.playing-card.red{color:var(--red);}
+.playing-card .cv{font-size:18px;}
+.playing-card .cs{font-size:14px;}
+.cards-area{display:flex;gap:8px;flex-wrap:wrap;min-height:80px;margin:8px 0;align-items:center;}
+.bj-sec{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;}
+.bj-lbl{font-size:12px;color:var(--muted);margin-bottom:8px;}
+.bj-btns{display:flex;gap:8px;margin-top:10px;}
+.bj-btns button{flex:1;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;color:#fff;}
+.bj-hit{background:var(--green);}
+.bj-stand{background:var(--red);}
+.bj-double{background:var(--blue);}
+.rul-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0;}
+.rb{background:var(--card);border:2px solid var(--border);border-radius:8px;padding:10px 4px;font-size:12px;font-weight:700;cursor:pointer;text-align:center;}
+.rb:active{opacity:.7;}
+.rb.on{border-color:var(--gold);}
+.gallows{font-family:monospace;font-size:13px;background:var(--card);border-radius:10px;padding:12px;margin-bottom:12px;line-height:1.4;white-space:pre;}
+.word-disp{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0;}
+.lbx{width:32px;height:40px;border-bottom:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;}
+.kbd{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px;}
+.key{background:var(--card2);border:1px solid var(--border);border-radius:7px;padding:9px 2px;font-size:12px;font-weight:700;cursor:pointer;text-align:center;}
+.key:active{opacity:.7;}
+.key.used{opacity:.25;pointer-events:none;}
+.key.ok{border-color:var(--green);color:var(--green);}
+.key.no{border-color:var(--red);color:var(--red);}
 .ovr{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
 .ovr.on{display:flex;}
 .ocard{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px 16px;text-align:center;width:100%;max-width:300px;}
@@ -110,16 +135,19 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 </style>
 </head>
 <body>
-
 <div class="hdr">
   <div class="logo">🎮 CINEGRAM GAMES</div>
   <div class="cbadge" onclick="goPage('wallet')">🪙 <span id="cTop">100</span></div>
 </div>
-
 <div class="pg on" id="pgHome">
   <div style="padding:10px 0 14px">
     <div style="font-size:21px;font-weight:900">Bienvenido! 👋</div>
     <div style="font-size:13px;color:var(--muted);margin-top:3px" id="subW">Juega y gana monedas</div>
+  </div>
+  <div class="sec" style="margin-top:0">🎰 Casino</div>
+  <div class="g2">
+    <div class="gc" onclick="openGame('bj')"><span class="gbg cas">CASINO</span><span class="ge">🃏</span><div class="gn">Blackjack</div><div class="gd">Llega al 21</div></div>
+    <div class="gc" onclick="openGame('rul')"><span class="gbg cas">CASINO</span><span class="ge">🎰</span><div class="gn">Ruleta</div><div class="gd">Apuesta tu suerte</div></div>
   </div>
   <div class="sec">🎯 Juegos</div>
   <div class="g2">
@@ -127,19 +155,17 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
     <div class="gc" onclick="openGame('c4')"><span class="gbg new">NUEVO</span><span class="ge">🔴</span><div class="gn">Connect 4</div><div class="gd">4 en linea</div></div>
     <div class="gc" onclick="openGame('ppt')"><span class="ge">✊</span><div class="gn">Piedra Papel Tijera</div><div class="gd">El clasico</div></div>
     <div class="gc" onclick="openGame('num')"><span class="ge">🔢</span><div class="gn">Adivina el Numero</div><div class="gd">1 al 100</div></div>
+    <div class="gc" onclick="openGame('ahorcado')"><span class="ge">🎭</span><div class="gn">Ahorcado</div><div class="gd">Adivina la palabra</div></div>
     <div class="gc wide" onclick="openGame('trivia')"><span class="gbg sp">⭐ ESPECIAL</span><span class="ge">🎬</span><div class="gn">Trivia de Peliculas</div><div class="gd">Pon a prueba tu conocimiento</div></div>
   </div>
   <div class="sec">🏆 Top Jugadores</div>
   <div id="homeLB"><p style="color:var(--muted);text-align:center;padding:16px">Se el primero en jugar!</p></div>
 </div>
-
 <div class="pg" id="pgGame"></div>
-
 <div class="pg" id="pgRank">
   <div style="font-size:19px;font-weight:900;padding:12px 0">🏆 Tabla de Lideres</div>
   <div id="rankLB"></div>
 </div>
-
 <div class="pg" id="pgWallet">
   <div style="font-size:19px;font-weight:900;padding:12px 0">💰 Cartera</div>
   <div class="wbal"><div class="wnum" id="wBig">100</div><div class="wlbl">🪙 Monedas</div></div>
@@ -153,142 +179,89 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
   <div class="sec">Historial</div>
   <div id="txList"><p style="color:var(--muted);text-align:center;padding:16px">Sin transacciones</p></div>
 </div>
-
 <div class="bnav">
   <div class="bni on" id="bHome" onclick="goPage('home')"><div class="bni-icon">🎮</div><div class="bni-lbl">Juegos</div></div>
   <div class="bni" id="bRank" onclick="goPage('rank')"><div class="bni-icon">🏆</div><div class="bni-lbl">Ranking</div></div>
   <div class="bni" id="bWallet" onclick="goPage('wallet')"><div class="bni-icon">🪙</div><div class="bni-lbl">Cartera</div></div>
 </div>
-
-<div class="ovr" id="ovr">
-  <div class="ocard" id="ocard"></div>
-</div>
-
+<div class="ovr" id="ovr"><div class="ocard" id="ocard"></div></div>
 <script>
-// STORAGE
 function ld(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
-
-// USER ID
 var ME='guest',MN='Jugador';
 try{if(window.Telegram&&window.Telegram.WebApp&&window.Telegram.WebApp.initDataUnsafe&&window.Telegram.WebApp.initDataUnsafe.user){var u=window.Telegram.WebApp.initDataUnsafe.user;ME=String(u.id);MN=u.first_name||'Jugador';}}catch(e){}
-
-// COINS
 var coins=100;
-function loadCoins(){var d=ld('cg_'+ME);if(d&&d.n){coins=d.n;}else{sv('cg_'+ME,{n:100});}updC();}
+function loadCoins(){var d=ld('cg_'+ME);if(d&&d.n!=null){coins=d.n;}else{sv('cg_'+ME,{n:100});}updC();}
 function addCoins(n,r){coins=Math.max(0,coins+n);sv('cg_'+ME,{n:coins});var tx=ld('tx_'+ME)||[];tx.unshift({n:n,r:r,d:new Date().toLocaleDateString()});sv('tx_'+ME,tx.slice(0,30));updC();}
-function updC(){var ids=['cTop','wBig'];for(var i=0;i<ids.length;i++){var e=document.getElementById(ids[i]);if(e)e.textContent=coins.toLocaleString();}}
-
-// LB
+function updC(){['cTop','wBig'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent=coins.toLocaleString();});}
 function getLB(){return ld('cg_lb')||{};}
 function addWin(c){var lb=getLB();if(!lb[ME])lb[ME]={n:MN,w:0,c:0};lb[ME].w++;lb[ME].c=(lb[ME].c||0)+Math.max(0,c);sv('cg_lb',lb);}
 function renderLB(id){var e=document.getElementById(id);if(!e)return;var lb=getLB();var s=Object.entries(lb).sort(function(a,b){return b[1].w-a[1].w;}).slice(0,10);if(!s.length){e.innerHTML='<p style="color:var(--muted);text-align:center;padding:16px">Se el primero en jugar!</p>';return;}var m=['🥇','🥈','🥉'];e.innerHTML=s.map(function(x,i){return '<div class="lbi"><div class="lbr">'+(m[i]||(i+1))+'</div><div style="flex:1"><div class="lbn">'+x[1].n+(x[0]===ME?' (Tu)':'')+'</div><div class="lbw">'+x[1].w+' victorias</div></div><div class="lbc">🪙 '+(x[1].c||0).toLocaleString()+'</div></div>';}).join('');}
-
-// NAV
-function goPage(p){
-  var pages=['Home','Game','Rank','Wallet'];
-  for(var i=0;i<pages.length;i++){var e=document.getElementById('pg'+pages[i]);if(e)e.classList.remove('on');}
-  var navs=['Home','Rank','Wallet'];
-  for(var i=0;i<navs.length;i++){var e=document.getElementById('b'+navs[i]);if(e)e.classList.remove('on');}
-  var pg=document.getElementById('pg'+p.charAt(0).toUpperCase()+p.slice(1));if(pg)pg.classList.add('on');
-  var bn=document.getElementById('b'+p.charAt(0).toUpperCase()+p.slice(1));if(bn)bn.classList.add('on');
-  if(p==='rank')renderLB('rankLB');
-  if(p==='wallet'){updC();renderTx();}
-}
+function goPage(p){['Home','Game','Rank','Wallet'].forEach(function(x){var e=document.getElementById('pg'+x);if(e)e.classList.remove('on');});['Home','Rank','Wallet'].forEach(function(x){var e=document.getElementById('b'+x);if(e)e.classList.remove('on');});var pg=document.getElementById('pg'+p.charAt(0).toUpperCase()+p.slice(1));if(pg)pg.classList.add('on');var bn=document.getElementById('b'+p.charAt(0).toUpperCase()+p.slice(1));if(bn)bn.classList.add('on');if(p==='rank')renderLB('rankLB');if(p==='wallet'){updC();renderTx();}}
 function renderTx(){var e=document.getElementById('txList');if(!e)return;var tx=ld('tx_'+ME)||[];if(!tx.length){e.innerHTML='<p style="color:var(--muted);text-align:center;padding:16px">Sin transacciones</p>';return;}e.innerHTML=tx.map(function(t){return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--card);border-radius:9px;margin-bottom:5px"><div><div style="font-size:13px;font-weight:600">'+t.r+'</div><div style="font-size:11px;color:var(--muted)">'+t.d+'</div></div><div style="font-size:13px;font-weight:700;color:'+(t.n>0?'var(--green)':'var(--red)')+'"> '+(t.n>0?'+':'')+t.n+' 🪙</div></div>';}).join('');}
-
-// GAME
 var cG='',bet=0,gMode='ai';
-var GN={ttt:'Tic Tac Toe',c4:'Connect 4',ppt:'Piedra Papel Tijera',num:'Adivina el Numero',trivia:'Trivia'};
-var GE={ttt:'⭕',c4:'🔴',ppt:'✊',num:'🔢',trivia:'🎬'};
-function openGame(g){cG=g;bet=0;gMode='ai';goPage('game');renderSetup();}
-function renderSetup(){
-  document.getElementById('pgGame').innerHTML=
-    '<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">'+GE[cG]+' '+GN[cG]+'</div></div>'+
-    '<div class="modes"><div class="mode on" id="mAI" onclick="setMode(\'ai\')"><em>🤖</em><b>vs IA</b><small>Contra la maquina</small></div><div class="mode" id="mFR" onclick="setMode(\'friend\')"><em>👥</em><b>vs Amigo</b><small>Turno a turno</small></div></div>'+
-    '<div class="betbox"><div class="betlbl">💰 Apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+
-    [0,10,25,50,100].map(function(n){return '<div class="beto'+(n===0?' on':'')+'" onclick="setBet('+n+',this)">'+(n===0?'Gratis':'🪙 '+n)+'</div>';}).join('')+
-    '</div></div><button class="pbtn" onclick="startGame()">🎮 Jugar</button>';
-}
+var GN={ttt:'Tic Tac Toe',c4:'Connect 4',ppt:'Piedra Papel Tijera',num:'Adivina el Numero',trivia:'Trivia',bj:'Blackjack',rul:'Ruleta',ahorcado:'Ahorcado'};
+var GE={ttt:'⭕',c4:'🔴',ppt:'✊',num:'🔢',trivia:'🎬',bj:'🃏',rul:'🎰',ahorcado:'🎭'};
+function openGame(g){cG=g;bet=0;gMode='ai';goPage('game');if(g==='bj')startBJ();else if(g==='rul')startRul();else if(g==='ahorcado'){bet=25;startAhorcado();}else renderSetup();}
+function renderSetup(){document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">'+GE[cG]+' '+GN[cG]+'</div></div><div class="modes"><div class="mode on" id="mAI" onclick="setMode(\'ai\')"><em>🤖</em><b>vs IA</b><small>Contra la maquina</small></div><div class="mode" id="mFR" onclick="setMode(\'friend\')"><em>👥</em><b>vs Amigo</b><small>Turno a turno</small></div></div><div class="betbox"><div class="betlbl">Apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+[0,10,25,50,100].map(function(n){return '<div class="beto'+(n===0?' on':'')+'" onclick="setBet('+n+',this)">'+(n===0?'Gratis':'🪙 '+n)+'</div>';}).join('')+'</div></div><button class="pbtn" onclick="startGame()">🎮 Jugar</button>';}
 function setMode(m){gMode=m;var ai=document.getElementById('mAI'),fr=document.getElementById('mFR');if(ai)ai.className='mode'+(m==='ai'?' on':'');if(fr)fr.className='mode'+(m==='friend'?' on':'');}
-function setBet(n,el){bet=n;var opts=document.querySelectorAll('.beto');for(var i=0;i<opts.length;i++)opts[i].classList.remove('on');if(el)el.classList.add('on');}
+function setBet(n,el){bet=n;document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');}
 function startGame(){if(bet>coins){alert('No tienes suficientes monedas!');return;}if(cG==='ttt')startTTT();else if(cG==='c4')startC4();else if(cG==='ppt')startPPT();else if(cG==='num')startNum();else if(cG==='trivia')startTrivia();}
-
-// RESULT
-function showResult(win,draw,dc,extra){
-  var em=draw?'🤝':win?'🏆':'😔',ti=draw?'Empate!':win?'Ganaste!':'Perdiste',su=draw?'Fue parejo!':win?'Excelente!':'Sigue practicando!';
-  document.getElementById('ocard').innerHTML='<div class="oemo">'+em+'</div><div class="otitle">'+ti+'</div><div class="osub">'+su+'</div>'+(dc?'<div class="ocoin">'+(dc>0?'+':'')+dc+' 🪙</div>':'')+(extra||'')+'<div class="obtns"><button class="obtn pr" onclick="closeOvr();startGame()">🔄 Otra vez</button><button class="obtn sc" onclick="closeOvr();goPage(\'home\')">🏠 Inicio</button></div>';
-  document.getElementById('ovr').classList.add('on');
-  if(dc)addCoins(dc,(win?'Victoria':'Derrota')+' - '+GN[cG]);
-  if(win&&!draw)addWin(Math.max(0,dc));
-}
+function showResult(win,draw,dc,extra){var em=draw?'🤝':win?'🏆':'😔',ti=draw?'Empate!':win?'Ganaste!':'Perdiste',su=draw?'Fue parejo!':win?'Excelente!':'Sigue practicando!';document.getElementById('ocard').innerHTML='<div class="oemo">'+em+'</div><div class="otitle">'+ti+'</div><div class="osub">'+su+'</div>'+(dc?'<div class="ocoin">'+(dc>0?'+':'')+dc+' 🪙</div>':'')+(extra||'')+'<div class="obtns"><button class="obtn pr" onclick="closeOvr();openGame(\''+cG+'\')">🔄 Otra vez</button><button class="obtn sc" onclick="closeOvr();goPage(\'home\')">🏠 Inicio</button></div>';document.getElementById('ovr').classList.add('on');if(dc)addCoins(dc,(win?'Victoria':'Derrota')+' - '+GN[cG]);if(win&&!draw)addWin(Math.max(0,dc));}
 function closeOvr(){document.getElementById('ovr').classList.remove('on');}
-
-// TTT
 var tB,tTurn,tOver;
-function startTTT(){tB=['','','','','','','','',''];tTurn='X';tOver=false;
-  document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">⭕ Tic Tac Toe</div></div>'+
-  '<div class="sbar"><div class="sturn" id="tSt">Tu turno (X)</div><div class="ssc"><div class="si"><small>Tu</small><b style="color:#a78bfa">X</b></div><div class="si"><small>'+(gMode==='ai'?'🤖 IA':'👥 Amigo')+'</small><b style="color:#ec4899">O</b></div></div></div>'+
-  '<div class="tttg">'+[0,1,2,3,4,5,6,7,8].map(function(i){return '<div class="tc" id="tc'+i+'" onclick="tClick('+i+')"></div>';}).join('')+'</div>';}
-function tClick(i){if(tB[i]||tOver)return;if(gMode==='ai'&&tTurn==='O')return;tB[i]=tTurn;rTTT();var w=chkTTT();var full=true;for(var j=0;j<tB.length;j++)if(!tB[j]){full=false;break;}if(w||full)return endTTT(w);tTurn=tTurn==='X'?'O':'X';var s=document.getElementById('tSt');if(gMode==='ai'&&tTurn==='O'){if(s)s.textContent='🤖 IA pensando...';setTimeout(tAI,400);}else if(s)s.textContent=(tTurn==='X'?'Tu':'Amigo')+' ('+tTurn+')';}
-function tAI(){var b=tB.slice(),mv=-1,i,sym;for(var p=2;p>=1;p--){sym=p===2?'O':'X';for(i=0;i<9;i++){if(!b[i]){b[i]=sym;if(chkB(b)===sym){if(p===2){mv=i;break;}else if(mv<0)mv=i;}b[i]='';}}if(p===2&&mv>=0)break;}if(mv<0){var pf=[4,0,2,6,8,1,3,5,7];for(i=0;i<pf.length;i++){if(!tB[pf[i]]){mv=pf[i];break;}}}if(mv>=0){tB[mv]='O';rTTT();var w=chkTTT();var full=true;for(i=0;i<tB.length;i++)if(!tB[i]){full=false;break;}if(w||full)return endTTT(w);tTurn='X';var s=document.getElementById('tSt');if(s)s.textContent='Tu turno (X)';}}
+function startTTT(){tB=['','','','','','','','',''];tTurn='X';tOver=false;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">⭕ Tic Tac Toe</div></div><div class="sbar"><div class="sturn" id="tSt">Tu turno (X)</div><div class="ssc"><div class="si"><small>Tu</small><b style="color:#a78bfa">X</b></div><div class="si"><small>'+(gMode==='ai'?'🤖 IA':'👥 Amigo')+'</small><b style="color:#ec4899">O</b></div></div></div><div class="tttg">'+[0,1,2,3,4,5,6,7,8].map(function(i){return '<div class="tc" id="tc'+i+'" onclick="tClick('+i+')"></div>';}).join('')+'</div>';}
+function tClick(i){if(tB[i]||tOver)return;if(gMode==='ai'&&tTurn==='O')return;tB[i]=tTurn;rTTT();var w=chkTTT();if(w||tB.indexOf('')<0)return endTTT(w);tTurn=tTurn==='X'?'O':'X';var s=document.getElementById('tSt');if(gMode==='ai'&&tTurn==='O'){if(s)s.textContent='🤖 IA pensando...';setTimeout(tAI,400);}else if(s)s.textContent=(tTurn==='X'?'Tu':'Amigo')+' ('+tTurn+')';}
+function tAI(){var b=tB.slice(),mv=-1,i,sym;for(var p=2;p>=1;p--){sym=p===2?'O':'X';for(i=0;i<9;i++){if(!b[i]){b[i]=sym;if(chkB(b)===sym){if(p===2){mv=i;break;}else if(mv<0)mv=i;}b[i]='';}}if(p===2&&mv>=0)break;}if(mv<0){var pf=[4,0,2,6,8,1,3,5,7];for(i=0;i<pf.length;i++){if(!tB[pf[i]]){mv=pf[i];break;}}}if(mv>=0){tB[mv]='O';rTTT();var w=chkTTT();if(w||tB.indexOf('')<0)return endTTT(w);tTurn='X';var s=document.getElementById('tSt');if(s)s.textContent='Tu turno (X)';}}
 function rTTT(){for(var i=0;i<9;i++){var e=document.getElementById('tc'+i);if(e){e.textContent=tB[i];e.className='tc'+(tB[i]?' '+tB[i].toLowerCase():'');}}}
 function chkB(b){var L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];for(var i=0;i<L.length;i++){var l=L[i];if(b[l[0]]&&b[l[0]]===b[l[1]]&&b[l[0]]===b[l[2]])return b[l[0]];}return null;}
 function chkTTT(){var w=chkB(tB);if(w){var L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];for(var i=0;i<L.length;i++){var l=L[i];if(tB[l[0]]===w&&tB[l[1]]===w&&tB[l[2]]===w){for(var j=0;j<l.length;j++){var e=document.getElementById('tc'+l[j]);if(e)e.classList.add('win');}}}}return w;}
 function endTTT(w){tOver=true;var win=w==='X',draw=!w;setTimeout(function(){showResult(win,draw,draw?0:win?bet*2:-bet);},500);}
-
-// C4
 var c4B,c4T,c4O;
-function startC4(){c4B=[];for(var i=0;i<6;i++)c4B.push([0,0,0,0,0,0,0]);c4T=1;c4O=false;
-  document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">🔴 Connect 4</div></div>'+
-  '<div class="sbar"><div class="sturn" id="c4St">Tu turno (🔴)</div></div>'+
-  '<div class="c4cols">'+[0,1,2,3,4,5,6].map(function(c){return '<div class="c4cb" onclick="c4D('+c+')">▼</div>';}).join('')+'</div>'+
-  '<div class="c4g">'+Array(42).fill(0).map(function(_,i){return '<div class="c4c" id="cc'+i+'"></div>';}).join('')+'</div>';}
-function c4D(col){if(c4O||(gMode==='ai'&&c4T===2))return;var row=-1,r;for(r=5;r>=0;r--){if(!c4B[r][col]){row=r;break;}}if(row<0)return;c4B[row][col]=c4T;rC4();var w=chkC4(),fl=true;for(r=0;r<7;r++)if(!c4B[0][r]){fl=false;break;}if(w||fl)return endC4(w);c4T=c4T===1?2:1;var s=document.getElementById('c4St');if(gMode==='ai'){if(s)s.textContent='🤖 IA pensando...';setTimeout(c4AI,400);}else if(s)s.textContent=c4T===1?'Tu (🔴)':'Amigo (🟡)';}
-function c4AI(){var mv=-1,p,c,r,rr;for(p=2;p>=1;p--){for(c=0;c<7;c++){r=-1;for(rr=5;rr>=0;rr--)if(!c4B[rr][c]){r=rr;break;}if(r>=0){c4B[r][c]=p;if(chkC4()===p){if(p===2)mv=c;else if(mv<0)mv=c;}c4B[r][c]=0;}}if(p===2&&mv>=0)break;}if(mv<0){var pf=[3,2,4,1,5,0,6];for(var i=0;i<pf.length;i++){var cc=pf[i];for(rr=5;rr>=0;rr--)if(!c4B[rr][cc]){mv=cc;break;}if(mv>=0)break;}}if(mv>=0){var fr=-1;for(rr=5;rr>=0;rr--)if(!c4B[rr][mv]){fr=rr;break;}if(fr>=0){c4B[fr][mv]=2;rC4();var w=chkC4(),fl=true;for(c=0;c<7;c++)if(!c4B[0][c]){fl=false;break;}if(w||fl)return endC4(w);c4T=1;var s=document.getElementById('c4St');if(s)s.textContent='Tu turno (🔴)';}}}
+function startC4(){c4B=[];for(var i=0;i<6;i++)c4B.push([0,0,0,0,0,0,0]);c4T=1;c4O=false;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">🔴 Connect 4</div></div><div class="sbar"><div class="sturn" id="c4St">Tu turno (🔴)</div></div><div class="c4cols">'+[0,1,2,3,4,5,6].map(function(c){return '<div class="c4cb" onclick="c4D('+c+')">▼</div>';}).join('')+'</div><div class="c4g">'+Array(42).fill(0).map(function(_,i){return '<div class="c4c" id="cc'+i+'"></div>';}).join('')+'</div>';}
+function c4D(col){if(c4O||(gMode==='ai'&&c4T===2))return;var row=-1,r;for(r=5;r>=0;r--){if(!c4B[r][col]){row=r;break;}}if(row<0)return;c4B[row][col]=c4T;rC4();var w=chkC4(),fl=c4B[0].every(function(v){return v!==0;});if(w||fl)return endC4(w);c4T=c4T===1?2:1;var s=document.getElementById('c4St');if(gMode==='ai'){if(s)s.textContent='🤖 IA pensando...';setTimeout(c4AI,400);}else if(s)s.textContent=c4T===1?'Tu (🔴)':'Amigo (🟡)';}
+function c4AI(){var mv=-1,p,c,r,rr;for(p=2;p>=1;p--){for(c=0;c<7;c++){r=-1;for(rr=5;rr>=0;rr--)if(!c4B[rr][c]){r=rr;break;}if(r>=0){c4B[r][c]=p;if(chkC4()===p){if(p===2)mv=c;else if(mv<0)mv=c;}c4B[r][c]=0;}}if(p===2&&mv>=0)break;}if(mv<0){var pf=[3,2,4,1,5,0,6],i;for(i=0;i<pf.length;i++){for(rr=5;rr>=0;rr--)if(!c4B[rr][pf[i]]){mv=pf[i];break;}if(mv>=0)break;}}if(mv>=0){var fr=-1;for(rr=5;rr>=0;rr--)if(!c4B[rr][mv]){fr=rr;break;}if(fr>=0){c4B[fr][mv]=2;rC4();var w=chkC4(),fl=c4B[0].every(function(v){return v!==0;});if(w||fl)return endC4(w);c4T=1;var s=document.getElementById('c4St');if(s)s.textContent='Tu turno (🔴)';}}}
 function rC4(){for(var r=0;r<6;r++)for(var c=0;c<7;c++){var e=document.getElementById('cc'+(r*7+c));if(e){e.className='c4c';if(c4B[r][c]===1)e.classList.add('p1');else if(c4B[r][c]===2)e.classList.add('p2');}}}
 function chkC4(){var dirs=[[0,1],[1,0],[1,1],[1,-1]],r,c,d,i,nr,nc,cnt;for(r=0;r<6;r++)for(c=0;c<7;c++){var v=c4B[r][c];if(!v)continue;for(d=0;d<dirs.length;d++){cnt=1;for(i=1;i<4;i++){nr=r+dirs[d][0]*i;nc=c+dirs[d][1]*i;if(nr<0||nr>=6||nc<0||nc>=7||c4B[nr][nc]!==v)break;cnt++;}if(cnt>=4)return v;}}return null;}
 function endC4(w){c4O=true;var win=w===1,draw=!w;setTimeout(function(){showResult(win,draw,draw?0:win?bet*2:-bet);},400);}
-
-// PPT
 var pSc,pRnd;
 function startPPT(){pSc={p:0,ai:0};pRnd=0;rPPT();}
-function rPPT(){document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">✊ Piedra Papel Tijera</div></div>'+
-  '<div class="sbar"><div class="sturn">Ronda '+(pRnd+1)+' de 5</div><div class="ssc"><div class="si"><small>Tu</small><b style="color:#a78bfa">'+pSc.p+'</b></div><div class="si"><small>'+(gMode==='ai'?'🤖 IA':'👥 Amigo')+'</small><b style="color:#ec4899">'+pSc.ai+'</b></div></div></div>'+
-  '<div class="pptopts"><div class="pptb" onclick="pPlay(0)">✊</div><div class="pptb" onclick="pPlay(1)">✋</div><div class="pptb" onclick="pPlay(2)">✌️</div></div>'+
-  '<div style="text-align:center;font-size:11px;color:var(--muted)">Piedra · Papel · Tijera</div>';}
-function pPlay(ci){pRnd++;var opts=['✊','✋','✌️'],c=opts[ci],ai=opts[Math.floor(Math.random()*3)],wins=[2,0,1],res='',pw=false;if(c===ai)res='Empate!';else if(wins[ci]===opts.indexOf(ai)){res='Ganaste esta ronda! ✅';pSc.p++;pw=true;}else{res='Perdiste ❌';pSc.ai++;}var fin=pRnd>=5;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">✊ PPT</div></div>'+
-  '<div class="sbar"><div class="sturn">Ronda '+pRnd+' de 5</div><div class="ssc"><div class="si"><small>Tu</small><b style="color:#a78bfa">'+pSc.p+'</b></div><div class="si"><small>'+(gMode==='ai'?'🤖':'👥')+'</small><b style="color:#ec4899">'+pSc.ai+'</b></div></div></div>'+
-  '<div class="pptrv"><span>'+c+'</span><span style="font-size:18px;color:var(--muted)">vs</span><span>'+ai+'</span></div>'+
-  '<div class="pptres" style="color:'+(pw?'var(--green)':c===ai?'var(--muted)':'var(--red)')+'">'+res+'</div>'+
-  (fin?'<button class="pbtn" style="margin-top:12px" onclick="endPPT()">Ver resultado</button>':'<button class="pbtn" style="margin-top:12px" onclick="rPPT()">Siguiente →</button>');}
+function rPPT(){document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">✊ Piedra Papel Tijera</div></div><div class="sbar"><div class="sturn">Ronda '+(pRnd+1)+' de 5</div><div class="ssc"><div class="si"><small>Tu</small><b style="color:#a78bfa">'+pSc.p+'</b></div><div class="si"><small>'+(gMode==='ai'?'🤖':'👥')+'</small><b style="color:#ec4899">'+pSc.ai+'</b></div></div></div><div class="pptopts"><div class="pptb" onclick="pPlay(0)">✊</div><div class="pptb" onclick="pPlay(1)">✋</div><div class="pptb" onclick="pPlay(2)">✌️</div></div><div style="text-align:center;font-size:11px;color:var(--muted)">Piedra · Papel · Tijera</div>';}
+function pPlay(ci){pRnd++;var opts=['✊','✋','✌️'],c=opts[ci],ai=opts[Math.floor(Math.random()*3)],wins=[2,0,1],res='',pw=false;if(c===ai)res='Empate!';else if(wins[ci]===opts.indexOf(ai)){res='Ganaste esta ronda! ✅';pSc.p++;pw=true;}else{res='Perdiste ❌';pSc.ai++;}var fin=pRnd>=5;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">✊ PPT Ronda '+pRnd+'</div></div><div class="sbar"><div class="sturn">Ronda '+pRnd+' de 5</div><div class="ssc"><div class="si"><small>Tu</small><b style="color:#a78bfa">'+pSc.p+'</b></div><div class="si"><small>'+(gMode==='ai'?'🤖':'👥')+'</small><b style="color:#ec4899">'+pSc.ai+'</b></div></div></div><div style="display:flex;justify-content:center;align-items:center;gap:14px;font-size:42px;margin:14px 0"><span>'+c+'</span><span style="font-size:18px;color:var(--muted)">vs</span><span>'+ai+'</span></div><div style="text-align:center;font-size:17px;font-weight:800;padding:10px;color:'+(pw?'var(--green)':c===ai?'var(--muted)':'var(--red)')+'">'+res+'</div>'+(fin?'<button class="pbtn" style="margin-top:12px" onclick="endPPT()">Ver resultado</button>':'<button class="pbtn" style="margin-top:12px" onclick="rPPT()">Siguiente →</button>');}
 function endPPT(){var win=pSc.p>pSc.ai,draw=pSc.p===pSc.ai;showResult(win,draw,draw?0:win?bet*2:-bet,'<div style="font-size:14px;color:var(--muted);margin:6px 0">'+pSc.p+' - '+pSc.ai+'</div>');}
-
-// NUM
 var nSec,nG,nMax;
-function startNum(){nSec=Math.floor(Math.random()*100)+1;nG=[];nMax=10;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">🔢 Adivina el Numero</div></div>'+
-  '<div class="sbar"><div class="sturn">Numero entre 1 y 100</div><div class="ssc"><div class="si"><small>Intentos</small><b id="nAt">0/'+nMax+'</b></div></div></div>'+
-  '<input class="numinp" type="number" id="nIn" min="1" max="100" placeholder="Escribe un numero...">'+
-  '<button class="pbtn" onclick="nGuess()">🎯 Adivinar</button>'+
-  '<div class="hints" id="nH"></div>';
-  var inp=document.getElementById('nIn');if(inp)inp.addEventListener('keydown',function(e){if(e.key==='Enter')nGuess();});}
-function nGuess(){var inp=document.getElementById('nIn');if(!inp)return;var n=parseInt(inp.value);if(!n||n<1||n>100)return;nG.push(n);inp.value='';var at=document.getElementById('nAt');if(at)at.textContent=nG.length+'/'+nMax;var h=document.getElementById('nH');if(n===nSec){if(h)h.innerHTML='<div class="hint ok">✅ Correcto! Era el '+nSec+'</div>'+h.innerHTML;var bonus=Math.max(0,(nMax-nG.length)*10);setTimeout(function(){showResult(true,false,bet>0?bet*2+bonus:bonus,'<div style="font-size:13px;color:var(--muted)">'+nG.length+' intentos</div>');},400);}else if(nG.length>=nMax){if(h)h.innerHTML='<div class="hint hi">❌ Era el '+nSec+'</div>'+h.innerHTML;setTimeout(function(){showResult(false,false,-bet);},400);}else{var msg=n>nSec?n+' es muy alto ↓':n+' es muy bajo ↑';if(h)h.innerHTML='<div class="hint '+(n>nSec?'hi':'lo')+'">'+msg+'</div>'+h.innerHTML;}}
-
-// TRIVIA
-var TQ=[{q:"Cual pelicula gano el Oscar a Mejor Pelicula en 2020?",o:["1917","Parasite","Joker","Ford vs Ferrari"],a:1},{q:"Quien dirigio El Senor de los Anillos?",o:["Spielberg","James Cameron","Peter Jackson","Ridley Scott"],a:2},{q:"En que ano salio la primera pelicula de Harry Potter?",o:["1999","2000","2001","2002"],a:2},{q:"Cual actor interpreta a Tony Stark en Marvel?",o:["Chris Evans","Chris Hemsworth","Robert Downey Jr","Mark Ruffalo"],a:2},{q:"Cual es la pelicula mas taquillera?",o:["Avatar","Avengers: Endgame","Titanic","Star Wars"],a:1},{q:"Quien interpreto a Jack en Titanic?",o:["Brad Pitt","Johnny Depp","Leonardo DiCaprio","Tom Cruise"],a:2},{q:"Cual pelicula tiene la frase Yo soy tu padre?",o:["Star Trek","Star Wars","Dune","Matrix"],a:1},{q:"Quien dirigio Pulp Fiction?",o:["Scorsese","Quentin Tarantino","Nolan","Fincher"],a:1},{q:"Cual fue la primera pelicula de Pixar?",o:["A Bug's Life","Monsters Inc","Toy Story","Nemo"],a:2},{q:"Quien es Hermione en Harry Potter?",o:["Keira Knightley","Emma Watson","Natalie Portman","Winslet"],a:1},{q:"En que ano salio The Dark Knight?",o:["2006","2007","2008","2009"],a:2},{q:"Pelicula de Nolan sobre suenos?",o:["Memento","Prestige","Inception","Interstellar"],a:2},{q:"Cuantos Oscars gano Titanic?",o:["9","11","13","14"],a:1},{q:"Ciudad de Taxi Driver?",o:["LA","Chicago","Miami","New York"],a:3},{q:"Quien actua en El Padrino?",o:["Solo Brando","Solo Pacino","Solo De Niro","Todos los anteriores"],a:3}];
+function startNum(){nSec=Math.floor(Math.random()*100)+1;nG=[];nMax=10;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">🔢 Adivina el Numero</div></div><div class="sbar"><div class="sturn">Numero entre 1 y 100</div><div class="ssc"><div class="si"><small>Intentos</small><b id="nAt">0/'+nMax+'</b></div></div></div><input class="numinp" type="number" id="nIn" min="1" max="100" placeholder="Escribe un numero..."><button class="pbtn" onclick="nGuess()">Adivinar</button><div class="hints" id="nH"></div>';var inp=document.getElementById('nIn');if(inp)inp.addEventListener('keydown',function(e){if(e.key==='Enter')nGuess();});}
+function nGuess(){var inp=document.getElementById('nIn');if(!inp)return;var n=parseInt(inp.value);if(!n||n<1||n>100)return;nG.push(n);inp.value='';var at=document.getElementById('nAt');if(at)at.textContent=nG.length+'/'+nMax;var h=document.getElementById('nH');if(n===nSec){if(h)h.innerHTML='<div class="hint ok">Correcto! Era el '+nSec+'</div>'+h.innerHTML;var bonus=Math.max(0,(nMax-nG.length)*10);setTimeout(function(){showResult(true,false,bet>0?bet*2+bonus:bonus,'<div style="font-size:13px;color:var(--muted)">'+nG.length+' intentos</div>');},400);}else if(nG.length>=nMax){if(h)h.innerHTML='<div class="hint hi">Era el '+nSec+'</div>'+h.innerHTML;setTimeout(function(){showResult(false,false,-bet);},400);}else{if(h)h.innerHTML='<div class="hint '+(n>nSec?'hi':'lo')+'">'+(n>nSec?n+' es muy alto':n+' es muy bajo')+'</div>'+h.innerHTML;}}
+var TQ=[{q:"Cual pelicula gano el Oscar a Mejor Pelicula en 2020?",o:["1917","Parasite","Joker","Ford vs Ferrari"],a:1},{q:"Quien dirigio El Senor de los Anillos?",o:["Spielberg","James Cameron","Peter Jackson","Ridley Scott"],a:2},{q:"En que ano salio Harry Potter y la Piedra Filosofal?",o:["1999","2000","2001","2002"],a:2},{q:"Cual actor interpreta a Tony Stark en Marvel?",o:["Chris Evans","Chris Hemsworth","Robert Downey Jr","Mark Ruffalo"],a:2},{q:"Cual es la pelicula mas taquillera de la historia?",o:["Avatar","Avengers: Endgame","Titanic","Star Wars"],a:1},{q:"Quien interpreto a Jack en Titanic?",o:["Brad Pitt","Johnny Depp","Leonardo DiCaprio","Tom Cruise"],a:2},{q:"De que pelicula es Yo soy tu padre?",o:["Star Trek","Star Wars","Dune","Matrix"],a:1},{q:"Quien dirigio Pulp Fiction?",o:["Scorsese","Quentin Tarantino","Nolan","Fincher"],a:1},{q:"Cual fue la primera pelicula de Pixar?",o:["A Bug's Life","Monsters Inc","Toy Story","Finding Nemo"],a:2},{q:"Quien es Hermione en Harry Potter?",o:["Keira Knightley","Emma Watson","Natalie Portman","Kate Winslet"],a:1},{q:"En que ano salio The Dark Knight?",o:["2006","2007","2008","2009"],a:2},{q:"Pelicula de Nolan sobre suenos dentro de suenos?",o:["Memento","Prestige","Inception","Interstellar"],a:2},{q:"Cuantos Oscars gano Titanic?",o:["9","11","13","14"],a:1},{q:"Ciudad donde ocurre Taxi Driver?",o:["LA","Chicago","Miami","New York"],a:3},{q:"Quien actua como Don Corleone en El Padrino?",o:["De Niro","Al Pacino","Marlon Brando","James Caan"],a:2}];
 var tQs,tSc,tI,tT;
 function startTrivia(){tQs=TQ.slice().sort(function(){return Math.random()-.5;}).slice(0,10);tSc=0;tI=0;tT=10;rTv();}
-function rTv(){var q=tQs[tI];document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">🎬 Trivia</div></div>'+
-  '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:12px;color:var(--muted)">Pregunta '+(tI+1)+'/'+tT+'</span><span style="font-size:12px;font-weight:700;color:var(--gold)">🪙 '+tSc*10+'</span></div>'+
-  '<div class="tprog"><div class="tpb" style="width:'+(tI/tT*100)+'%"></div></div>'+
-  '<div class="tq">'+q.q+'</div>'+
-  '<div class="topts">'+q.o.map(function(opt,i){return '<button class="topt" onclick="tAns('+i+')">'+opt+'</button>';}).join('')+'</div>';}
+function rTv(){var q=tQs[tI];document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">Trivia</div></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:12px;color:var(--muted)">Pregunta '+(tI+1)+'/'+tT+'</span><span style="font-size:12px;font-weight:700;color:var(--gold)">🪙 '+tSc*10+'</span></div><div class="tprog"><div class="tpb" style="width:'+(tI/tT*100)+'%"></div></div><div class="tq">'+q.q+'</div><div class="topts">'+q.o.map(function(opt,i){return '<button class="topt" onclick="tAns('+i+')">'+opt+'</button>';}).join('')+'</div>';}
 function tAns(idx){var q=tQs[tI];var opts=document.querySelectorAll('.topt');for(var i=0;i<opts.length;i++)opts[i].style.pointerEvents='none';opts[idx].classList.add(idx===q.a?'ok':'no');if(idx===q.a)tSc++;else if(opts[q.a])opts[q.a].classList.add('ok');setTimeout(function(){tI++;if(tI>=tT){var pct=tSc/tT,c=pct>=0.7?bet*2+(tSc*10):-bet;showResult(pct>=0.7,false,c,'<div style="font-size:15px;font-weight:700;margin:8px 0">'+tSc+'/'+tT+' correctas</div>');}else rTv();},1100);}
-
-// BUY
-function buyCoins(c,s){alert('Para comprar '+c+' monedas por '+s+' Stars, contacta a @ElICoronel');}
-
-// INIT
+var bjDeck,bjPlayer,bjDealer,bjBet,bjOver;
+function mkDeck(){var d=[],S=['♠','♥','♦','♣'],V=['A','2','3','4','5','6','7','8','9','10','J','Q','K'],i,j;for(i=0;i<S.length;i++)for(j=0;j<V.length;j++)d.push({s:S[i],v:V[j]});return d.sort(function(){return Math.random()-.5;});}
+function cVal(v){if(v==='A')return 11;if(['J','Q','K'].indexOf(v)>=0)return 10;return parseInt(v);}
+function hVal(h){var s=0,a=0,i;for(i=0;i<h.length;i++){s+=cVal(h[i].v);if(h[i].v==='A')a++;}while(s>21&&a>0){s-=10;a--;}return s;}
+function cHtml(c,hid){var r=c.s==='♥'||c.s==='♦';return hid?'<div class="playing-card" style="background:#1a1a3e;color:#1a1a3e"><div class="cv">?</div><div class="cs">?</div></div>':'<div class="playing-card'+(r?' red':'')+'"><div class="cv">'+c.v+'</div><div class="cs">'+c.s+'</div></div>';}
+function startBJ(){bjBet=25;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">🃏 Blackjack</div></div><div class="betbox"><div class="betlbl">Tu apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+[10,25,50,100,250].map(function(n){return '<div class="beto'+(n===25?' on':'')+'" onclick="bjSetBet('+n+',this)">🪙 '+n+'</div>';}).join('')+'</div></div><button class="pbtn gold" onclick="bjDeal()">🃏 Repartir</button>';}
+function bjSetBet(n,el){bjBet=n;document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');}
+function bjDeal(){if(bjBet>coins){alert('No tienes suficientes monedas!');return;}bjDeck=mkDeck();bjPlayer=[];bjDealer=[];bjOver=false;bjPlayer.push(bjDeck.pop(),bjDeck.pop());bjDealer.push(bjDeck.pop(),bjDeck.pop());rBJ(true);if(hVal(bjPlayer)===21){setTimeout(function(){bjEnd();},600);}}
+function rBJ(dh){var pv=hVal(bjPlayer),dv=dh?cVal(bjDealer[0].v):hVal(bjDealer);document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">🃏 Blackjack — Apuesta 🪙 '+bjBet+'</div></div><div class="bj-sec"><div class="bj-lbl">🤖 Dealer '+(dh?'('+cVal(bjDealer[0].v)+'+?)':'('+hVal(bjDealer)+')')+'</div><div class="cards-area">'+bjDealer.map(function(c,i){return cHtml(c,dh&&i===1);}).join('')+'</div></div><div class="bj-sec"><div class="bj-lbl">Tu mano ('+pv+')</div><div class="cards-area">'+bjPlayer.map(function(c){return cHtml(c,false);}).join('')+'</div></div><div class="bj-btns"><button class="bj-hit" onclick="bjHit()">👊 Pedir</button><button class="bj-stand" onclick="bjStand()">✋ Plantarse</button>'+(bjPlayer.length===2&&coins>=bjBet?'<button class="bj-double" onclick="bjDouble()">✌️ Doblar</button>':'')+'</div>';}
+function bjHit(){if(bjOver)return;bjPlayer.push(bjDeck.pop());var pv=hVal(bjPlayer);if(pv>=21){rBJ(false);setTimeout(function(){bjEnd();},400);}else rBJ(true);}
+function bjStand(){if(bjOver)return;bjOver=true;while(hVal(bjDealer)<17)bjDealer.push(bjDeck.pop());rBJ(false);setTimeout(function(){bjEnd();},500);}
+function bjDouble(){if(bjOver||bjPlayer.length!==2)return;if(bjBet*2>coins){alert('No tienes suficientes monedas!');return;}bjBet*=2;bjPlayer.push(bjDeck.pop());rBJ(false);setTimeout(function(){bjEnd();},400);}
+function bjEnd(){bjOver=true;var pv=hVal(bjPlayer),dv=hVal(bjDealer),win=false,draw=false,msg='';if(pv>21){msg='Te pasaste! ('+pv+')';}else if(pv===21&&bjPlayer.length===2){win=true;msg='BLACKJACK!';}else if(dv>21){win=true;msg='Dealer se paso! ('+dv+')';}else if(pv>dv){win=true;msg='Ganaste! '+pv+' vs '+dv;}else if(pv===dv){draw=true;msg='Empate! '+pv;}else{msg='Dealer gano '+dv+' vs '+pv;}var dc=draw?0:win?bjBet:-bjBet;showResult(win,draw,dc,'<div style="font-size:14px;color:var(--muted);margin:6px 0">'+msg+'</div>');}
+var rulBet=25,rulChoice='';
+function startRul(){rulBet=25;rulChoice='';document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">🎰 Ruleta</div></div><div style="text-align:center;margin:16px 0"><div style="font-size:70px" id="rW">🎰</div><div style="font-size:13px;color:var(--muted);margin-top:6px">Elige y gira la ruleta</div></div><div class="betbox"><div class="betlbl">Tu apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+[10,25,50,100].map(function(n){return '<div class="beto'+(n===25?' on':'')+'" onclick="rSetBet('+n+',this)">🪙 '+n+'</div>';}).join('')+'</div></div><div style="font-size:13px;font-weight:700;color:var(--gold);margin:10px 0">Elige tu apuesta:</div><div class="rul-grid"><div class="rb" onclick="rPick(\'rojo\',this)" style="border-left:3px solid var(--red)">🔴 Rojo<br><small style=\'color:var(--muted)\'>x2</small></div><div class="rb" onclick="rPick(\'negro\',this)" style="border-left:3px solid #555">⚫ Negro<br><small style=\'color:var(--muted)\'>x2</small></div><div class="rb" onclick="rPick(\'0\',this)" style="border-left:3px solid var(--green)">🟢 Cero<br><small style=\'color:var(--muted)\'>x35</small></div><div class="rb" onclick="rPick(\'par\',this)">Par<br><small style=\'color:var(--muted)\'>x2</small></div><div class="rb" onclick="rPick(\'impar\',this)">Impar<br><small style=\'color:var(--muted)\'>x2</small></div><div class="rb" onclick="rPick(\'bajo\',this)">1-18<br><small style=\'color:var(--muted)\'>x2</small></div><div class="rb" onclick="rPick(\'alto\',this)">19-36<br><small style=\'color:var(--muted)\'>x2</small></div><div class="rb" onclick="rPick(\'doc1\',this)">1-12<br><small style=\'color:var(--muted)\'>x3</small></div></div><button class="pbtn" id="rBtn" onclick="rSpin()" disabled style="opacity:.5">🎰 Girar la Ruleta</button>';}
+function rSetBet(n,el){rulBet=n;document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');}
+function rPick(c,el){rulChoice=c;document.querySelectorAll('.rb').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');var btn=document.getElementById('rBtn');if(btn){btn.disabled=false;btn.style.opacity='1';}}
+function rSpin(){if(!rulChoice){alert('Elige una apuesta primero!');return;}if(rulBet>coins){alert('No tienes suficientes monedas!');return;}var w=document.getElementById('rW'),nums=['🎰','⭐','💫','🌟','✨'],i=0;var iv=setInterval(function(){if(w)w.textContent=nums[i%nums.length];i++;},80);setTimeout(function(){clearInterval(iv);var n=Math.floor(Math.random()*37);var reds=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];var isR=reds.indexOf(n)>=0,isG=n===0;if(w)w.textContent=(isG?'🟢':isR?'🔴':'⚫')+' '+n;var win=false,mult=0;if(rulChoice==='rojo'&&isR){win=true;mult=2;}else if(rulChoice==='negro'&&!isR&&!isG){win=true;mult=2;}else if(rulChoice==='0'&&isG){win=true;mult=35;}else if(rulChoice==='par'&&n>0&&n%2===0){win=true;mult=2;}else if(rulChoice==='impar'&&n%2===1){win=true;mult=2;}else if(rulChoice==='bajo'&&n>=1&&n<=18){win=true;mult=2;}else if(rulChoice==='alto'&&n>=19&&n<=36){win=true;mult=2;}else if(rulChoice==='doc1'&&n>=1&&n<=12){win=true;mult=3;}cG='rul';var dc=win?rulBet*(mult-1):-rulBet;setTimeout(function(){showResult(win,false,dc,'<div style="font-size:16px;font-weight:800;margin:6px 0">Salio el '+(isG?'🟢 Verde':isR?'🔴 Rojo':'⚫ Negro')+' '+n+'</div>');},400);},2000);}
+var aWord,aGuesses,GALL,aWORDS;
+aWORDS=['PELICULA','CINEMA','ACTOR','DIRECTOR','OSCAR','PANTALLA','ESTRELLA','AVENTURA','COMEDIA','DRAMA','CLASICO','FICCION','ANIMADO','ESTRENO','PALOMITAS','GUION'];
+GALL=['  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========','  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========','  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========','  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========','  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========','  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n=========','  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========='];
+function startAhorcado(){aWord=aWORDS[Math.floor(Math.random()*aWORDS.length)];aGuesses=[];rAh();}
+function rAh(){var wrong=aGuesses.filter(function(l){return aWord.indexOf(l)<0;});var step=Math.min(wrong.length,6);var disp=aWord.split('').map(function(l){return '<div class="lbx">'+(aGuesses.indexOf(l)>=0?l:'')+'</div>';}).join('');var keys='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(function(l){var u=aGuesses.indexOf(l)>=0,ok=u&&aWord.indexOf(l)>=0,no=u&&aWord.indexOf(l)<0;return '<div class="key'+(u?' used':'')+(ok?' ok':'')+(no?' no':'')+'" onclick="aG(\''+l+'\')">'+l+'</div>';}).join('');var won=aWord.split('').every(function(l){return aGuesses.indexOf(l)>=0;});var lost=wrong.length>=6;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">🎭 Ahorcado</div></div><div class="sbar"><div class="sturn">Errores: '+wrong.length+'/6</div></div><div class="gallows">'+GALL[step]+'</div><div class="word-disp">'+disp+'</div><div class="kbd">'+keys+'</div>';if(won)setTimeout(function(){var bon=Math.max(0,(6-wrong.length)*20);showResult(true,false,bet>0?bet*2+bon:bon,'<div style="font-size:14px;color:var(--muted)">Palabra: '+aWord+'</div>');},300);else if(lost)setTimeout(function(){showResult(false,false,-bet,'<div style="font-size:14px;color:var(--muted)">Era: '+aWord+'</div>');},300);}
+function aG(l){if(aGuesses.indexOf(l)>=0)return;aGuesses.push(l);rAh();}
+function buyCoins(c,s){alert('Para comprar '+c+' monedas por '+s+' Stars, contacta a @ElICoronel en Telegram.');}
 loadCoins();
 try{if(MN!=='Jugador'){var sw=document.getElementById('subW');if(sw)sw.textContent='Hola '+MN+'! Tienes 🪙 '+coins.toLocaleString();}}catch(e){}
 renderLB('homeLB');
