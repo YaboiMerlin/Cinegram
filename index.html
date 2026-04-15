@@ -15,11 +15,11 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 @keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0;}10%{opacity:.15;}90%{opacity:.15;}100%{transform:translateY(-100px) rotate(720deg);opacity:0;}}
 
 /* PAGES */
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(8,8,16,.95);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(8,8,16,.95);position:sticky;top:0;z-index:998;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);}
 .logo{font-size:18px;font-weight:900;background:linear-gradient(135deg,#a78bfa,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .cbadge{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:6px 14px;font-size:14px;font-weight:700;color:var(--gold);cursor:pointer;transition:all .15s;}
 .cbadge:active{transform:scale(.95);}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,8,16,.97);border-top:1px solid var(--border);display:flex;backdrop-filter:blur(20px);}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,8,16,.97);border-top:1px solid var(--border);display:flex;backdrop-filter:blur(20px);z-index:999;}
 .bni{flex:1;text-align:center;padding:10px 0;cursor:pointer;transition:all .2s;border-top:3px solid transparent;margin-top:-1px;}
 .bni-icon{font-size:20px;transition:transform .2s;display:block;}
 .bni-lbl{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-top:2px;transition:color .2s;display:block;}
