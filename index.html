@@ -25,6 +25,8 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .bni-lbl{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-top:2px;transition:color .2s;}
 .bni.on .bni-lbl{color:var(--accent1);}
 .bni.on .bni-icon{transform:translateY(-3px) scale(1.1);}
+.bni.on{background:rgba(124,58,237,.08);border-top:2px solid var(--accent1);}
+.bni{border-top:2px solid transparent;}
 .pg{display:none;padding:16px;position:relative;z-index:1;animation:pgIn .25s ease;}
 .pg.on{display:block;}
 @keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
