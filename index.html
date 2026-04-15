@@ -240,45 +240,6 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .bcn{font-size:21px;font-weight:900;color:var(--gold);margin-top:4px;}
 .bcp{font-size:11px;color:var(--muted);margin-top:4px;}
 .bcb{font-size:10px;color:var(--green);font-weight:700;margin-top:3px;}
-
-/* SLOTS */
-.slots-display{display:flex;gap:10px;justify-content:center;margin:20px 0;}
-.slot-reel{background:var(--card);border:2px solid var(--border);border-radius:16px;width:80px;height:90px;display:flex;align-items:center;justify-content:center;font-size:48px;transition:all .3s;box-shadow:0 4px 16px rgba(0,0,0,.3);}
-.slot-reel.spinning{animation:slotSpin .15s linear infinite;}
-@keyframes slotSpin{0%{transform:scaleY(1)}50%{transform:scaleY(.1)}100%{transform:scaleY(1)}}
-.slot-reel.win{border-color:var(--gold);box-shadow:0 0 20px rgba(245,158,11,.5);}
-
-/* DADOS */
-.dice-display{display:flex;gap:16px;justify-content:center;margin:20px 0;}
-.die{background:linear-gradient(145deg,#fff,#e8e8ff);border-radius:16px;width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 6px 20px rgba(0,0,0,.4);transition:all .3s;color:#333;}
-.die.rolling{animation:diceRoll .15s linear infinite;}
-@keyframes diceRoll{0%{transform:rotate(0deg)}25%{transform:rotate(90deg)}50%{transform:rotate(180deg)}75%{transform:rotate(270deg)}100%{transform:rotate(360deg)}}
-.dice-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;}
-.do{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:24px;transition:all .15s;}
-.do:active{transform:scale(.92);}
-.do.on{border-color:var(--gold);background:rgba(245,158,11,.1);}
-
-/* SNAKE */
-.snake-board{display:grid;gap:1px;background:rgba(255,255,255,.05);border-radius:12px;padding:8px;margin:10px auto;max-width:320px;}
-.snake-cell{border-radius:3px;aspect-ratio:1;background:rgba(255,255,255,.03);}
-.snake-cell.snake{background:var(--green);border-radius:4px;}
-.snake-cell.head{background:#059669;border-radius:6px;}
-.snake-cell.food{background:var(--red);border-radius:50%;}
-.snake-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:180px;margin:12px auto 0;}
-.sc{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;font-size:20px;cursor:pointer;}
-.sc:active{background:var(--card);transform:scale(.93);}
-
-/* NAVAL */
-.naval-boards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0;}
-.naval-board{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px;}
-.naval-title{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px;text-align:center;}
-.naval-grid{display:grid;gap:2px;}
-.nc{aspect-ratio:1;border-radius:3px;background:rgba(59,130,246,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s;}
-.nc:active{transform:scale(.9);}
-.nc.ship{background:rgba(124,58,237,.3);}
-.nc.hit{background:rgba(239,68,68,.7);color:#fff;}
-.nc.miss{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);}
-.nc.sunk{background:var(--red);}
 </style>
 </head>
 <body>
@@ -319,8 +280,6 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
   <div class="g2">
     <div class="gc" onclick="openGame('bj')"><div class="gc-glow"></div><span class="gbg cas">CASINO</span><span class="ge">🃏</span><div class="gn">Blackjack</div><div class="gd">Llega al 21</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div></div></div>
     <div class="gc" onclick="openGame('rul')"><div class="gc-glow"></div><span class="gbg cas">CASINO</span><span class="ge">🎰</span><div class="gn">Ruleta</div><div class="gd">Apuesta tu suerte</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot"></div></div></div>
-    <div class="gc" onclick="openGame('slots')"><div class="gc-glow"></div><span class="gbg cas">CASINO</span><span class="ge">🎲</span><div class="gn">Tragamonedas</div><div class="gd">Gira y gana</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot"></div><div class="gdiff-dot"></div></div></div>
-    <div class="gc" onclick="openGame('dados')"><div class="gc-glow"></div><span class="gbg cas">CASINO</span><span class="ge">🎲</span><div class="gn">Dados</div><div class="gd">Apuesta al numero</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot"></div><div class="gdiff-dot"></div></div></div>
   </div>
 
   <div class="sec">🎯 Juegos</div>
@@ -330,8 +289,6 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
     <div class="gc" onclick="openGame('ppt')"><div class="gc-glow"></div><span class="ge">✊</span><div class="gn">Piedra Papel Tijera</div><div class="gd">El clasico</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot"></div><div class="gdiff-dot"></div></div></div>
     <div class="gc" onclick="openGame('num')"><div class="gc-glow"></div><span class="ge">🔢</span><div class="gn">Adivina el Numero</div><div class="gd">1 al 100</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot"></div></div></div>
     <div class="gc" onclick="openGame('ahorcado')"><div class="gc-glow"></div><span class="ge">🎭</span><div class="gn">Ahorcado</div><div class="gd">Adivina la palabra</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot"></div></div></div>
-    <div class="gc" onclick="openGame('snake')"><div class="gc-glow"></div><span class="gbg new">NUEVO</span><span class="ge">🐍</span><div class="gn">Snake</div><div class="gd">Clasico de Nokia</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot"></div></div></div>
-    <div class="gc" onclick="openGame('naval')"><div class="gc-glow"></div><span class="gbg hot">VS IA</span><span class="ge">🚢</span><div class="gn">Batalla Naval</div><div class="gd">Hunde la flota</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div></div></div>
     <div class="gc wide" onclick="openGame('trivia')"><div class="gc-glow"></div><span class="gbg sp">⭐ ESPECIAL</span><span class="ge">🎬</span><div class="gn">Trivia de Peliculas</div><div class="gd">Pon a prueba tu conocimiento</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div></div></div>
   </div>
 
@@ -370,7 +327,6 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 
 <script>
 // STORAGE
-console.log("JS LOADED OK");
 function ld(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 
@@ -430,9 +386,9 @@ function renderTx(){var e=document.getElementById('txList');if(!e)return;var tx=
 
 // GAME STATE
 var cG='',bet=0,gMode='ai';
-var GN={ttt:'Tic Tac Toe',c4:'Connect 4',ppt:'Piedra Papel Tijera',num:'Adivina el Numero',trivia:'Trivia',bj:'Blackjack',rul:'Ruleta',ahorcado:'Ahorcado',slots:'Tragamonedas',dados:'Dados',snake:'Snake',naval:'Batalla Naval'};
-var GE={ttt:'⭕',c4:'🔴',ppt:'✊',num:'🔢',trivia:'🎬',bj:'🃏',rul:'🎰',ahorcado:'🎭',slots:'🎲',dados:'🎲',snake:'🐍',naval:'🚢'};
-function openGame(g){cG=g;bet=0;gMode='ai';goPage('game');if(g==='bj')startBJ();else if(g==='rul')startRul();else if(g==='slots')startSlots();else if(g==='dados')startDados();else if(g==='snake')startSnake();else if(g==='naval')startNaval();else if(g==='ahorcado'){bet=25;startAhorcado();}else renderSetup();}
+var GN={ttt:'Tic Tac Toe',c4:'Connect 4',ppt:'Piedra Papel Tijera',num:'Adivina el Numero',trivia:'Trivia',bj:'Blackjack',rul:'Ruleta',ahorcado:'Ahorcado'};
+var GE={ttt:'⭕',c4:'🔴',ppt:'✊',num:'🔢',trivia:'🎬',bj:'🃏',rul:'🎰',ahorcado:'🎭'};
+function openGame(g){cG=g;bet=0;gMode='ai';goPage('game');if(g==='bj')startBJ();else if(g==='rul')startRul();else if(g==='ahorcado'){bet=25;startAhorcado();}else renderSetup();}
 function renderSetup(){document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">'+GE[cG]+' '+GN[cG]+'</div></div><div class="modes"><div class="mode on" id="mAI" onclick="setMode(\'ai\')"><em>🤖</em><b>vs IA</b><small>Contra la maquina</small></div><div class="mode" id="mFR" onclick="setMode(\'friend\')"><em>👥</em><b>vs Amigo</b><small>Turno a turno</small></div></div><div class="betbox"><div class="betlbl">💰 Apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+[0,10,25,50,100].map(function(n){return '<div class="beto'+(n===0?' on':'')+'" onclick="setBet('+n+',this)">'+(n===0?'Gratis':'🪙 '+n)+'</div>';}).join('')+'</div></div><button class="pbtn" onclick="startGame()">🎮 Jugar Ahora</button>';}
 function setMode(m){gMode=m;var ai=document.getElementById('mAI'),fr=document.getElementById('mFR');if(ai)ai.className='mode'+(m==='ai'?' on':'');if(fr)fr.className='mode'+(m==='friend'?' on':'');}
 function setBet(n,el){bet=n;document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');}
@@ -480,7 +436,7 @@ function startNum(){nSec=Math.floor(Math.random()*100)+1;nG=[];nMax=10;document.
 function nGuess(){var inp=document.getElementById('nIn');if(!inp)return;var n=parseInt(inp.value);if(!n||n<1||n>100)return;nG.push(n);inp.value='';var at=document.getElementById('nAt');if(at)at.textContent=nG.length+'/'+nMax;var h=document.getElementById('nH');if(n===nSec){if(h)h.innerHTML='<div class="hint ok">✅ Correcto! Era el '+nSec+'</div>'+h.innerHTML;var bonus=Math.max(0,(nMax-nG.length)*15);setTimeout(function(){showResult(true,false,bet>0?bet*2+bonus:bonus,'<div style="font-size:13px;color:var(--muted)">Lo lograste en '+nG.length+' intentos!</div>');},400);}else if(nG.length>=nMax){if(h)h.innerHTML='<div class="hint hi">❌ Era el '+nSec+'</div>'+h.innerHTML;setTimeout(function(){showResult(false,false,-bet);},400);}else{if(h)h.innerHTML='<div class="hint '+(n>nSec?'hi':'lo')+'">'+(n>nSec?'📉 '+n+' — Muy alto':'📈 '+n+' — Muy bajo')+'</div>'+h.innerHTML;}}
 
 // TRIVIA
-var TQ=[{q:"Cual pelicula gano el Oscar a Mejor Pelicula en 2020?",o:["1917","Parasite","Joker","Ford vs Ferrari"],a:1},{q:"Quien dirigio El Senor de los Anillos?",o:["Spielberg","James Cameron","Peter Jackson","Ridley Scott"],a:2},{q:"En que ano salio Harry Potter y la Piedra Filosofal?",o:["1999","2000","2001","2002"],a:2},{q:"Cual actor es Tony Stark en Marvel?",o:["Chris Evans","Chris Hemsworth","Robert Downey Jr","Mark Ruffalo"],a:2},{q:"Cual es la pelicula mas taquillera de la historia?",o:["Avatar","Avengers Endgame","Titanic","Star Wars"],a:1},{q:"Quien interpreto a Jack en Titanic?",o:["Brad Pitt","Johnny Depp","Leonardo DiCaprio","Tom Cruise"],a:2},{q:"De que pelicula es Yo soy tu padre?",o:["Star Trek","Star Wars","Dune","Matrix"],a:1},{q:"Quien dirigio Pulp Fiction?",o:["Scorsese","Quentin Tarantino","Nolan","Fincher"],a:1},{q:"Cual fue la primera pelicula de Pixar?",o:["A Bug Life","Monsters Inc","Toy Story","Finding Nemo"],a:2},{q:"Quien es Hermione en Harry Potter?",o:["Keira Knightley","Emma Watson","Natalie Portman","Kate Winslet"],a:1},{q:"En que ano salio The Dark Knight?",o:["2006","2007","2008","2009"],a:2},{q:"Pelicula de Nolan sobre suenos dentro de suenos?",o:["Memento","Prestige","Inception","Interstellar"],a:2},{q:"Cuantos Oscars gano Titanic?",o:["9","11","13","14"],a:1},{q:"Ciudad de Taxi Driver?",o:["LA","Chicago","Miami","New York"],a:3},{q:"Don Corleone en El Padrino?",o:["De Niro","Pacino","Marlon Brando","Caan"],a:2}];
+var TQ=[{q:"Cual pelicula gano el Oscar a Mejor Pelicula en 2020?",o:["1917","Parasite","Joker","Ford vs Ferrari"],a:1},{q:"Quien dirigio El Senor de los Anillos?",o:["Spielberg","James Cameron","Peter Jackson","Ridley Scott"],a:2},{q:"En que ano salio Harry Potter y la Piedra Filosofal?",o:["1999","2000","2001","2002"],a:2},{q:"Cual actor es Tony Stark en Marvel?",o:["Chris Evans","Chris Hemsworth","Robert Downey Jr","Mark Ruffalo"],a:2},{q:"Cual es la pelicula mas taquillera de la historia?",o:["Avatar","Avengers: Endgame","Titanic","Star Wars"],a:1},{q:"Quien interpreto a Jack en Titanic?",o:["Brad Pitt","Johnny Depp","Leonardo DiCaprio","Tom Cruise"],a:2},{q:"De que pelicula es Yo soy tu padre?",o:["Star Trek","Star Wars","Dune","Matrix"],a:1},{q:"Quien dirigio Pulp Fiction?",o:["Scorsese","Quentin Tarantino","Nolan","Fincher"],a:1},{q:"Cual fue la primera pelicula de Pixar?",o:["A Bug's Life","Monsters Inc","Toy Story","Finding Nemo"],a:2},{q:"Quien es Hermione en Harry Potter?",o:["Keira Knightley","Emma Watson","Natalie Portman","Kate Winslet"],a:1},{q:"En que ano salio The Dark Knight?",o:["2006","2007","2008","2009"],a:2},{q:"Pelicula de Nolan sobre suenos dentro de suenos?",o:["Memento","Prestige","Inception","Interstellar"],a:2},{q:"Cuantos Oscars gano Titanic?",o:["9","11","13","14"],a:1},{q:"Ciudad de Taxi Driver?",o:["LA","Chicago","Miami","New York"],a:3},{q:"Don Corleone en El Padrino?",o:["De Niro","Pacino","Marlon Brando","Caan"],a:2}];
 var tQs,tSc,tI,tT;
 function startTrivia(){tQs=TQ.slice().sort(function(){return Math.random()-.5;}).slice(0,10);tSc=0;tI=0;tT=10;rTv();}
 function rTv(){var q=tQs[tI];document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">🎬 Trivia '+( tI+1)+'/'+tT+'</div></div><div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="font-size:12px;color:var(--muted)">Pregunta '+(tI+1)+' de '+tT+'</span><span style="font-size:13px;font-weight:800;color:var(--gold)">🪙 '+tSc*10+'</span></div><div class="tprog"><div class="tpb" style="width:'+(tI/tT*100)+'%"></div></div><div class="tq">'+q.q+'</div><div class="topts">'+q.o.map(function(opt,i){return '<button class="topt" onclick="tAns('+i+')">'+opt+'</button>';}).join('')+'</div>';}
@@ -517,334 +473,6 @@ function rAh(){var wrong=aGuesses.filter(function(l){return aWord.indexOf(l)<0;}
 function aG(l){if(aGuesses.indexOf(l)>=0)return;aGuesses.push(l);rAh();}
 
 function buyCoins(c,s){showMiniToast('Contacta a @ElICoronel para comprar '+c+' monedas por '+s+' Stars');}
-
-
-// TRAGAMONEDAS
-var SLOT_SYMS = ['🍒','🍊','🍋','🍇','⭐','💎','🎰'];
-var SLOT_PAYS = {
-  '🎰🎰🎰': 50, '💎💎💎': 25, '⭐⭐⭐': 10,
-  '🍇🍇🍇': 8, '🍒🍒🍒': 5, '🍊🍊🍊': 4, '🍋🍋🍋': 3
-};
-
-function startSlots() {
-  var slotBet = 10;
-  document.getElementById('pgGame').innerHTML =
-    '<div class="ghdr"><button class="bk" onclick="goPage('home')">← Volver</button><div class="gt">🎲 Tragamonedas</div></div>' +
-    '<div class="sbar"><div class="sturn">Gira y gana!</div><div class="ssc"><div class="si"><small>Tu saldo</small><b style="color:var(--gold)" id="sBalance">🪙 ' + coins + '</b></div></div></div>' +
-    '<div class="slots-display"><div class="slot-reel" id="sr0">🍒</div><div class="slot-reel" id="sr1">🍊</div><div class="slot-reel" id="sr2">🍋</div></div>' +
-    '<div style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:12px">💎💎💎 = x25 · ⭐⭐⭐ = x10 · Tres iguales = ganas!</div>' +
-    '<div class="betbox"><div class="betlbl">Apuesta por giro</div><div class="betopts">' +
-    [10,25,50,100].map(function(n){return '<div class="beto'+(n===10?' on':'')+'" onclick="sSetBet('+n+',this)">🪙 '+n+'</div>';}).join('') +
-    '</div></div>' +
-    '<button class="pbtn gold" id="spinBtn" onclick="doSpin()">🎰 Girar!</button>' +
-    '<div id="slotMsg" style="text-align:center;min-height:40px;margin-top:12px;font-size:16px;font-weight:800;"></div>';
-  window.slotBet = 10;
-}
-
-function sSetBet(n, el) {
-  window.slotBet = n;
-  document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});
-  if(el) el.classList.add('on');
-}
-
-function doSpin() {
-  var b = window.slotBet || 10;
-  if(b > coins){showMiniToast('No tienes suficientes monedas!');return;}
-  var btn = document.getElementById('spinBtn');
-  if(btn){btn.disabled=true;btn.style.opacity='.6';}
-  var msg = document.getElementById('slotMsg');
-  if(msg) msg.textContent = '';
-  [0,1,2].forEach(function(i){var e=document.getElementById('sr'+i);if(e)e.classList.add('spinning');});
-  addCoins(-b, 'Apuesta Tragamonedas');
-  var results = [];
-  setTimeout(function(){
-    [0,1,2].forEach(function(i){
-      results[i] = SLOT_SYMS[Math.floor(Math.random()*SLOT_SYMS.length)];
-      var e = document.getElementById('sr'+i);
-      if(e){e.classList.remove('spinning');e.textContent=results[i];}
-    });
-    var key = results.join('');
-    var pay = SLOT_PAYS[key] || 0;
-    var twoMatch = results[0]===results[1]||results[1]===results[2]||results[0]===results[2];
-    var msg2 = document.getElementById('slotMsg');
-    var bal = document.getElementById('sBalance');
-    if(pay > 0){
-      var won = b * pay;
-      addCoins(won, 'Premio Tragamonedas x'+pay);
-      [0,1,2].forEach(function(i){var e=document.getElementById('sr'+i);if(e)e.classList.add('win');});
-      if(msg2) msg2.innerHTML='<span style="color:var(--gold)">🏆 JACKPOT! +🪙'+won+'</span>';
-      confetti();
-    } else if(twoMatch){
-      var won2 = Math.floor(b * 1.5);
-      addCoins(won2, 'Dos iguales Tragamonedas');
-      if(msg2) msg2.innerHTML='<span style="color:var(--green)">Dos iguales! +🪙'+won2+'</span>';
-    } else {
-      if(msg2) msg2.innerHTML='<span style="color:var(--muted)">Sin suerte esta vez...</span>';
-    }
-    if(bal) bal.textContent='🪙 '+coins.toLocaleString();
-    if(btn){btn.disabled=false;btn.style.opacity='1';}
-  }, 1200);
-}
-
-// DADOS
-var dadoChoice = 0;
-var DADO_FACES = ['⚀','⚁','⚂','⚃','⚄','⚅'];
-
-function startDados() {
-  dadoChoice = 0;
-  document.getElementById('pgGame').innerHTML =
-    '<div class="ghdr"><button class="bk" onclick="goPage('home')">← Volver</button><div class="gt">🎲 Dados</div></div>' +
-    '<div class="sbar"><div class="sturn">Adivina la suma de 2 dados</div></div>' +
-    '<div class="dice-display"><div class="die" id="d1">⚀</div><div class="die" id="d2">⚀</div></div>' +
-    '<div class="betbox"><div class="betlbl">💰 Tu apuesta — tienes 🪙 ' + coins + '</div><div class="betopts">' +
-    [10,25,50,100].map(function(n){return '<div class="beto'+(n===10?' on':'')+'" onclick="setBet('+n+',this)">🪙 '+n+'</div>';}).join('') +
-    '</div></div>' +
-    '<div style="font-size:13px;font-weight:700;color:var(--gold);margin:10px 0 8px">Elige una suma (2-12):</div>' +
-    '<div class="dice-opts">' +
-    [2,3,4,5,6,7,8,9,10,11,12].map(function(n){
-      var odds = n===7?'x5':n===6||n===8?'x6':n===5||n===9?'x8':n===4||n===10?'x10':n===3||n===11?'x15':'x35';
-      return '<div class="do" onclick="dPick('+n+',this)"><div style="font-size:18px;font-weight:900">'+n+'</div><div style="font-size:10px;color:var(--muted)">'+odds+'</div></div>';
-    }).join('') +
-    '</div>' +
-    '<button class="pbtn" id="dBtn" onclick="dRoll()" disabled style="opacity:.5">🎲 Tirar Dados</button>';
-  bet = 10;
-}
-
-function dPick(n, el) {
-  dadoChoice = n;
-  document.querySelectorAll('.do').forEach(function(b){b.classList.remove('on');});
-  if(el) el.classList.add('on');
-  var btn = document.getElementById('dBtn');
-  if(btn){btn.disabled=false;btn.style.opacity='1';}
-}
-
-function dRoll() {
-  if(!dadoChoice || bet > coins){
-    if(bet>coins) showMiniToast('No tienes suficientes monedas!');
-    return;
-  }
-  var d1e = document.getElementById('d1'), d2e = document.getElementById('d2');
-  if(d1e) d1e.classList.add('rolling');
-  if(d2e) d2e.classList.add('rolling');
-  setTimeout(function(){
-    var d1 = Math.floor(Math.random()*6)+1;
-    var d2 = Math.floor(Math.random()*6)+1;
-    var sum = d1+d2;
-    if(d1e){d1e.classList.remove('rolling');d1e.textContent=DADO_FACES[d1-1];}
-    if(d2e){d2e.classList.remove('rolling');d2e.textContent=DADO_FACES[d2-1];}
-    var ODDS={2:35,3:15,4:10,5:8,6:6,7:5,8:6,9:8,10:10,11:15,12:35};
-    var mult = ODDS[sum]||5;
-    var win = dadoChoice === sum;
-    cG='dados';
-    var dc = win ? bet*mult : -bet;
-    setTimeout(function(){
-      showResult(win, false, dc,
-        '<div style="font-size:16px;font-weight:900;margin:8px 0">Salio el '+DADO_FACES[d1-1]+'+'+DADO_FACES[d2-1]+' = '+sum+'</div>' +
-        '<div style="font-size:13px;color:var(--muted)">Tu elegiste: '+dadoChoice+(win?' — Correcto! x'+mult:'')+'</div>'
-      );
-    }, 400);
-  }, 1000);
-}
-
-// SNAKE
-var snakeBoard, snakeDir, snakeBody, snakeFood, snakeScore, snakeTimer, snakeOver, SNAKE_SIZE=15;
-
-function startSnake(){
-  document.getElementById('pgGame').innerHTML =
-    '<div class="ghdr"><button class="bk" onclick="stopSnake();goPage('home')">← Salir</button><div class="gt">🐍 Snake</div></div>' +
-    '<div class="sbar"><div class="sturn" id="snakeSt">Toca una flecha para empezar</div><div class="ssc"><div class="si"><small>Puntos</small><b id="snakeScore" style="color:var(--green)">0</b></div><div class="si"><small>Monedas</small><b style="color:var(--gold)">+1 por punto</b></div></div></div>' +
-    '<div class="snake-board" id="snakeBoard" style="grid-template-columns:repeat('+SNAKE_SIZE+',1fr)"></div>' +
-    '<div class="snake-controls">' +
-    '<div></div><div class="sc" onclick="snakeMove('U')">↑</div><div></div>' +
-    '<div class="sc" onclick="snakeMove('L')">←</div><div class="sc" onclick="snakeMove('D')">↓</div><div class="sc" onclick="snakeMove('R')">→</div>' +
-    '</div>';
-  initSnake();
-}
-
-function initSnake(){
-  snakeBody = [{x:7,y:7},{x:6,y:7},{x:5,y:7}];
-  snakeDir = {x:1,y:0};
-  snakeScore = 0;
-  snakeOver = false;
-  placeFood();
-  renderSnake();
-  clearInterval(snakeTimer);
-  snakeTimer = setInterval(tickSnake, 250);
-}
-
-function placeFood(){
-  var empty=[];
-  for(var y=0;y<SNAKE_SIZE;y++)for(var x=0;x<SNAKE_SIZE;x++){
-    if(!snakeBody.find(function(s){return s.x===x&&s.y===y;}))empty.push({x:x,y:y});
-  }
-  snakeFood=empty[Math.floor(Math.random()*empty.length)];
-}
-
-function tickSnake(){
-  var head={x:snakeBody[0].x+snakeDir.x,y:snakeBody[0].y+snakeDir.y};
-  if(head.x<0||head.x>=SNAKE_SIZE||head.y<0||head.y>=SNAKE_SIZE||
-     snakeBody.find(function(s){return s.x===head.x&&s.y===head.y;})){
-    clearInterval(snakeTimer);
-    snakeOver=true;
-    cG='snake';
-    var won = snakeScore >= 5;
-    showResult(won, false, snakeScore, '<div style="font-size:14px;color:var(--muted)">Puntuacion: '+snakeScore+'</div>');
-    return;
-  }
-  snakeBody.unshift(head);
-  if(head.x===snakeFood.x&&head.y===snakeFood.y){
-    snakeScore++;
-    addCoins(1,'Punto en Snake');
-    var ss=document.getElementById('snakeScore');if(ss)ss.textContent=snakeScore;
-    placeFood();
-  } else {
-    snakeBody.pop();
-  }
-  renderSnake();
-}
-
-function snakeMove(dir){
-  var dirs={U:{x:0,y:-1},D:{x:0,y:1},L:{x:-1,y:0},R:{x:1,y:0}};
-  var nd=dirs[dir];
-  if(snakeDir.x===-nd.x&&snakeDir.y===-nd.y) return;
-  snakeDir=nd;
-  var st=document.getElementById('snakeSt');
-  if(st)st.textContent='Puntos: '+snakeScore;
-}
-
-function renderSnake(){
-  var board=document.getElementById('snakeBoard');if(!board)return;
-  var cells='';
-  for(var y=0;y<SNAKE_SIZE;y++)for(var x=0;x<SNAKE_SIZE;x++){
-    var isHead=snakeBody[0].x===x&&snakeBody[0].y===y;
-    var isBody=!isHead&&snakeBody.find(function(s){return s.x===x&&s.y===y;});
-    var isFood=snakeFood&&snakeFood.x===x&&snakeFood.y===y;
-    cells+='<div class="snake-cell'+(isHead?' head':isBody?' snake':isFood?' food':'')+'">'+(isHead?'':'')+'</div>';
-  }
-  board.innerHTML=cells;
-}
-
-function stopSnake(){clearInterval(snakeTimer);}
-
-// BATALLA NAVAL
-var navalPlayerGrid, navalEnemyGrid, navalPlayerShots, navalEnemyShots, navalMyShips, navalEnemyShips, navalTurn;
-var NAVAL_SIZE = 8;
-var NAVAL_SHIPS = [4,3,3,2,2];
-
-function startNaval(){
-  document.getElementById('pgGame').innerHTML =
-    '<div class="ghdr"><button class="bk" onclick="goPage('home')">← Volver</button><div class="gt">🚢 Batalla Naval</div></div>' +
-    '<div class="sbar"><div class="sturn" id="navalSt">Colocando barcos...</div></div>' +
-    '<div style="font-size:13px;color:var(--muted);margin-bottom:10px;text-align:center">Barcos: 4·3·3·2·2 casillas</div>' +
-    '<div class="betbox"><div class="betlbl">💰 Apuesta — tienes 🪙 '+coins+'</div><div class="betopts">' +
-    [10,25,50].map(function(n){return '<div class="beto'+(n===10?' on':'')+'" onclick="setBet('+n+',this)">🪙 '+n+'</div>';}).join('') +
-    '</div></div>' +
-    '<button class="pbtn" onclick="navalStart()">🚢 Colocar Barcos Aleatoriamente</button>';
-  bet=10;
-}
-
-function navalRandPlace(grid, ships){
-  var placed=[];
-  ships.forEach(function(len){
-    var ok=false;var tries=0;
-    while(!ok&&tries<200){
-      tries++;
-      var horiz=Math.random()>.5;
-      var x=Math.floor(Math.random()*(NAVAL_SIZE-(horiz?len:0)));
-      var y=Math.floor(Math.random()*(NAVAL_SIZE-(horiz?0:len)));
-      var cells=[];
-      for(var i=0;i<len;i++){var cx=x+(horiz?i:0),cy=y+(horiz?0:i);cells.push({x:cx,y:cy});}
-      var conflict=cells.find(function(c){return placed.find(function(p){return Math.abs(p.x-c.x)<=1&&Math.abs(p.y-c.y)<=1;});});
-      if(!conflict){cells.forEach(function(c){placed.push(c);grid[c.y][c.x]=1;});ok=true;}
-    }
-  });
-  return placed;
-}
-
-function navalStart(){
-  navalPlayerGrid=Array(NAVAL_SIZE).fill(null).map(function(){return Array(NAVAL_SIZE).fill(0);});
-  navalEnemyGrid=Array(NAVAL_SIZE).fill(null).map(function(){return Array(NAVAL_SIZE).fill(0);});
-  navalPlayerShots=Array(NAVAL_SIZE).fill(null).map(function(){return Array(NAVAL_SIZE).fill(0);});
-  navalEnemyShots=Array(NAVAL_SIZE).fill(null).map(function(){return Array(NAVAL_SIZE).fill(0);});
-  navalMyShips=navalRandPlace(navalPlayerGrid,[]);
-  navalRandPlace(navalPlayerGrid,NAVAL_SHIPS);
-  navalEnemyShips=[];
-  navalRandPlace(navalEnemyGrid,NAVAL_SHIPS);
-  navalTurn='player';
-  navalRender();
-}
-
-function navalRender(){
-  var totalEnemy=0,hitEnemy=0,totalMine=0,hitMine=0;
-  for(var y=0;y<NAVAL_SIZE;y++)for(var x=0;x<NAVAL_SIZE;x++){
-    if(navalEnemyGrid[y][x])totalEnemy++;
-    if(navalEnemyGrid[y][x]&&navalPlayerShots[y][x]===2)hitEnemy++;
-    if(navalPlayerGrid[y][x])totalMine++;
-    if(navalPlayerGrid[y][x]&&navalEnemyShots[y][x]===2)hitMine++;
-  }
-  var st=navalTurn==='player'?'Tu turno — Ataca!':'IA atacando...';
-  var pg=document.getElementById('pgGame');
-  pg.innerHTML=
-    '<div class="ghdr"><button class="bk" onclick="goPage('home')">← Volver</button><div class="gt">🚢 Batalla Naval</div></div>'+
-    '<div class="sbar"><div class="sturn" id="navalSt">'+st+'</div><div class="ssc">'+
-    '<div class="si"><small>Tus impactos</small><b style="color:var(--green)">'+hitEnemy+'/'+totalEnemy+'</b></div>'+
-    '<div class="si"><small>IA impactos</small><b style="color:var(--red)">'+hitMine+'/'+totalMine+'</b></div>'+
-    '</div></div>'+
-    '<div class="naval-boards">'+
-    '<div class="naval-board"><div class="naval-title">🎯 Enemigo (toca para atacar)</div>'+
-    '<div class="naval-grid" style="grid-template-columns:repeat('+NAVAL_SIZE+',1fr);gap:2px">'+
-    navalEnemyGrid.map(function(row,y){return row.map(function(cell,x){
-      var shot=navalPlayerShots[y][x];
-      var cls=shot===2?'hit':shot===1?'miss':'';
-      var txt=shot===2?'💥':shot===1?'·':'';
-      return '<div class="nc '+(navalTurn==='player'&&!shot?'':'')+(cls?cls:'')+'" onclick="navalShoot('+x+','+y+')" style="font-size:12px">'+txt+'</div>';
-    }).join('');}).join('')+
-    '</div></div>'+
-    '<div class="naval-board"><div class="naval-title">🚢 Tu flota</div>'+
-    '<div class="naval-grid" style="grid-template-columns:repeat('+NAVAL_SIZE+',1fr);gap:2px">'+
-    navalPlayerGrid.map(function(row,y){return row.map(function(cell,x){
-      var shot=navalEnemyShots[y][x];
-      var isShip=cell===1;
-      var cls=shot&&isShip?'hit':shot&&!isShip?'miss':isShip?'ship':'';
-      var txt=shot&&isShip?'💥':shot&&!isShip?'·':isShip?'■':'';
-      return '<div class="nc '+cls+'" style="font-size:12px">'+txt+'</div>';
-    }).join('');}).join('')+
-    '</div></div>'+
-    '</div>';
-
-  if(hitEnemy>=totalEnemy){
-    setTimeout(function(){cG='naval';showResult(true,false,bet*3,'<div style="font-size:14px;color:var(--muted)">Hundiste toda la flota enemiga!</div>');},400);
-  } else if(hitMine>=totalMine){
-    setTimeout(function(){cG='naval';showResult(false,false,-bet,'<div style="font-size:14px;color:var(--muted)">La IA hundio tu flota!</div>');},400);
-  }
-}
-
-function navalShoot(x,y){
-  if(navalTurn!=='player'||navalPlayerShots[y][x])return;
-  navalPlayerShots[y][x]=navalEnemyGrid[y][x]?2:1;
-  navalTurn='ai';
-  navalRender();
-  setTimeout(navalAIShoot,800);
-}
-
-function navalAIShoot(){
-  var targets=[];
-  for(var y=0;y<NAVAL_SIZE;y++)for(var x=0;x<NAVAL_SIZE;x++){
-    if(!navalEnemyShots[y][x]){
-      var near=[[0,1],[0,-1],[1,0],[-1,0]].find(function(d){
-        var nx=x+d[0],ny=y+d[1];
-        return nx>=0&&nx<NAVAL_SIZE&&ny>=0&&ny<NAVAL_SIZE&&navalEnemyShots[ny][nx]===2&&navalPlayerGrid[ny][nx];
-      });
-      if(near)targets.unshift({x:x,y:y});
-      else targets.push({x:x,y:y});
-    }
-  }
-  if(!targets.length)return;
-  var t=targets[0];
-  navalEnemyShots[t.y][t.x]=navalPlayerGrid[t.y][t.x]?2:1;
-  navalTurn='player';
-  navalRender();
-}
 
 // INIT
 loadCoins();
