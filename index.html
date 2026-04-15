@@ -20,13 +20,12 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .cbadge{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:6px 14px;font-size:14px;font-weight:700;color:var(--gold);cursor:pointer;transition:all .15s;}
 .cbadge:active{transform:scale(.95);}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,8,16,.97);border-top:1px solid var(--border);display:flex;backdrop-filter:blur(20px);}
-.bni{flex:1;text-align:center;padding:10px 0;cursor:pointer;transition:all .2s;}
-.bni-icon{font-size:20px;transition:transform .2s;}
-.bni-lbl{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-top:2px;transition:color .2s;}
+.bni{flex:1;text-align:center;padding:10px 0;cursor:pointer;transition:all .2s;border-top:3px solid transparent;margin-top:-1px;}
+.bni-icon{font-size:20px;transition:transform .2s;display:block;}
+.bni-lbl{font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-top:2px;transition:color .2s;display:block;}
+.bni.on{border-top:3px solid var(--accent1);}
 .bni.on .bni-lbl{color:var(--accent1);}
-.bni.on .bni-icon{transform:translateY(-3px) scale(1.1);}
-.bni.on{background:rgba(124,58,237,.08);border-top:2px solid var(--accent1);}
-.bni{border-top:2px solid transparent;}
+.bni.on .bni-icon{transform:translateY(-2px) scale(1.15);}
 .pg{display:none;padding:16px;position:relative;z-index:1;animation:pgIn .25s ease;}
 .pg.on{display:block;}
 @keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
