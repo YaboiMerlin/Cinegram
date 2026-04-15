@@ -240,6 +240,32 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .bcn{font-size:21px;font-weight:900;color:var(--gold);margin-top:4px;}
 .bcp{font-size:11px;color:var(--muted);margin-top:4px;}
 .bcb{font-size:10px;color:var(--green);font-weight:700;margin-top:3px;}
+
+.slots-display{display:flex;gap:10px;justify-content:center;margin:20px 0;}
+.slot-reel{background:var(--card);border:2px solid var(--border);border-radius:16px;width:80px;height:90px;display:flex;align-items:center;justify-content:center;font-size:48px;}
+.slot-reel.win{border-color:var(--gold);}
+.die{background:#fff;border-radius:16px;width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 6px 20px rgba(0,0,0,.4);color:#333;}
+.dice-display{display:flex;gap:16px;justify-content:center;margin:20px 0;}
+.dice-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0;}
+.do{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:10px;text-align:center;cursor:pointer;}
+.do:active{opacity:.7;}
+.do.on{border-color:var(--gold);}
+.snake-board{display:grid;gap:1px;background:rgba(255,255,255,.05);border-radius:12px;padding:8px;margin:10px auto;max-width:310px;}
+.snake-cell{border-radius:2px;aspect-ratio:1;background:rgba(255,255,255,.03);}
+.snake-cell.snake{background:var(--green);}
+.snake-cell.head{background:#059669;}
+.snake-cell.food{background:var(--red);border-radius:50%;}
+.snake-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:160px;margin:12px auto 0;}
+.sc{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;font-size:20px;cursor:pointer;}
+.sc:active{opacity:.7;}
+.naval-boards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0;}
+.naval-board{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px;}
+.naval-title{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px;text-align:center;}
+.nc{aspect-ratio:1;border-radius:3px;background:rgba(59,130,246,.1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;}
+.nc:active{opacity:.7;}
+.nc.ship{background:rgba(124,58,237,.3);}
+.nc.hit{background:rgba(239,68,68,.7);}
+.nc.miss{background:rgba(255,255,255,.08);}
 </style>
 </head>
 <body>
@@ -278,6 +304,8 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 
   <div class="sec">🎰 Casino</div>
   <div class="g2">
+    <div class="gc" onclick="openGame('slots')"><div class="gc-glow"></div><span class="gbg cas">CASINO</span><span class="ge">🎰</span><div class="gn">Tragamonedas</div><div class="gd">Gira y gana</div></div>
+    <div class="gc" onclick="openGame('dados')"><div class="gc-glow"></div><span class="gbg cas">CASINO</span><span class="ge">🎲</span><div class="gn">Dados</div><div class="gd">Adivina la suma</div></div>
     <div class="gc" onclick="openGame('bj')"><div class="gc-glow"></div><span class="gbg cas">CASINO</span><span class="ge">🃏</span><div class="gn">Blackjack</div><div class="gd">Llega al 21</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div></div></div>
     <div class="gc" onclick="openGame('rul')"><div class="gc-glow"></div><span class="gbg cas">CASINO</span><span class="ge">🎰</span><div class="gn">Ruleta</div><div class="gd">Apuesta tu suerte</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot"></div></div></div>
   </div>
@@ -289,6 +317,8 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
     <div class="gc" onclick="openGame('ppt')"><div class="gc-glow"></div><span class="ge">✊</span><div class="gn">Piedra Papel Tijera</div><div class="gd">El clasico</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot"></div><div class="gdiff-dot"></div></div></div>
     <div class="gc" onclick="openGame('num')"><div class="gc-glow"></div><span class="ge">🔢</span><div class="gn">Adivina el Numero</div><div class="gd">1 al 100</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot"></div></div></div>
     <div class="gc" onclick="openGame('ahorcado')"><div class="gc-glow"></div><span class="ge">🎭</span><div class="gn">Ahorcado</div><div class="gd">Adivina la palabra</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot"></div></div></div>
+    <div class="gc" onclick="openGame('snake')"><div class="gc-glow"></div><span class="gbg new">NUEVO</span><span class="ge">🐍</span><div class="gn">Snake</div><div class="gd">Clasico de Nokia</div></div>
+    <div class="gc" onclick="openGame('naval')"><div class="gc-glow"></div><span class="gbg hot">VS IA</span><span class="ge">🚢</span><div class="gn">Batalla Naval</div><div class="gd">Hunde la flota</div></div>
     <div class="gc wide" onclick="openGame('trivia')"><div class="gc-glow"></div><span class="gbg sp">⭐ ESPECIAL</span><span class="ge">🎬</span><div class="gn">Trivia de Peliculas</div><div class="gd">Pon a prueba tu conocimiento</div><div class="gdiff"><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div><div class="gdiff-dot on"></div></div></div>
   </div>
 
@@ -386,9 +416,9 @@ function renderTx(){var e=document.getElementById('txList');if(!e)return;var tx=
 
 // GAME STATE
 var cG='',bet=0,gMode='ai';
-var GN={ttt:'Tic Tac Toe',c4:'Connect 4',ppt:'Piedra Papel Tijera',num:'Adivina el Numero',trivia:'Trivia',bj:'Blackjack',rul:'Ruleta',ahorcado:'Ahorcado'};
-var GE={ttt:'⭕',c4:'🔴',ppt:'✊',num:'🔢',trivia:'🎬',bj:'🃏',rul:'🎰',ahorcado:'🎭'};
-function openGame(g){cG=g;bet=0;gMode='ai';goPage('game');if(g==='bj')startBJ();else if(g==='rul')startRul();else if(g==='ahorcado'){bet=25;startAhorcado();}else renderSetup();}
+var GN={ttt:'Tic Tac Toe',c4:'Connect 4',ppt:'Piedra Papel Tijera',num:'Adivina el Numero',trivia:'Trivia',bj:'Blackjack',rul:'Ruleta',ahorcado:'Ahorcado',slots:'Tragamonedas',dados:'Dados',snake:'Snake',naval:'Batalla Naval'};
+var GE={ttt:'⭕',c4:'🔴',ppt:'✊',num:'🔢',trivia:'🎬',bj:'🃏',rul:'🎰',ahorcado:'🎭',slots:'🎰',dados:'🎲',snake:'🐍',naval:'🚢'};
+function openGame(g){cG=g;bet=0;gMode='ai';goPage('game');if(g==='bj')startBJ();else if(g==='rul')startRul();else if(g==='slots')startSlots();else if(g==='dados')startDados();else if(g==='snake')startSnake();else if(g==='naval')startNaval();else if(g==='ahorcado'){bet=25;startAhorcado();}else renderSetup();}
 function renderSetup(){document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">'+GE[cG]+' '+GN[cG]+'</div></div><div class="modes"><div class="mode on" id="mAI" onclick="setMode(\'ai\')"><em>🤖</em><b>vs IA</b><small>Contra la maquina</small></div><div class="mode" id="mFR" onclick="setMode(\'friend\')"><em>👥</em><b>vs Amigo</b><small>Turno a turno</small></div></div><div class="betbox"><div class="betlbl">💰 Apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+[0,10,25,50,100].map(function(n){return '<div class="beto'+(n===0?' on':'')+'" onclick="setBet('+n+',this)">'+(n===0?'Gratis':'🪙 '+n)+'</div>';}).join('')+'</div></div><button class="pbtn" onclick="startGame()">🎮 Jugar Ahora</button>';}
 function setMode(m){gMode=m;var ai=document.getElementById('mAI'),fr=document.getElementById('mFR');if(ai)ai.className='mode'+(m==='ai'?' on':'');if(fr)fr.className='mode'+(m==='friend'?' on':'');}
 function setBet(n,el){bet=n;document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');}
@@ -473,6 +503,264 @@ function rAh(){var wrong=aGuesses.filter(function(l){return aWord.indexOf(l)<0;}
 function aG(l){if(aGuesses.indexOf(l)>=0)return;aGuesses.push(l);rAh();}
 
 function buyCoins(c,s){showMiniToast('Contacta a @ElICoronel para comprar '+c+' monedas por '+s+' Stars');}
+
+
+// SLOTS
+var SLOT_SYMS=['🍒','🍊','🍋','🍇','⭐','💎','🎰'];
+var SLOT_PAYS={'🎰🎰🎰':50,'💎💎💎':25,'⭐⭐⭐':10,'🍇🍇🍇':8,'🍒🍒🍒':5,'🍊🍊🍊':4,'🍋🍋🍋':3};
+var slotBet=10;
+function startSlots(){
+  slotBet=10;
+  document.getElementById('pgGame').innerHTML=
+    '<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">🎰 Tragamonedas</div></div>'+
+    '<div class="sbar"><div class="sturn">Gira y gana!</div><div class="ssc"><div class="si"><small>Saldo</small><b style="color:var(--gold)" id="slotBal">🪙 '+coins+'</b></div></div></div>'+
+    '<div class="slots-display"><div class="slot-reel" id="sr0">🍒</div><div class="slot-reel" id="sr1">🍊</div><div class="slot-reel" id="sr2">🍋</div></div>'+
+    '<div style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:12px">3 iguales ganas · 💎x25 · ⭐x10 · 🎰x50</div>'+
+    '<div class="betbox"><div class="betlbl">Apuesta por giro</div><div class="betopts">'+
+    [10,25,50,100].map(function(n){return '<div class="beto'+(n===10?' on':'')+'" onclick="sSetBet('+n+',this)">🪙 '+n+'</div>';}).join('')+
+    '</div></div>'+
+    '<button class="pbtn gold" id="spinBtn" onclick="doSpin()">🎰 Girar!</button>'+
+    '<div id="slotMsg" style="text-align:center;min-height:40px;margin-top:14px;font-size:16px;font-weight:800;"></div>';
+}
+function sSetBet(n,el){slotBet=n;document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');}
+function doSpin(){
+  if(slotBet>coins){showMiniToast('No tienes suficientes monedas!');return;}
+  var btn=document.getElementById('spinBtn');
+  if(btn){btn.disabled=true;btn.style.opacity='.5';}
+  var msg=document.getElementById('slotMsg');if(msg)msg.textContent='';
+  addCoins(-slotBet,'Giro Tragamonedas');
+  var results=[],frames=['🍒','🍊','🍋','🍇','⭐','💎','🎰'],t=0;
+  var iv=setInterval(function(){
+    [0,1,2].forEach(function(i){var e=document.getElementById('sr'+i);if(e)e.textContent=frames[(t+i)%frames.length];});
+    t++;
+  },80);
+  setTimeout(function(){
+    clearInterval(iv);
+    [0,1,2].forEach(function(i){results[i]=SLOT_SYMS[Math.floor(Math.random()*SLOT_SYMS.length)];var e=document.getElementById('sr'+i);if(e)e.textContent=results[i];});
+    var key=results.join('');
+    var pay=SLOT_PAYS[key]||0;
+    var two=results[0]===results[1]||results[1]===results[2]||results[0]===results[2];
+    var bal=document.getElementById('slotBal');
+    var msg2=document.getElementById('slotMsg');
+    if(pay>0){
+      var won=slotBet*pay;addCoins(won,'Premio Tragamonedas x'+pay);
+      [0,1,2].forEach(function(i){var e=document.getElementById('sr'+i);if(e)e.classList.add('win');});
+      if(msg2)msg2.innerHTML='<span style="color:var(--gold)">🏆 JACKPOT +🪙'+won+'</span>';
+      confetti();
+    }else if(two){
+      var won2=Math.floor(slotBet*1.5);addCoins(won2,'Dos iguales Tragamonedas');
+      if(msg2)msg2.innerHTML='<span style="color:var(--green)">Dos iguales +🪙'+won2+'</span>';
+    }else{
+      if(msg2)msg2.innerHTML='<span style="color:var(--muted)">Sin suerte...</span>';
+    }
+    if(bal)bal.textContent='🪙 '+coins.toLocaleString();
+    if(btn){btn.disabled=false;btn.style.opacity='1';}
+  },1500);
+}
+
+// DADOS
+var dadoChoice=0,dadoBet=10;
+var DADO_FACES=['⚀','⚁','⚂','⚃','⚄','⚅'];
+var DADO_ODDS={2:35,3:15,4:10,5:8,6:6,7:5,8:6,9:8,10:10,11:15,12:35};
+function startDados(){
+  dadoChoice=0;dadoBet=10;
+  document.getElementById('pgGame').innerHTML=
+    '<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">🎲 Dados</div></div>'+
+    '<div class="sbar"><div class="sturn">Adivina la suma de 2 dados</div></div>'+
+    '<div class="dice-display"><div class="die" id="d1">⚀</div><div class="die" id="d2">⚀</div></div>'+
+    '<div class="betbox"><div class="betlbl">💰 Apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+
+    [10,25,50,100].map(function(n){return '<div class="beto'+(n===10?' on':'')+'" onclick="dadoSetBet('+n+',this)">🪙 '+n+'</div>';}).join('')+
+    '</div></div>'+
+    '<div style="font-size:13px;font-weight:700;color:var(--gold);margin:10px 0 8px">Elige una suma (2-12):</div>'+
+    '<div class="dice-opts">'+
+    [2,3,4,5,6,7,8,9,10,11,12].map(function(n){
+      return '<div class="do" onclick="dadoPick('+n+',this)"><div style="font-size:16px;font-weight:900">'+n+'</div><div style="font-size:10px;color:var(--muted)">x'+DADO_ODDS[n]+'</div></div>';
+    }).join('')+
+    '</div>'+
+    '<button class="pbtn" id="dBtn" onclick="dadoRoll()" disabled style="opacity:.5">🎲 Tirar!</button>';
+  bet=10;
+}
+function dadoSetBet(n,el){dadoBet=n;bet=n;document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');}
+function dadoPick(n,el){dadoChoice=n;document.querySelectorAll('.do').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');var btn=document.getElementById('dBtn');if(btn){btn.disabled=false;btn.style.opacity='1';}}
+function dadoRoll(){
+  if(!dadoChoice||dadoBet>coins){if(dadoBet>coins)showMiniToast('No tienes suficientes monedas!');return;}
+  var d1=Math.floor(Math.random()*6)+1;
+  var d2=Math.floor(Math.random()*6)+1;
+  var sum=d1+d2;
+  var e1=document.getElementById('d1'),e2=document.getElementById('d2');
+  if(e1)e1.textContent='🎲';if(e2)e2.textContent='🎲';
+  setTimeout(function(){
+    if(e1)e1.textContent=DADO_FACES[d1-1];
+    if(e2)e2.textContent=DADO_FACES[d2-1];
+    var mult=DADO_ODDS[sum]||5;
+    var win=dadoChoice===sum;
+    cG='dados';
+    var dc=win?dadoBet*mult:-dadoBet;
+    setTimeout(function(){
+      showResult(win,false,dc,
+        '<div style="font-size:16px;font-weight:900;margin:8px 0">'+DADO_FACES[d1-1]+' + '+DADO_FACES[d2-1]+' = '+sum+'</div>'+
+        '<div style="font-size:13px;color:var(--muted)">Elegiste: '+dadoChoice+(win?' Correcto x'+mult:'')+'</div>'
+      );
+    },400);
+  },800);
+}
+
+// SNAKE
+var snakeBody,snakeDir,snakeFood,snakeScore,snakeTimer,snakeOver;
+var SZ=15;
+function startSnake(){
+  document.getElementById('pgGame').innerHTML=
+    '<div class="ghdr"><button class="bk" onclick="stopSnake();goPage(\'home\')">← Salir</button><div class="gt">🐍 Snake</div></div>'+
+    '<div class="sbar"><div class="sturn" id="snakeSt">Toca una flecha para empezar</div><div class="ssc"><div class="si"><small>Puntos</small><b id="snakeSc" style="color:var(--green)">0</b></div><div class="si"><small>Premio</small><b style="color:var(--gold)">+1/punto</b></div></div></div>'+
+    '<div class="snake-board" id="snakeBoard" style="grid-template-columns:repeat('+SZ+',1fr)"></div>'+
+    '<div class="snake-controls">'+
+    '<div></div><div class="sc" onclick="snakeMove(0,-1)">↑</div><div></div>'+
+    '<div class="sc" onclick="snakeMove(-1,0)">←</div><div class="sc" onclick="snakeMove(0,1)">↓</div><div class="sc" onclick="snakeMove(1,0)">→</div>'+
+    '</div>';
+  snakeBody=[{x:7,y:7},{x:6,y:7},{x:5,y:7}];
+  snakeDir={x:1,y:0};snakeScore=0;snakeOver=false;
+  snakePlaceFood();snakeRender();
+  clearInterval(snakeTimer);
+  snakeTimer=setInterval(snakeTick,250);
+}
+function snakePlaceFood(){
+  var empty=[];
+  for(var y=0;y<SZ;y++)for(var x=0;x<SZ;x++){
+    var ok=true;
+    for(var i=0;i<snakeBody.length;i++){if(snakeBody[i].x===x&&snakeBody[i].y===y){ok=false;break;}}
+    if(ok)empty.push({x:x,y:y});
+  }
+  if(empty.length)snakeFood=empty[Math.floor(Math.random()*empty.length)];
+}
+function snakeTick(){
+  var head={x:snakeBody[0].x+snakeDir.x,y:snakeBody[0].y+snakeDir.y};
+  var hit=head.x<0||head.x>=SZ||head.y<0||head.y>=SZ;
+  if(!hit){for(var i=0;i<snakeBody.length;i++){if(snakeBody[i].x===head.x&&snakeBody[i].y===head.y){hit=true;break;}}}
+  if(hit){
+    clearInterval(snakeTimer);snakeOver=true;cG='snake';
+    showResult(snakeScore>=5,false,snakeScore,'<div style="font-size:14px;color:var(--muted)">Puntuacion: '+snakeScore+'</div>');
+    return;
+  }
+  snakeBody.unshift(head);
+  if(snakeFood&&head.x===snakeFood.x&&head.y===snakeFood.y){
+    snakeScore++;addCoins(1,'Punto Snake');
+    var sc=document.getElementById('snakeSc');if(sc)sc.textContent=snakeScore;
+    snakePlaceFood();
+  }else{snakeBody.pop();}
+  snakeRender();
+}
+function snakeMove(dx,dy){
+  if(snakeDir.x===-dx&&snakeDir.y===-dy)return;
+  snakeDir={x:dx,y:dy};
+  var st=document.getElementById('snakeSt');if(st)st.textContent='Puntos: '+snakeScore;
+}
+function snakeRender(){
+  var board=document.getElementById('snakeBoard');if(!board)return;
+  var html='';
+  for(var y=0;y<SZ;y++)for(var x=0;x<SZ;x++){
+    var isHead=snakeBody[0].x===x&&snakeBody[0].y===y;
+    var isBody=false;if(!isHead){for(var i=1;i<snakeBody.length;i++){if(snakeBody[i].x===x&&snakeBody[i].y===y){isBody=true;break;}}}
+    var isFood=snakeFood&&snakeFood.x===x&&snakeFood.y===y;
+    html+='<div class="snake-cell'+(isHead?' head':isBody?' snake':isFood?' food':'')+'"></div>';
+  }
+  board.innerHTML=html;
+}
+function stopSnake(){clearInterval(snakeTimer);}
+
+// BATALLA NAVAL
+var nvPGrid,nvEGrid,nvPShots,nvEShots,nvTurn;
+var NV=8;
+var NV_SHIPS=[4,3,3,2,2];
+function startNaval(){
+  document.getElementById('pgGame').innerHTML=
+    '<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">🚢 Batalla Naval</div></div>'+
+    '<div class="sbar"><div class="sturn">Elige tu apuesta y comienza</div></div>'+
+    '<div class="betbox"><div class="betlbl">💰 Apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+
+    [10,25,50].map(function(n){return '<div class="beto'+(n===10?' on':'')+'" onclick="setBet('+n+',this)">🪙 '+n+'</div>';}).join('')+
+    '</div></div>'+
+    '<button class="pbtn" onclick="nvStart()">🚢 Colocar Barcos y Jugar</button>';
+  bet=10;
+}
+function nvRandPlace(grid){
+  var placed=[];
+  NV_SHIPS.forEach(function(len){
+    var ok=false,tries=0;
+    while(!ok&&tries<300){
+      tries++;
+      var hz=Math.random()>.5;
+      var x=Math.floor(Math.random()*(NV-(hz?len:0)));
+      var y=Math.floor(Math.random()*(NV-(hz?0:len)));
+      var cells=[];
+      for(var i=0;i<len;i++)cells.push({x:x+(hz?i:0),y:y+(hz?0:i)});
+      var bad=false;
+      for(var ci=0;ci<cells.length;ci++){
+        var c=cells[ci];
+        for(var pi=0;pi<placed.length;pi++){
+          var p=placed[pi];
+          if(Math.abs(p.x-c.x)<=1&&Math.abs(p.y-c.y)<=1){bad=true;break;}
+        }
+        if(bad)break;
+      }
+      if(!bad){cells.forEach(function(c){placed.push(c);grid[c.y][c.x]=1;});ok=true;}
+    }
+  });
+}
+function nvStart(){
+  nvPGrid=[];nvEGrid=[];nvPShots=[];nvEShots=[];
+  for(var i=0;i<NV;i++){nvPGrid.push([0,0,0,0,0,0,0,0]);nvEGrid.push([0,0,0,0,0,0,0,0]);nvPShots.push([0,0,0,0,0,0,0,0]);nvEShots.push([0,0,0,0,0,0,0,0]);}
+  nvRandPlace(nvPGrid);nvRandPlace(nvEGrid);
+  nvTurn='player';nvRender();
+}
+function nvRender(){
+  var th=0,he=0,tm=0,hm=0,y,x;
+  for(y=0;y<NV;y++)for(x=0;x<NV;x++){
+    if(nvEGrid[y][x])th++;if(nvEGrid[y][x]&&nvPShots[y][x]===2)he++;
+    if(nvPGrid[y][x])tm++;if(nvPGrid[y][x]&&nvEShots[y][x]===2)hm++;
+  }
+  var st=nvTurn==='player'?'Tu turno — toca el tablero enemigo':'IA atacando...';
+  var eBoard='',pBoard='';
+  for(y=0;y<NV;y++)for(x=0;x<NV;x++){
+    var ps=nvPShots[y][x],es=nvEShots[y][x];
+    eBoard+='<div class="nc'+(ps===2?' hit':ps===1?' miss':'')+'" onclick="nvShoot('+x+','+y+')">'+(ps===2?'💥':ps===1?'·':'')+'</div>';
+    pBoard+='<div class="nc'+(nvPGrid[y][x]&&es===2?' hit':!nvPGrid[y][x]&&es===1?' miss':nvPGrid[y][x]?' ship':'')+'">'+(nvPGrid[y][x]&&es===2?'💥':!nvPGrid[y][x]&&es===1?'·':nvPGrid[y][x]?'■':'')+'</div>';
+  }
+  document.getElementById('pgGame').innerHTML=
+    '<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">🚢 Batalla Naval</div></div>'+
+    '<div class="sbar"><div class="sturn">'+st+'</div><div class="ssc">'+
+    '<div class="si"><small>Tus impactos</small><b style="color:var(--green)">'+he+'/'+th+'</b></div>'+
+    '<div class="si"><small>IA impactos</small><b style="color:var(--red)">'+hm+'/'+tm+'</b></div>'+
+    '</div></div>'+
+    '<div class="naval-boards">'+
+    '<div class="naval-board"><div class="naval-title">🎯 Enemigo</div><div class="naval-grid" style="display:grid;grid-template-columns:repeat('+NV+',1fr);gap:2px">'+eBoard+'</div></div>'+
+    '<div class="naval-board"><div class="naval-title">🚢 Tu flota</div><div class="naval-grid" style="display:grid;grid-template-columns:repeat('+NV+',1fr);gap:2px">'+pBoard+'</div></div>'+
+    '</div>';
+  if(he>=th){setTimeout(function(){cG='naval';showResult(true,false,bet*3,'<div style="font-size:14px;color:var(--muted)">Hundiste toda la flota!</div>');},300);}
+  else if(hm>=tm){setTimeout(function(){cG='naval';showResult(false,false,-bet,'<div style="font-size:14px;color:var(--muted)">La IA hundio tu flota!</div>');},300);}
+}
+function nvShoot(x,y){
+  if(nvTurn!=='player'||nvPShots[y][x])return;
+  nvPShots[y][x]=nvEGrid[y][x]?2:1;
+  nvTurn='ai';nvRender();
+  setTimeout(nvAI,700);
+}
+function nvAI(){
+  var targets=[],y,x;
+  for(y=0;y<NV;y++)for(x=0;x<NV;x++){
+    if(!nvEShots[y][x]){
+      var adj=[[0,1],[0,-1],[1,0],[-1,0]];
+      var near=false;
+      for(var i=0;i<adj.length;i++){
+        var nx=x+adj[i][0],ny=y+adj[i][1];
+        if(nx>=0&&nx<NV&&ny>=0&&ny<NV&&nvEShots[ny][nx]===2&&nvPGrid[ny][nx]){near=true;break;}
+      }
+      if(near)targets.unshift({x:x,y:y});else targets.push({x:x,y:y});
+    }
+  }
+  if(!targets.length)return;
+  var t=targets[0];
+  nvEShots[t.y][t.x]=nvPGrid[t.y][t.x]?2:1;
+  nvTurn='player';nvRender();
+}
 
 // INIT
 loadCoins();
