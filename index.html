@@ -267,6 +267,47 @@ body{background:var(--bg);color:#fff;font-family:sans-serif;min-height:100vh;pad
 .nc.ship{background:rgba(124,58,237,.3);}
 .nc.hit{background:rgba(239,68,68,.7);}
 .nc.miss{background:rgba(255,255,255,.08);}
+
+/* CAROUSEL */
+.carousel{overflow-x:auto;display:flex;gap:12px;padding:4px 0 12px;scrollbar-width:none;scroll-snap-type:x mandatory;}
+.carousel::-webkit-scrollbar{display:none;}
+.carousel-card{flex-shrink:0;width:200px;height:120px;border-radius:16px;position:relative;overflow:hidden;cursor:pointer;scroll-snap-align:start;}
+.carousel-card:active{transform:scale(.97);}
+.carousel-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:60px;}
+.carousel-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 60%);}
+.carousel-info{position:absolute;bottom:10px;left:12px;right:12px;}
+.carousel-name{font-size:14px;font-weight:800;color:#fff;}
+.carousel-sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;}
+.carousel-badge{position:absolute;top:10px;right:10px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;}
+/* HORIZONTAL GAME SECTIONS */
+.hgames{overflow-x:auto;display:flex;gap:10px;padding:4px 0 12px;scrollbar-width:none;}
+.hgames::-webkit-scrollbar{display:none;}
+.hgc{flex-shrink:0;width:130px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .15s;}
+.hgc:active{transform:scale(.95);}
+.hgc-cover{height:80px;display:flex;align-items:center;justify-content:center;font-size:40px;position:relative;}
+.hgc-info{padding:8px 10px 10px;}
+.hgc-name{font-size:12px;font-weight:700;}
+.hgc-tag{font-size:10px;color:var(--muted);margin-top:2px;}
+/* WINNERS */
+.winner-card{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:6px;}
+.winner-emo{font-size:28px;background:var(--card2);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.winner-info{flex:1;}
+.winner-name{font-size:13px;font-weight:700;}
+.winner-game{font-size:11px;color:var(--muted);margin-top:1px;}
+.winner-amt{font-size:14px;font-weight:800;color:var(--gold);}
+/* FEATURED BANNER */
+.featured-banner{border-radius:18px;padding:20px 18px;margin-bottom:14px;position:relative;overflow:hidden;min-height:110px;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer;}
+.featured-banner:active{transform:scale(.99);}
+.fb-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;font-size:80px;padding-right:16px;opacity:.35;}
+.fb-badge{display:inline-block;background:var(--gold);color:#000;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;margin-bottom:6px;}
+.fb-title{font-size:20px;font-weight:900;line-height:1.2;}
+.fb-sub{font-size:12px;color:rgba(255,255,255,.75);margin-top:4px;}
+/* MULTIPLAYER MODAL */
+.mp-modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);}
+.mp-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px 18px;width:100%;max-width:300px;text-align:center;}
+.mp-code{font-size:40px;font-weight:900;letter-spacing:8px;color:var(--gold);margin:12px 0;font-family:monospace;}
+.mp-input{width:100%;background:var(--card2);border:2px solid var(--border);border-radius:12px;padding:14px;color:#fff;font-size:24px;font-weight:900;text-align:center;outline:none;letter-spacing:6px;font-family:monospace;}
+.mp-input:focus{border-color:var(--accent1);}
 </style>
 </head>
 <body>
@@ -421,7 +462,14 @@ var GN={ttt:'Tic Tac Toe',c4:'Connect 4',ppt:'Piedra Papel Tijera',num:'Adivina 
 var GE={ttt:'⭕',c4:'🔴',ppt:'✊',num:'🔢',trivia:'🎬',bj:'🃏',rul:'🎰',ahorcado:'🎭',slots:'🎰',dados:'🎲',snake:'🐍',naval:'🚢'};
 function openGame(g){cG=g;bet=0;gMode='ai';goPage('game');if(g==='bj')startBJ();else if(g==='rul')startRul();else if(g==='slots')startSlots();else if(g==='dados')startDados();else if(g==='snake')startSnake();else if(g==='naval')startNaval();else if(g==='ahorcado'){bet=25;startAhorcado();}else renderSetup();}
 function renderSetup(){document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Volver</button><div class="gt">'+GE[cG]+' '+GN[cG]+'</div></div><div class="modes"><div class="mode on" id="mAI" onclick="setMode(\'ai\')"><em>🤖</em><b>vs IA</b><small>Contra la maquina</small></div><div class="mode" id="mFR" onclick="setMode(\'friend\')"><em>👥</em><b>vs Amigo</b><small>Turno a turno</small></div></div><div class="betbox"><div class="betlbl">💰 Apuesta — tienes 🪙 '+coins+'</div><div class="betopts">'+[0,10,25,50,100].map(function(n){return '<div class="beto'+(n===0?' on':'')+'" onclick="setBet('+n+',this)">'+(n===0?'Gratis':'🪙 '+n)+'</div>';}).join('')+'</div></div><button class="pbtn" onclick="startGame()">🎮 Jugar Ahora</button>';}
-function setMode(m){gMode=m;var ai=document.getElementById('mAI'),fr=document.getElementById('mFR');if(ai)ai.className='mode'+(m==='ai'?' on':'');if(fr)fr.className='mode'+(m==='friend'?' on':'');}
+function setMode(m){
+  if(m==='friend'){
+    if(cG==='ttt'||cG==='c4'){showMpInviteModal(cG);return;}
+  }
+  gMode=m;var ai=document.getElementById('mAI'),fr=document.getElementById('mFR');
+  if(ai)ai.className='mode'+(m==='ai'?' on':'');
+  if(fr)fr.className='mode'+(m==='friend'?' on':'');
+}
 function setBet(n,el){bet=n;document.querySelectorAll('.beto').forEach(function(b){b.classList.remove('on');});if(el)el.classList.add('on');}
 function startGame(){if(bet>coins){showMiniToast('No tienes suficientes monedas!');return;}if(cG==='ttt')startTTT();else if(cG==='c4')startC4();else if(cG==='ppt')startPPT();else if(cG==='num')startNum();else if(cG==='trivia')startTrivia();}
 
@@ -438,7 +486,17 @@ function closeOvr(){document.getElementById('ovr').classList.remove('on');}
 // TTT
 var tB,tTurn,tOver;
 function startTTT(){tB=['','','','','','','','',''];tTurn='X';tOver=false;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">⭕ Tic Tac Toe</div></div><div class="sbar"><div class="sturn" id="tSt">Tu turno (X)</div><div class="ssc"><div class="si"><small>Tu</small><b style="color:#a78bfa">X</b></div><div class="si"><small>'+(gMode==='ai'?'🤖 IA':'👥 Amigo')+'</small><b style="color:#ec4899">O</b></div></div></div><div class="tttg">'+[0,1,2,3,4,5,6,7,8].map(function(i){return '<div class="tc" id="tc'+i+'" onclick="tClick('+i+')"></div>';}).join('')+'</div>';}
-function tClick(i){if(tB[i]||tOver)return;if(gMode==='ai'&&tTurn==='O')return;tB[i]=tTurn;rTTT();var w=chkTTT();if(w||tB.indexOf('')<0)return endTTT(w);tTurn=tTurn==='X'?'O':'X';var s=document.getElementById('tSt');if(gMode==='ai'&&tTurn==='O'){if(s)s.textContent='🤖 IA pensando...';setTimeout(tAI,500);}else if(s)s.textContent=(tTurn==='X'?'Tu':'Amigo')+' ('+tTurn+')';}
+function tClick(i){if(tB[i]||tOver)return;
+  if(gMode==='mp'){
+    var isP1=mpRole==='p1';
+    var mySymbol=isP1?'X':'O';
+    if(tTurn!==mySymbol)return;
+    tB[i]=tTurn;rTTT();
+    mpSendMove({cell:i});
+  } else {
+    if(gMode==='ai'&&tTurn==='O')return;
+    tB[i]=tTurn;rTTT();
+  }var w=chkTTT();if(w||tB.indexOf('')<0)return endTTT(w);tTurn=tTurn==='X'?'O':'X';var s=document.getElementById('tSt');if(gMode==='ai'&&tTurn==='O'){if(s)s.textContent='🤖 IA pensando...';setTimeout(tAI,500);}else if(s)s.textContent=(tTurn==='X'?'Tu':'Amigo')+' ('+tTurn+')';}
 function tAI(){var b=tB.slice(),mv=-1,i,sym;for(var p=2;p>=1;p--){sym=p===2?'O':'X';for(i=0;i<9;i++){if(!b[i]){b[i]=sym;if(chkB(b)===sym){if(p===2){mv=i;break;}else if(mv<0)mv=i;}b[i]='';}}if(p===2&&mv>=0)break;}if(mv<0){var pf=[4,0,2,6,8,1,3,5,7];for(i=0;i<pf.length;i++){if(!tB[pf[i]]){mv=pf[i];break;}}}if(mv>=0){tB[mv]='O';rTTT();var w=chkTTT();if(w||tB.indexOf('')<0)return endTTT(w);tTurn='X';var s=document.getElementById('tSt');if(s)s.textContent='Tu turno (X)';}}
 function rTTT(){for(var i=0;i<9;i++){var e=document.getElementById('tc'+i);if(e){e.textContent=tB[i];e.className='tc'+(tB[i]?' '+tB[i].toLowerCase():'');}}}
 function chkB(b){var L=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];for(var i=0;i<L.length;i++){var l=L[i];if(b[l[0]]&&b[l[0]]===b[l[1]]&&b[l[0]]===b[l[2]])return b[l[0]];}return null;}
@@ -503,7 +561,44 @@ function startAhorcado(){aWord=aWORDS[Math.floor(Math.random()*aWORDS.length)];a
 function rAh(){var wrong=aGuesses.filter(function(l){return aWord.indexOf(l)<0;});var step=Math.min(wrong.length,6);var disp=aWord.split('').map(function(l){var shown=aGuesses.indexOf(l)>=0;return '<div class="lbx'+(shown?' show':'')+'">'+( shown?l:'')+'</div>';}).join('');var keys='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(function(l){var u=aGuesses.indexOf(l)>=0,ok=u&&aWord.indexOf(l)>=0,no=u&&aWord.indexOf(l)<0;return '<div class="key'+(u?' used':'')+(ok?' ok':'')+(no?' no':'')+'" onclick="aG(\''+l+'\')">'+l+'</div>';}).join('');var won=aWord.split('').every(function(l){return aGuesses.indexOf(l)>=0;});var lost=wrong.length>=6;document.getElementById('pgGame').innerHTML='<div class="ghdr"><button class="bk" onclick="goPage(\'home\')">← Salir</button><div class="gt">🎭 Ahorcado</div></div><div class="sbar"><div class="sturn">Errores: '+wrong.length+' / 6</div><div class="ssc"><div class="si"><small>Letras probadas</small><b>'+aGuesses.length+'</b></div></div></div><div class="gallows">'+GALL[step]+'</div><div class="word-disp">'+disp+'</div><div class="kbd">'+keys+'</div>';if(won)setTimeout(function(){var bon=Math.max(0,(6-wrong.length)*25);showResult(true,false,bet>0?bet*2+bon:bon,'<div style="font-size:15px;color:var(--muted);margin:6px 0">La palabra era: <b style="color:#fff">'+aWord+'</b></div>');},350);else if(lost)setTimeout(function(){showResult(false,false,-bet,'<div style="font-size:15px;color:var(--muted);margin:6px 0">Era: <b style="color:#fff">'+aWord+'</b></div>');},350);}
 function aG(l){if(aGuesses.indexOf(l)>=0)return;aGuesses.push(l);rAh();}
 
-function buyCoins(c,s){showMiniToast('Contacta a @ElICoronel para comprar '+c+' monedas por '+s+' Stars');}
+function buyCoins(c,s){
+  var old=document.getElementById('payModal');if(old)old.remove();
+  var modal=document.createElement('div');
+  modal.id='payModal';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);animation:fadeIn .2s ease;';
+  modal.innerHTML='<div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px 18px;width:100%;max-width:300px;text-align:center">'+
+    '<div style="font-size:36px;margin-bottom:8px">💰</div>'+
+    '<div style="font-size:18px;font-weight:900;margin-bottom:4px">Comprar '+c+' Monedas</div>'+
+    '<div style="font-size:13px;color:var(--muted);margin-bottom:20px">Elige tu metodo de pago</div>'+
+    '<button onclick="payWithStars('+c+','+s+')" style="width:100%;background:linear-gradient(135deg,#7c3aed,#ec4899);border:none;border-radius:12px;padding:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px">'+
+    '<span>⭐</span><span>Pagar '+s+' Stars</span></button>'+
+    '<button onclick="payWithPayPal('+c+')" style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px">'+
+    '<span>💳</span><span>PayPal / Otro</span></button>'+
+    '<button onclick="document.getElementById('payModal').remove()" style="width:100%;background:transparent;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:8px">Cancelar</button>'+
+    '</div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click',function(e){if(e.target===modal)modal.remove();});
+}
+function payWithStars(c,s){
+  document.getElementById('payModal').remove();
+  var tg=window.Telegram&&window.Telegram.WebApp;
+  if(tg){
+    tg.openTelegramLink('https://t.me/Peticiones4k_bot?start=coins_'+c);
+  } else {
+    window.open('https://t.me/Peticiones4k_bot?start=coins_'+c,'_blank');
+  }
+  showMiniToast('Sigue las instrucciones en el bot');
+}
+function payWithPayPal(c){
+  document.getElementById('payModal').remove();
+  var tg=window.Telegram&&window.Telegram.WebApp;
+  var msg='Hola, quiero comprar '+c+' monedas para Cinegram Games';
+  if(tg){
+    tg.openTelegramLink('https://t.me/ElICoronel');
+  } else {
+    window.open('https://t.me/ElICoronel','_blank');
+  }
+}
 
 
 // SLOTS
@@ -762,6 +857,163 @@ function nvAI(){
   nvEShots[t.y][t.x]=nvPGrid[t.y][t.x]?2:1;
   nvTurn='player';nvRender();
 }
+
+
+// ===== MULTIPLAYER =====
+var MP_API = 'http://34.207.79.19:8765';
+var mpRoom = null, mpCode = null, mpRole = null, mpPoll = null, mpMoveCount = 0;
+
+function mpCreateRoom(game) {
+  var modal = document.getElementById('mpModal');
+  if(modal) modal.remove();
+  fetch(MP_API+'/api/rooms/create', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({game:game, user_id:ME, name:MN})
+  }).then(function(r){return r.json();}).then(function(d){
+    if(!d.code){showMiniToast('Error creando sala');return;}
+    mpCode = d.code; mpRole = 'p1';
+    showMpWaiting(d.code, game);
+  }).catch(function(){
+    showMiniToast('Sin conexion al servidor');
+    startGameLocal(game);
+  });
+}
+
+function mpJoinRoom(code, game) {
+  fetch(MP_API+'/api/rooms/'+code+'/join', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({user_id:ME, name:MN})
+  }).then(function(r){return r.json();}).then(function(d){
+    if(d.error){showMiniToast(d.error);return;}
+    mpCode = code; mpRole = 'p2';
+    startMpGame(game, d.room);
+  }).catch(function(){showMiniToast('Error al unirse');});
+}
+
+function showMpWaiting(code, game) {
+  document.getElementById('pgGame').innerHTML =
+    '<div class="ghdr"><button class="bk" onclick="mpCancel()">← Cancelar</button><div class="gt">🎮 Sala Online</div></div>'+
+    '<div style="text-align:center;padding:30px 20px">'+
+    '<div style="font-size:16px;font-weight:700;margin-bottom:16px">Comparte este codigo con tu amigo:</div>'+
+    '<div style="font-size:56px;font-weight:900;letter-spacing:10px;color:var(--gold);font-family:monospace;background:var(--card);border-radius:16px;padding:16px;margin-bottom:16px">'+code+'</div>'+
+    '<button onclick="mpShareCode(\''+code+'\',\''+game+'\')" style="background:linear-gradient(135deg,var(--accent1),var(--accent2));border:none;border-radius:12px;padding:12px 24px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:20px">📤 Compartir por Telegram</button>'+
+    '<div id="mpStatus" style="font-size:13px;color:var(--muted)">Esperando que tu amigo se una...</div>'+
+    '<div style="margin-top:16px;font-size:24px" id="mpDots">⏳</div>'+
+    '</div>';
+  // Poll for p2 joining
+  clearInterval(mpPoll);
+  mpPoll = setInterval(function(){
+    fetch(MP_API+'/api/rooms/'+code)
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var dots = document.getElementById('mpDots');
+      var frames = ['⏳','🌀','⏳','✨'];
+      if(dots) dots.textContent = frames[Math.floor(Date.now()/500)%frames.length];
+      if(d.status === 'playing'){
+        clearInterval(mpPoll);
+        startMpGame(game, d);
+      }
+    }).catch(function(){});
+  }, 1500);
+}
+
+function mpShareCode(code, game) {
+  var text = 'Juega ' + GN[game] + ' conmigo en Cinegram Games!\nCodigo de sala: ' + code + '\nAbre: @Peticiones4k_bot -> Juegos -> Unirse con codigo ' + code;
+  var tg = window.Telegram && window.Telegram.WebApp;
+  if(tg && tg.openTelegramLink) {
+    tg.openTelegramLink('https://t.me/share/url?url=https://t.me/Peticiones4k_bot&text=' + encodeURIComponent(text));
+  }
+}
+
+function mpCancel() {
+  clearInterval(mpPoll);
+  mpRoom = null; mpCode = null; mpRole = null;
+  goPage('home');
+}
+
+function startMpGame(game, room) {
+  mpRoom = room; mpMoveCount = 0;
+  showMiniToast((mpRole==='p1'?'Eres X — tu turno!':'Eres O — espera tu turno'));
+  cG = game; gMode = 'mp';
+  if(game==='ttt') startTTT();
+  else if(game==='c4') startC4();
+  // Poll for opponent moves
+  clearInterval(mpPoll);
+  mpPoll = setInterval(mpCheckMoves, 1000);
+}
+
+function mpCheckMoves() {
+  if(!mpCode) return;
+  fetch(MP_API+'/api/rooms/'+mpCode)
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(!d.state) return;
+    if(d.state.length > mpMoveCount) {
+      var newMoves = d.state.slice(mpMoveCount);
+      mpMoveCount = d.state.length;
+      newMoves.forEach(function(move){
+        if(move && move.player !== mpRole) {
+          applyOpponentMove(move);
+        }
+      });
+    }
+  }).catch(function(){});
+}
+
+function mpSendMove(move) {
+  if(!mpCode) return;
+  move.player = mpRole;
+  mpMoveCount++;
+  fetch(MP_API+'/api/rooms/'+mpCode+'/move', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({move:move})
+  }).catch(function(){});
+}
+
+function applyOpponentMove(move) {
+  if(cG==='ttt' && move.cell !== undefined) {
+    tB[move.cell] = tTurn;
+    rTTT();
+    var w = chkTTT();
+    if(w || tB.indexOf('')<0) { endTTT(w); return; }
+    tTurn = tTurn==='X'?'O':'X';
+    var s = document.getElementById('tSt');
+    if(s) s.textContent = 'Tu turno (' + tTurn + ')';
+  } else if(cG==='c4' && move.col !== undefined) {
+    c4D(move.col);
+  }
+}
+
+function showMpInviteModal(game) {
+  var old = document.getElementById('mpModal');
+  if(old) old.remove();
+  var m = document.createElement('div');
+  m.id = 'mpModal';
+  m.className = 'mp-modal';
+  m.innerHTML =
+    '<div class="mp-card">'+
+    '<div style="font-size:32px;margin-bottom:8px">👥</div>'+
+    '<div style="font-size:18px;font-weight:900;margin-bottom:4px">Multijugador Online</div>'+
+    '<div style="font-size:13px;color:var(--muted);margin-bottom:20px">Juega contra un amigo en tiempo real</div>'+
+    '<button onclick="mpCreateRoom(\''+game+'\')" style="width:100%;background:linear-gradient(135deg,var(--accent1),var(--accent2));border:none;border-radius:12px;padding:14px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px">🎮 Crear Sala</button>'+
+    '<div style="font-size:13px;color:var(--muted);margin-bottom:8px">— o —</div>'+
+    '<div style="font-size:13px;font-weight:700;margin-bottom:8px">Tengo un codigo:</div>'+
+    '<input class="mp-input" id="mpCodeIn" maxlength="4" placeholder="0000" type="number">'+
+    '<button onclick="var c=document.getElementById(\'mpCodeIn\').value.trim();if(c.length===4)mpJoinRoom(c,\''+game+'\');else showMiniToast(\'Ingresa un codigo de 4 digitos\')" style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:13px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px">🔗 Unirse</button>'+
+    '<button onclick="document.getElementById(\'mpModal\').remove();startGameLocal(\''+game+'\')" style="width:100%;background:transparent;border:none;color:var(--muted);font-size:13px;cursor:pointer;margin-top:10px">Jugar contra IA</button>'+
+    '</div>';
+  document.body.appendChild(m);
+  m.addEventListener('click', function(e){if(e.target===m)m.remove();});
+}
+
+function startGameLocal(game) {
+  gMode = 'ai';
+  if(game==='ttt') startTTT();
+  else if(game==='c4') startC4();
+  else if(game==='ppt') startPPT();
+  else startGame();
+}
+
 
 // INIT
 loadCoins();
